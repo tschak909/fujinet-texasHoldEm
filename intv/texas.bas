@@ -139,6 +139,7 @@ street_names:
     DIM #tmp_hash
     DIM #prev_result_hash
     DIM first_poll
+    DIM prev_active, turn_changed
 
     DIM df_pos, df_len, #df_color, df_i, df_c, df_stop
     DIM #df_src
@@ -531,6 +532,7 @@ table_joined:
     #prev_pot = 65535
     #prev_purse = 65535
     #prev_result_hash = 65535 ' sentinel: max possible real hash is 20*255=5100
+    prev_active = 255 ' sentinel: forces the turn cue if we sit down mid-turn
     first_poll = 1 ' arm the baseline on the first poll instead of showing it --
                     ' lastResult can already hold a message from a hand that
                     ' finished before we joined/sat down, which isn't "new"
@@ -632,6 +634,20 @@ game_loop:
         GOTO input_check
     END IF
     poll_wait = 20
+
+    ' Turn edge: activePlayer differs from the previous poll's. move_ui is
+    ' re-entered on every poll where it's still your turn -- bail to the
+    ' in-game menu and resume and you land back in it -- so activePlayer
+    ' alone can't tell "your turn just began" from "still your turn", and
+    ' the cue would replay each time. Deliberately updated here rather than
+    ' at the end of the loop: the GOTO input_check early exits above (short
+    ' read, and the 4-second result-overlay hold) leave prev_active alone,
+    ' so a poll that never got as far as the move UI doesn't eat the edge.
+    ' Each betting street you act on is a real activePlayer transition, so
+    ' the cue fires once per street rather than once per hand.
+    turn_changed = 0
+    IF active_player <> prev_active THEN turn_changed = 1
+    prev_active = active_player
 
     IF active_player = 0 AND (PEEK(FN_RX + GAME_VIEWING) AND 255) = 0 THEN
         GOSUB move_ui
@@ -1002,7 +1018,13 @@ move_ui: PROCEDURE
 
     mv_sel = 0
     IF mv_count > 1 THEN mv_sel = 1 ' default to the second move (not Fold), matching the C client
-    GOSUB sound_myturn
+    ' Only on the poll where the turn actually changed hands -- see the
+    ' turn_changed comment in the game loop. Kept below the mv_count guard
+    ' so a state that says it's your turn but carries no moves to make
+    ' stays silent (the edge is spent either way, matching Fujitzee: the
+    ' server always attaches validMoves with the turn, so a zero count is
+    ' a malformed response rather than a turn worth announcing).
+    IF turn_changed THEN GOSUB sound_myturn
 
     ' Without a per-poll CLS, the status row can be carrying over a
     ' previous, wider draw_status message (lastResult fills all 20

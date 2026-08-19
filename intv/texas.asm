@@ -6594,109 +6594,111 @@ label_STREET_NAMES:	;[90]     DATA 32,32,32,32,32,32,32,32           ' 0 waiting
 	SRCFILE "texas.bas",140
 	;[141]     DIM first_poll
 	SRCFILE "texas.bas",141
-	;[142] 
+	;[142]     DIM prev_active, turn_changed
 	SRCFILE "texas.bas",142
-	;[143]     DIM df_pos, df_len, #df_color, df_i, df_c, df_stop
+	;[143] 
 	SRCFILE "texas.bas",143
-	;[144]     DIM #df_src
+	;[144]     DIM df_pos, df_len, #df_color, df_i, df_c, df_stop
 	SRCFILE "texas.bas",144
-	;[145] 
+	;[145]     DIM #df_src
 	SRCFILE "texas.bas",145
-	;[146]     ' split_room_url locals (see procedure below)
+	;[146] 
 	SRCFILE "texas.bas",146
-	;[147]     DIM sp_i, sp_found, sp_ok, sp_j, sp_k, sp_c, sp_valid, sp_m
+	;[147]     ' split_room_url locals (see procedure below)
 	SRCFILE "texas.bas",147
-	;[148] 
+	;[148]     DIM sp_i, sp_found, sp_ok, sp_j, sp_k, sp_c, sp_valid, sp_m
 	SRCFILE "texas.bas",148
-	;[149] ' ---------------------------------------------------------------------------
+	;[149] 
 	SRCFILE "texas.bas",149
-	;[150] ' draw_field: render df_len ASCII bytes from #df_src onto the screen at
+	;[150] ' ---------------------------------------------------------------------------
 	SRCFILE "texas.bas",150
-	;[151] ' BACKTAB offset df_pos, in color #df_color. Uppercases (MODE 1 has no
+	;[151] ' draw_field: render df_len ASCII bytes from #df_src onto the screen at
 	SRCFILE "texas.bas",151
-	;[152] ' lowercase GROM; the wire is lowercase anyway), stops at a NUL and pads
+	;[152] ' BACKTAB offset df_pos, in color #df_color. Uppercases (MODE 1 has no
 	SRCFILE "texas.bas",152
-	;[153] ' the rest of the field with spaces, and clamps anything outside the
+	;[153] ' lowercase GROM; the wire is lowercase anyway), stops at a NUL and pads
 	SRCFILE "texas.bas",153
-	;[154] ' printable GROM range (32-95) to a space rather than drawing garbage.
+	;[154] ' the rest of the field with spaces, and clamps anything outside the
 	SRCFILE "texas.bas",154
-	;[155] ' ---------------------------------------------------------------------------
+	;[155] ' printable GROM range (32-95) to a space rather than drawing garbage.
 	SRCFILE "texas.bas",155
 	;[156] ' ---------------------------------------------------------------------------
 	SRCFILE "texas.bas",156
-	;[157] ' fill_bg: felt-table background -- green everywhere except the status row
+	;[157] ' ---------------------------------------------------------------------------
 	SRCFILE "texas.bas",157
-	;[158] ' (which stays black). Call right after every CLS.
+	;[158] ' fill_bg: felt-table background -- green everywhere except the status row
 	SRCFILE "texas.bas",158
-	;[159] ' ---------------------------------------------------------------------------
+	;[159] ' (which stays black). Call right after every CLS.
 	SRCFILE "texas.bas",159
-	;[160] fill_bg: PROCEDURE
+	;[160] ' ---------------------------------------------------------------------------
 	SRCFILE "texas.bas",160
+	;[161] fill_bg: PROCEDURE
+	SRCFILE "texas.bas",161
 	; FILL_BG
 label_FILL_BG:	PROC
 	BEGIN
-	;[161]     FOR gs_i = 0 TO STATUS_ROW - 1
-	SRCFILE "texas.bas",161
+	;[162]     FOR gs_i = 0 TO STATUS_ROW - 1
+	SRCFILE "texas.bas",162
 	CLRR R0
 	MVO R0,var_GS_I
 T57:
-	;[162]         #BACKTAB(gs_i) = COL_NAME
-	SRCFILE "texas.bas",162
+	;[163]         #BACKTAB(gs_i) = COL_NAME
+	SRCFILE "texas.bas",163
 	MVII #8199,R0
 	MVII #Q2,R3
 	ADD var_GS_I,R3
 	MVO@ R0,R3
-	;[163]     NEXT gs_i
-	SRCFILE "texas.bas",163
+	;[164]     NEXT gs_i
+	SRCFILE "texas.bas",164
 	MVI var_GS_I,R0
 	INCR R0
 	MVO R0,var_GS_I
 	CMPI #219,R0
 	BLE T57
-	;[164] END
-	SRCFILE "texas.bas",164
+	;[165] END
+	SRCFILE "texas.bas",165
 	RETURN
 	ENDP
-	;[165] 
-	SRCFILE "texas.bas",165
-	;[166] draw_field: PROCEDURE
+	;[166] 
 	SRCFILE "texas.bas",166
+	;[167] draw_field: PROCEDURE
+	SRCFILE "texas.bas",167
 	; DRAW_FIELD
 label_DRAW_FIELD:	PROC
 	BEGIN
-	;[167]     df_stop = 0
-	SRCFILE "texas.bas",167
+	;[168]     df_stop = 0
+	SRCFILE "texas.bas",168
 	CLRR R0
 	MVO R0,var_DF_STOP
-	;[168]     FOR df_i = 0 TO df_len - 1
-	SRCFILE "texas.bas",168
+	;[169]     FOR df_i = 0 TO df_len - 1
+	SRCFILE "texas.bas",169
 	MVO R0,var_DF_I
 T58:
-	;[169]         df_c = PEEK(#df_src + df_i) AND 255
-	SRCFILE "texas.bas",169
+	;[170]         df_c = PEEK(#df_src + df_i) AND 255
+	SRCFILE "texas.bas",170
 	MVI var_&DF_SRC,R1
 	ADD var_DF_I,R1
 	MVI@ R1,R0
 	MVO R0,var_DF_C
-	;[170]         IF df_c = 0 THEN df_stop = 1
-	SRCFILE "texas.bas",170
+	;[171]         IF df_c = 0 THEN df_stop = 1
+	SRCFILE "texas.bas",171
 	MVI var_DF_C,R0
 	TSTR R0
 	BNE T59
 	MVII #1,R0
 	MVO R0,var_DF_STOP
 T59:
-	;[171]         IF df_stop THEN
-	SRCFILE "texas.bas",171
+	;[172]         IF df_stop THEN
+	SRCFILE "texas.bas",172
 	MVI var_DF_STOP,R0
 	TSTR R0
 	BEQ T60
-	;[172]             df_c = 32
-	SRCFILE "texas.bas",172
+	;[173]             df_c = 32
+	SRCFILE "texas.bas",173
 	MVII #32,R0
 	MVO R0,var_DF_C
-	;[173]         ELSEIF df_c >= 97 AND df_c <= 122 THEN
-	SRCFILE "texas.bas",173
+	;[174]         ELSEIF df_c >= 97 AND df_c <= 122 THEN
+	SRCFILE "texas.bas",174
 	B T61
 T60:
 	MVI var_DF_C,R0
@@ -6713,17 +6715,17 @@ T63:
 T64:
 	ANDR R1,R0
 	BEQ T62
-	;[174]             df_c = df_c - 32
-	SRCFILE "texas.bas",174
+	;[175]             df_c = df_c - 32
+	SRCFILE "texas.bas",175
 	MVI var_DF_C,R0
 	SUBI #32,R0
 	MVO R0,var_DF_C
-	;[175]         END IF
-	SRCFILE "texas.bas",175
+	;[176]         END IF
+	SRCFILE "texas.bas",176
 T61:
 T62:
-	;[176]         IF df_c < 32 OR df_c > 95 THEN df_c = 32
-	SRCFILE "texas.bas",176
+	;[177]         IF df_c < 32 OR df_c > 95 THEN df_c = 32
+	SRCFILE "texas.bas",177
 	MVI var_DF_C,R0
 	CMPI #32,R0
 	MVII #65535,R0
@@ -6744,8 +6746,8 @@ T67:
 	MVII #32,R0
 	MVO R0,var_DF_C
 T65:
-	;[177]         #BACKTAB(df_pos + df_i) = (df_c - 32) * 8 + #df_color
-	SRCFILE "texas.bas",177
+	;[178]         #BACKTAB(df_pos + df_i) = (df_c - 32) * 8 + #df_color
+	SRCFILE "texas.bas",178
 	MVII #Q2,R0
 	MVI var_DF_POS,R1
 	ADD var_DF_I,R1
@@ -6757,8 +6759,8 @@ T65:
 	ADD var_&DF_COLOR,R1
 	MOVR R0,R4
 	MVO@ R1,R4
-	;[178]     NEXT df_i
-	SRCFILE "texas.bas",178
+	;[179]     NEXT df_i
+	SRCFILE "texas.bas",179
 	MVI var_DF_I,R0
 	INCR R0
 	MVO R0,var_DF_I
@@ -6766,101 +6768,101 @@ T65:
 	DECR R1
 	CMPR R1,R0
 	BLE T58
-	;[179] END
-	SRCFILE "texas.bas",179
+	;[180] END
+	SRCFILE "texas.bas",180
 	RETURN
 	ENDP
-	;[180] 
-	SRCFILE "texas.bas",180
-	;[181] ' ---------------------------------------------------------------------------
+	;[181] 
 	SRCFILE "texas.bas",181
-	;[182] ' compose_url: build "N:<endpoint><path...><suffix>" directly into FN_TX.
+	;[182] ' ---------------------------------------------------------------------------
 	SRCFILE "texas.bas",182
-	;[183] ' Callers set gs_path (0=tables 1=state 2=move 3=leave) and, for move,
+	;[183] ' compose_url: build "N:<endpoint><path...><suffix>" directly into FN_TX.
 	SRCFILE "texas.bas",183
-	;[184] ' mvcode_a/mvcode_b (the 2-char move code) beforehand.
+	;[184] ' Callers set gs_path (0=tables 1=state 2=move 3=leave) and, for move,
 	SRCFILE "texas.bas",184
-	;[185] ' ---------------------------------------------------------------------------
+	;[185] ' mvcode_a/mvcode_b (the 2-char move code) beforehand.
 	SRCFILE "texas.bas",185
-	;[186]     DIM gs_path
+	;[186] ' ---------------------------------------------------------------------------
 	SRCFILE "texas.bas",186
-	;[187] compose_url: PROCEDURE
+	;[187]     DIM gs_path
 	SRCFILE "texas.bas",187
+	;[188] compose_url: PROCEDURE
+	SRCFILE "texas.bas",188
 	; COMPOSE_URL
 label_COMPOSE_URL:	PROC
 	BEGIN
-	;[188]     #fn_txlen = 0
-	SRCFILE "texas.bas",188
+	;[189]     #fn_txlen = 0
+	SRCFILE "texas.bas",189
 	CLRR R0
 	MVO R0,var_&FN_TXLEN
-	;[189]     #fn_src = VARPTR lit_n_colon(0) : fn_len = 2 : GOSUB fn_putstr
-	SRCFILE "texas.bas",189
+	;[190]     #fn_src = VARPTR lit_n_colon(0) : fn_len = 2 : GOSUB fn_putstr
+	SRCFILE "texas.bas",190
 	MVII #label_LIT_N_COLON,R0
 	MVO R0,var_&FN_SRC
 	MVII #2,R0
 	MVO R0,var_FN_LEN
 	CALL label_FN_PUTSTR
-	;[190]     #fn_src = SC_ENDPT : ls_max = 65 : GOSUB fn_strlen : GOSUB fn_putstr
-	SRCFILE "texas.bas",190
+	;[191]     #fn_src = SC_ENDPT : ls_max = 65 : GOSUB fn_strlen : GOSUB fn_putstr
+	SRCFILE "texas.bas",191
 	MVII #37136,R0
 	MVO R0,var_&FN_SRC
 	MVII #65,R0
 	MVO R0,var_LS_MAX
 	CALL label_FN_STRLEN
 	CALL label_FN_PUTSTR
-	;[191] 
-	SRCFILE "texas.bas",191
-	;[192]     IF gs_path = 0 THEN
+	;[192] 
 	SRCFILE "texas.bas",192
+	;[193]     IF gs_path = 0 THEN
+	SRCFILE "texas.bas",193
 	MVI var_GS_PATH,R0
 	TSTR R0
 	BNE T68
-	;[193]         #fn_src = VARPTR lit_tables(0) : fn_len = 6 : GOSUB fn_putstr
-	SRCFILE "texas.bas",193
+	;[194]         #fn_src = VARPTR lit_tables(0) : fn_len = 6 : GOSUB fn_putstr
+	SRCFILE "texas.bas",194
 	MVII #label_LIT_TABLES,R0
 	MVO R0,var_&FN_SRC
 	MVII #6,R0
 	MVO R0,var_FN_LEN
 	CALL label_FN_PUTSTR
-	;[194]         #fn_src = VARPTR lit_qbin(0) : fn_len = 6 : GOSUB fn_putstr
-	SRCFILE "texas.bas",194
+	;[195]         #fn_src = VARPTR lit_qbin(0) : fn_len = 6 : GOSUB fn_putstr
+	SRCFILE "texas.bas",195
 	MVII #label_LIT_QBIN,R0
 	MVO R0,var_&FN_SRC
 	MVII #6,R0
 	MVO R0,var_FN_LEN
 	CALL label_FN_PUTSTR
-	;[195]     ELSE
-	SRCFILE "texas.bas",195
+	;[196]     ELSE
+	SRCFILE "texas.bas",196
 	B T69
 T68:
-	;[196]         IF gs_path = 1 THEN
-	SRCFILE "texas.bas",196
+	;[197]         IF gs_path = 1 THEN
+	SRCFILE "texas.bas",197
 	MVI var_GS_PATH,R0
 	CMPI #1,R0
 	BNE T70
-	;[197]             #fn_src = VARPTR lit_state(0) : fn_len = 5 : GOSUB fn_putstr
-	SRCFILE "texas.bas",197
+	;[198]             #fn_src = VARPTR lit_state(0) : fn_len = 5 : GOSUB fn_putstr
+	SRCFILE "texas.bas",198
 	MVII #label_LIT_STATE,R0
 	MVO R0,var_&FN_SRC
 	MVII #5,R0
 	MVO R0,var_FN_LEN
 	CALL label_FN_PUTSTR
-	;[198]         ELSEIF gs_path = 2 THEN
-	SRCFILE "texas.bas",198
+	;[199]         ELSEIF gs_path = 2 THEN
+	SRCFILE "texas.bas",199
 	B T71
 T70:
 	MVI var_GS_PATH,R0
 	CMPI #2,R0
 	BNE T72
-	;[199]             #fn_src = VARPTR lit_move(0) : fn_len = 5 : GOSUB fn_putstr
-	SRCFILE "texas.bas",199
+	;[200]             #fn_src = VARPTR lit_move(0) : fn_len = 5 : GOSUB fn_putstr
+	SRCFILE "texas.bas",200
 	MVII #label_LIT_MOVE,R0
 	MVO R0,var_&FN_SRC
 	MVII #5,R0
 	MVO R0,var_FN_LEN
 	CALL label_FN_PUTSTR
-	;[200]             POKE (FN_TX + #fn_txlen), mvcode_a : #fn_txlen = #fn_txlen + 1
-	SRCFILE "texas.bas",200
+	;[201]             POKE (FN_TX + #fn_txlen), mvcode_a : #fn_txlen = #fn_txlen + 1
+	SRCFILE "texas.bas",201
 	MVI var_MVCODE_A,R0
 	MVI var_&FN_TXLEN,R1
 	ADDI #40000,R1
@@ -6868,8 +6870,8 @@ T70:
 	MVI var_&FN_TXLEN,R0
 	INCR R0
 	MVO R0,var_&FN_TXLEN
-	;[201]             POKE (FN_TX + #fn_txlen), mvcode_b : #fn_txlen = #fn_txlen + 1
-	SRCFILE "texas.bas",201
+	;[202]             POKE (FN_TX + #fn_txlen), mvcode_b : #fn_txlen = #fn_txlen + 1
+	SRCFILE "texas.bas",202
 	MVI var_MVCODE_B,R0
 	MVI var_&FN_TXLEN,R1
 	ADDI #40000,R1
@@ -6877,178 +6879,178 @@ T70:
 	MVI var_&FN_TXLEN,R0
 	INCR R0
 	MVO R0,var_&FN_TXLEN
-	;[202]         ELSE
-	SRCFILE "texas.bas",202
+	;[203]         ELSE
+	SRCFILE "texas.bas",203
 	B T71
 T72:
-	;[203]             #fn_src = VARPTR lit_leave(0) : fn_len = 5 : GOSUB fn_putstr
-	SRCFILE "texas.bas",203
+	;[204]             #fn_src = VARPTR lit_leave(0) : fn_len = 5 : GOSUB fn_putstr
+	SRCFILE "texas.bas",204
 	MVII #label_LIT_LEAVE,R0
 	MVO R0,var_&FN_SRC
 	MVII #5,R0
 	MVO R0,var_FN_LEN
 	CALL label_FN_PUTSTR
-	;[204]         END IF
-	SRCFILE "texas.bas",204
-T71:
-	;[205] 
+	;[205]         END IF
 	SRCFILE "texas.bas",205
-	;[206]         #fn_src = VARPTR lit_qtable(0) : fn_len = 7 : GOSUB fn_putstr
+T71:
+	;[206] 
 	SRCFILE "texas.bas",206
+	;[207]         #fn_src = VARPTR lit_qtable(0) : fn_len = 7 : GOSUB fn_putstr
+	SRCFILE "texas.bas",207
 	MVII #label_LIT_QTABLE,R0
 	MVO R0,var_&FN_SRC
 	MVII #7,R0
 	MVO R0,var_FN_LEN
 	CALL label_FN_PUTSTR
-	;[207]         #fn_src = SC_TABLE : ls_max = 9 : GOSUB fn_strlen : GOSUB fn_putstr   ' table id, NUL-terminated within its 9-byte field
-	SRCFILE "texas.bas",207
+	;[208]         #fn_src = SC_TABLE : ls_max = 9 : GOSUB fn_strlen : GOSUB fn_putstr   ' table id, NUL-terminated within its 9-byte field
+	SRCFILE "texas.bas",208
 	MVII #37248,R0
 	MVO R0,var_&FN_SRC
 	MVII #9,R0
 	MVO R0,var_LS_MAX
 	CALL label_FN_STRLEN
 	CALL label_FN_PUTSTR
-	;[208]         #fn_src = VARPTR lit_aplayer(0) : fn_len = 8 : GOSUB fn_putstr
-	SRCFILE "texas.bas",208
+	;[209]         #fn_src = VARPTR lit_aplayer(0) : fn_len = 8 : GOSUB fn_putstr
+	SRCFILE "texas.bas",209
 	MVII #label_LIT_APLAYER,R0
 	MVO R0,var_&FN_SRC
 	MVII #8,R0
 	MVO R0,var_FN_LEN
 	CALL label_FN_PUTSTR
-	;[209]         #fn_src = SC_NAME : ls_max = 9 : GOSUB fn_strlen : GOSUB fn_putstr    ' player name, likewise
-	SRCFILE "texas.bas",209
+	;[210]         #fn_src = SC_NAME : ls_max = 9 : GOSUB fn_strlen : GOSUB fn_putstr    ' player name, likewise
+	SRCFILE "texas.bas",210
 	MVII #37120,R0
 	MVO R0,var_&FN_SRC
 	MVII #9,R0
 	MVO R0,var_LS_MAX
 	CALL label_FN_STRLEN
 	CALL label_FN_PUTSTR
-	;[210]         #fn_src = VARPTR lit_abin(0) : fn_len = 6 : GOSUB fn_putstr
-	SRCFILE "texas.bas",210
+	;[211]         #fn_src = VARPTR lit_abin(0) : fn_len = 6 : GOSUB fn_putstr
+	SRCFILE "texas.bas",211
 	MVII #label_LIT_ABIN,R0
 	MVO R0,var_&FN_SRC
 	MVII #6,R0
 	MVO R0,var_FN_LEN
 	CALL label_FN_PUTSTR
-	;[211]     END IF
-	SRCFILE "texas.bas",211
-T69:
-	;[212] END
+	;[212]     END IF
 	SRCFILE "texas.bas",212
+T69:
+	;[213] END
+	SRCFILE "texas.bas",213
 	RETURN
 	ENDP
-	;[213] 
-	SRCFILE "texas.bas",213
-	;[214] ' ---------------------------------------------------------------------------
+	;[214] 
 	SRCFILE "texas.bas",214
-	;[215] ' split_room_url: given a lobby-supplied "https://host/?table=xyz" value
+	;[215] ' ---------------------------------------------------------------------------
 	SRCFILE "texas.bas",215
-	;[216] ' already sitting in SC_ENDPT with its length in fn_len (as left by
+	;[216] ' split_room_url: given a lobby-supplied "https://host/?table=xyz" value
 	SRCFILE "texas.bas",216
-	;[217] ' appkey_read), split it into the bare endpoint (SC_ENDPT, truncated at
+	;[217] ' already sitting in SC_ENDPT with its length in fn_len (as left by
 	SRCFILE "texas.bas",217
-	;[218] ' the '?') and the table id (SC_TABLE). Mirrors the C clients'
+	;[218] ' appkey_read), split it into the bare endpoint (SC_ENDPT, truncated at
 	SRCFILE "texas.bas",218
-	;[219] ' welcomeActionVerifyServerDetails() '?' scan. Leaves SC_TABLE empty (a
+	;[219] ' the '?') and the table id (SC_TABLE). Mirrors the C clients'
 	SRCFILE "texas.bas",219
-	;[220] ' leading NUL) if there's no '?', the query isn't "table=...", or the id
+	;[220] ' welcomeActionVerifyServerDetails() '?' scan. Leaves SC_TABLE empty (a
 	SRCFILE "texas.bas",220
-	;[221] ' contains anything other than A-Z/a-z/0-9 -- it goes straight into a
+	;[221] ' leading NUL) if there's no '?', the query isn't "table=...", or the id
 	SRCFILE "texas.bas",221
-	;[222] ' rebuilt query string unescaped, same reasoning as the username check
+	;[222] ' contains anything other than A-Z/a-z/0-9 -- it goes straight into a
 	SRCFILE "texas.bas",222
-	;[223] ' above.
+	;[223] ' rebuilt query string unescaped, same reasoning as the username check
 	SRCFILE "texas.bas",223
-	;[224] ' ---------------------------------------------------------------------------
+	;[224] ' above.
 	SRCFILE "texas.bas",224
-	;[225] split_room_url: PROCEDURE
+	;[225] ' ---------------------------------------------------------------------------
 	SRCFILE "texas.bas",225
+	;[226] split_room_url: PROCEDURE
+	SRCFILE "texas.bas",226
 	; SPLIT_ROOM_URL
 label_SPLIT_ROOM_URL:	PROC
 	BEGIN
-	;[226]     POKE SC_TABLE, 0
-	SRCFILE "texas.bas",226
+	;[227]     POKE SC_TABLE, 0
+	SRCFILE "texas.bas",227
 	CLRR R0
 	MVO R0,37248
-	;[227] 
-	SRCFILE "texas.bas",227
-	;[228]     sp_found = 255 ' sentinel: not found (mirrors st_boot.bas's bt_slash convention)
+	;[228] 
 	SRCFILE "texas.bas",228
+	;[229]     sp_found = 255 ' sentinel: not found (mirrors st_boot.bas's bt_slash convention)
+	SRCFILE "texas.bas",229
 	MVII #255,R0
 	MVO R0,var_SP_FOUND
-	;[229]     sp_i = 0
-	SRCFILE "texas.bas",229
+	;[230]     sp_i = 0
+	SRCFILE "texas.bas",230
 	CLRR R0
 	MVO R0,var_SP_I
-	;[230]     WHILE sp_i < fn_len
-	SRCFILE "texas.bas",230
+	;[231]     WHILE sp_i < fn_len
+	SRCFILE "texas.bas",231
 T73:
 	MVI var_SP_I,R0
 	CMP var_FN_LEN,R0
 	BGE T74
-	;[231]         IF (PEEK(SC_ENDPT + sp_i) AND 255) = 63 THEN ' '?'
-	SRCFILE "texas.bas",231
+	;[232]         IF (PEEK(SC_ENDPT + sp_i) AND 255) = 63 THEN ' '?'
+	SRCFILE "texas.bas",232
 	MOVR R0,R1
 	ADDI #37136,R1
 	MVI@ R1,R0
 	ANDI #255,R0
 	CMPI #63,R0
 	BNE T75
-	;[232]             sp_found = sp_i
-	SRCFILE "texas.bas",232
+	;[233]             sp_found = sp_i
+	SRCFILE "texas.bas",233
 	MVI var_SP_I,R0
 	MVO R0,var_SP_FOUND
-	;[233]             EXIT WHILE
-	SRCFILE "texas.bas",233
-	B T74
-	;[234]         END IF
+	;[234]             EXIT WHILE
 	SRCFILE "texas.bas",234
-T75:
-	;[235]         sp_i = sp_i + 1
+	B T74
+	;[235]         END IF
 	SRCFILE "texas.bas",235
+T75:
+	;[236]         sp_i = sp_i + 1
+	SRCFILE "texas.bas",236
 	MVI var_SP_I,R0
 	INCR R0
 	MVO R0,var_SP_I
-	;[236]     WEND
-	SRCFILE "texas.bas",236
+	;[237]     WEND
+	SRCFILE "texas.bas",237
 	B T73
 T74:
-	;[237]     IF sp_found = 255 THEN RETURN
-	SRCFILE "texas.bas",237
+	;[238]     IF sp_found = 255 THEN RETURN
+	SRCFILE "texas.bas",238
 	MVI var_SP_FOUND,R0
 	CMPI #255,R0
 	BNE T76
 	RETURN
 T76:
-	;[238] 
-	SRCFILE "texas.bas",238
-	;[239]     ' Truncate the endpoint at the '?' regardless of what follows.
+	;[239] 
 	SRCFILE "texas.bas",239
-	;[240]     POKE (SC_ENDPT + sp_found), 0
+	;[240]     ' Truncate the endpoint at the '?' regardless of what follows.
 	SRCFILE "texas.bas",240
+	;[241]     POKE (SC_ENDPT + sp_found), 0
+	SRCFILE "texas.bas",241
 	CLRR R0
 	MVI var_SP_FOUND,R1
 	ADDI #37136,R1
 	MVO@ R0,R1
-	;[241] 
-	SRCFILE "texas.bas",241
-	;[242]     ' Require "table=" (6 bytes) right after the '?'.
+	;[242] 
 	SRCFILE "texas.bas",242
-	;[243]     sp_ok = 0
+	;[243]     ' Require "table=" (6 bytes) right after the '?'.
 	SRCFILE "texas.bas",243
-	MVO R0,var_SP_OK
-	;[244]     IF sp_found + 7 <= fn_len THEN
+	;[244]     sp_ok = 0
 	SRCFILE "texas.bas",244
+	MVO R0,var_SP_OK
+	;[245]     IF sp_found + 7 <= fn_len THEN
+	SRCFILE "texas.bas",245
 	MVI var_SP_FOUND,R0
 	ADDI #7,R0
 	CMP var_FN_LEN,R0
 	BGT T77
-	;[245]         sp_ok = 1
-	SRCFILE "texas.bas",245
+	;[246]         sp_ok = 1
+	SRCFILE "texas.bas",246
 	MVII #1,R0
 	MVO R0,var_SP_OK
-	;[246]         IF (PEEK(SC_ENDPT + sp_found + 1) AND 255) <> 116 THEN sp_ok = 0 ' t
-	SRCFILE "texas.bas",246
+	;[247]         IF (PEEK(SC_ENDPT + sp_found + 1) AND 255) <> 116 THEN sp_ok = 0 ' t
+	SRCFILE "texas.bas",247
 	MVI var_SP_FOUND,R1
 	ADDI #37137,R1
 	MVI@ R1,R0
@@ -7058,8 +7060,8 @@ T76:
 	CLRR R0
 	MVO R0,var_SP_OK
 T78:
-	;[247]         IF (PEEK(SC_ENDPT + sp_found + 2) AND 255) <> 97  THEN sp_ok = 0 ' a
-	SRCFILE "texas.bas",247
+	;[248]         IF (PEEK(SC_ENDPT + sp_found + 2) AND 255) <> 97  THEN sp_ok = 0 ' a
+	SRCFILE "texas.bas",248
 	MVI var_SP_FOUND,R1
 	ADDI #37138,R1
 	MVI@ R1,R0
@@ -7069,8 +7071,8 @@ T78:
 	CLRR R0
 	MVO R0,var_SP_OK
 T79:
-	;[248]         IF (PEEK(SC_ENDPT + sp_found + 3) AND 255) <> 98  THEN sp_ok = 0 ' b
-	SRCFILE "texas.bas",248
+	;[249]         IF (PEEK(SC_ENDPT + sp_found + 3) AND 255) <> 98  THEN sp_ok = 0 ' b
+	SRCFILE "texas.bas",249
 	MVI var_SP_FOUND,R1
 	ADDI #37139,R1
 	MVI@ R1,R0
@@ -7080,8 +7082,8 @@ T79:
 	CLRR R0
 	MVO R0,var_SP_OK
 T80:
-	;[249]         IF (PEEK(SC_ENDPT + sp_found + 4) AND 255) <> 108 THEN sp_ok = 0 ' l
-	SRCFILE "texas.bas",249
+	;[250]         IF (PEEK(SC_ENDPT + sp_found + 4) AND 255) <> 108 THEN sp_ok = 0 ' l
+	SRCFILE "texas.bas",250
 	MVI var_SP_FOUND,R1
 	ADDI #37140,R1
 	MVI@ R1,R0
@@ -7091,8 +7093,8 @@ T80:
 	CLRR R0
 	MVO R0,var_SP_OK
 T81:
-	;[250]         IF (PEEK(SC_ENDPT + sp_found + 5) AND 255) <> 101 THEN sp_ok = 0 ' e
-	SRCFILE "texas.bas",250
+	;[251]         IF (PEEK(SC_ENDPT + sp_found + 5) AND 255) <> 101 THEN sp_ok = 0 ' e
+	SRCFILE "texas.bas",251
 	MVI var_SP_FOUND,R1
 	ADDI #37141,R1
 	MVI@ R1,R0
@@ -7102,8 +7104,8 @@ T81:
 	CLRR R0
 	MVO R0,var_SP_OK
 T82:
-	;[251]         IF (PEEK(SC_ENDPT + sp_found + 6) AND 255) <> 61  THEN sp_ok = 0 ' =
-	SRCFILE "texas.bas",251
+	;[252]         IF (PEEK(SC_ENDPT + sp_found + 6) AND 255) <> 61  THEN sp_ok = 0 ' =
+	SRCFILE "texas.bas",252
 	MVI var_SP_FOUND,R1
 	ADDI #37142,R1
 	MVI@ R1,R0
@@ -7113,31 +7115,31 @@ T82:
 	CLRR R0
 	MVO R0,var_SP_OK
 T83:
-	;[252]     END IF
-	SRCFILE "texas.bas",252
-T77:
-	;[253]     IF sp_ok = 0 THEN RETURN
+	;[253]     END IF
 	SRCFILE "texas.bas",253
+T77:
+	;[254]     IF sp_ok = 0 THEN RETURN
+	SRCFILE "texas.bas",254
 	MVI var_SP_OK,R0
 	TSTR R0
 	BNE T84
 	RETURN
 T84:
-	;[254] 
-	SRCFILE "texas.bas",254
-	;[255]     ' Copy the id: up to 8 bytes, stopping at NUL or '&'.
+	;[255] 
 	SRCFILE "texas.bas",255
-	;[256]     sp_j = sp_found + 7
+	;[256]     ' Copy the id: up to 8 bytes, stopping at NUL or '&'.
 	SRCFILE "texas.bas",256
+	;[257]     sp_j = sp_found + 7
+	SRCFILE "texas.bas",257
 	MVI var_SP_FOUND,R0
 	ADDI #7,R0
 	MVO R0,var_SP_J
-	;[257]     sp_k = 0
-	SRCFILE "texas.bas",257
+	;[258]     sp_k = 0
+	SRCFILE "texas.bas",258
 	CLRR R0
 	MVO R0,var_SP_K
-	;[258]     WHILE sp_k < 8 AND sp_j < fn_len
-	SRCFILE "texas.bas",258
+	;[259]     WHILE sp_k < 8 AND sp_j < fn_len
+	SRCFILE "texas.bas",259
 T85:
 	MVI var_SP_K,R0
 	CMPI #8,R0
@@ -7153,14 +7155,14 @@ T87:
 T88:
 	ANDR R1,R0
 	BEQ T86
-	;[259]         sp_c = PEEK(SC_ENDPT + sp_j) AND 255
-	SRCFILE "texas.bas",259
+	;[260]         sp_c = PEEK(SC_ENDPT + sp_j) AND 255
+	SRCFILE "texas.bas",260
 	MVI var_SP_J,R1
 	ADDI #37136,R1
 	MVI@ R1,R0
 	MVO R0,var_SP_C
-	;[260]         IF sp_c = 0 OR sp_c = 38 THEN EXIT WHILE ' NUL or '&'
-	SRCFILE "texas.bas",260
+	;[261]         IF sp_c = 0 OR sp_c = 38 THEN EXIT WHILE ' NUL or '&'
+	SRCFILE "texas.bas",261
 	MVI var_SP_C,R0
 	TSTR R0
 	MVII #65535,R0
@@ -7178,53 +7180,53 @@ T91:
 	COMR R1
 	XORR R1,R0
 	BNE T86
-	;[261]         POKE (SC_TABLE + sp_k), sp_c
-	SRCFILE "texas.bas",261
+	;[262]         POKE (SC_TABLE + sp_k), sp_c
+	SRCFILE "texas.bas",262
 	MVI var_SP_C,R0
 	MVI var_SP_K,R1
 	ADDI #37248,R1
 	MVO@ R0,R1
-	;[262]         sp_k = sp_k + 1
-	SRCFILE "texas.bas",262
+	;[263]         sp_k = sp_k + 1
+	SRCFILE "texas.bas",263
 	MVI var_SP_K,R0
 	INCR R0
 	MVO R0,var_SP_K
-	;[263]         sp_j = sp_j + 1
-	SRCFILE "texas.bas",263
+	;[264]         sp_j = sp_j + 1
+	SRCFILE "texas.bas",264
 	MVI var_SP_J,R0
 	INCR R0
 	MVO R0,var_SP_J
-	;[264]     WEND
-	SRCFILE "texas.bas",264
+	;[265]     WEND
+	SRCFILE "texas.bas",265
 	B T85
 T86:
-	;[265]     POKE (SC_TABLE + sp_k), 0
-	SRCFILE "texas.bas",265
+	;[266]     POKE (SC_TABLE + sp_k), 0
+	SRCFILE "texas.bas",266
 	CLRR R0
 	MVI var_SP_K,R1
 	ADDI #37248,R1
 	MVO@ R0,R1
-	;[266] 
-	SRCFILE "texas.bas",266
-	;[267]     ' Validate: A-Z/a-z/0-9 only.
+	;[267] 
 	SRCFILE "texas.bas",267
-	;[268]     sp_valid = 1
+	;[268]     ' Validate: A-Z/a-z/0-9 only.
 	SRCFILE "texas.bas",268
+	;[269]     sp_valid = 1
+	SRCFILE "texas.bas",269
 	MVII #1,R0
 	MVO R0,var_SP_VALID
-	;[269]     FOR sp_m = 0 TO sp_k - 1
-	SRCFILE "texas.bas",269
+	;[270]     FOR sp_m = 0 TO sp_k - 1
+	SRCFILE "texas.bas",270
 	CLRR R0
 	MVO R0,var_SP_M
 T92:
-	;[270]         sp_c = PEEK(SC_TABLE + sp_m) AND 255
-	SRCFILE "texas.bas",270
+	;[271]         sp_c = PEEK(SC_TABLE + sp_m) AND 255
+	SRCFILE "texas.bas",271
 	MVI var_SP_M,R1
 	ADDI #37248,R1
 	MVI@ R1,R0
 	MVO R0,var_SP_C
-	;[271]         IF (sp_c < 65 OR sp_c > 90) AND (sp_c < 97 OR sp_c > 122) AND (sp_c < 48 OR sp_c > 57) THEN sp_valid = 0
-	SRCFILE "texas.bas",271
+	;[272]         IF (sp_c < 65 OR sp_c > 90) AND (sp_c < 97 OR sp_c > 122) AND (sp_c < 48 OR sp_c > 57) THEN sp_valid = 0
+	SRCFILE "texas.bas",272
 	MVI var_SP_C,R0
 	CMPI #65,R0
 	MVII #65535,R0
@@ -7279,8 +7281,8 @@ T99:
 	CLRR R0
 	MVO R0,var_SP_VALID
 T93:
-	;[272]     NEXT sp_m
-	SRCFILE "texas.bas",272
+	;[273]     NEXT sp_m
+	SRCFILE "texas.bas",273
 	MVI var_SP_M,R0
 	INCR R0
 	MVO R0,var_SP_M
@@ -7288,200 +7290,200 @@ T93:
 	DECR R1
 	CMPR R1,R0
 	BLE T92
-	;[273]     IF sp_valid = 0 THEN POKE SC_TABLE, 0
-	SRCFILE "texas.bas",273
+	;[274]     IF sp_valid = 0 THEN POKE SC_TABLE, 0
+	SRCFILE "texas.bas",274
 	MVI var_SP_VALID,R0
 	TSTR R0
 	BNE T100
 	MVO R0,37248
 T100:
-	;[274] END
-	SRCFILE "texas.bas",274
+	;[275] END
+	SRCFILE "texas.bas",275
 	RETURN
 	ENDP
-	;[275] 
-	SRCFILE "texas.bas",275
-	;[276] ' ---------------------------------------------------------------------------
+	;[276] 
 	SRCFILE "texas.bas",276
-	;[277] ' write_room_appkey: persist SC_ENDPT + "?table=" + SC_TABLE back to the
+	;[277] ' ---------------------------------------------------------------------------
 	SRCFILE "texas.bas",277
-	;[278] ' lobby server appkey slot, so a reboot without going back through the
+	;[278] ' write_room_appkey: persist SC_ENDPT + "?table=" + SC_TABLE back to the
 	SRCFILE "texas.bas",278
-	;[279] ' lobby rejoins the same room (mirrors the C clients' "Update server app
+	;[279] ' lobby server appkey slot, so a reboot without going back through the
 	SRCFILE "texas.bas",279
-	;[280] ' key in case of reboot"). Builds the payload directly in FN_TX and writes
+	;[280] ' lobby rejoins the same room (mirrors the C clients' "Update server app
 	SRCFILE "texas.bas",280
-	;[281] ' it from there -- appkey_write's byte-by-byte copy from #fn_src into
+	;[281] ' key in case of reboot"). Builds the payload directly in FN_TX and writes
 	SRCFILE "texas.bas",281
-	;[282] ' FN_TX is a safe no-op when #fn_src is FN_TX itself.
+	;[282] ' it from there -- appkey_write's byte-by-byte copy from #fn_src into
 	SRCFILE "texas.bas",282
-	;[283] ' ---------------------------------------------------------------------------
+	;[283] ' FN_TX is a safe no-op when #fn_src is FN_TX itself.
 	SRCFILE "texas.bas",283
-	;[284] write_room_appkey: PROCEDURE
+	;[284] ' ---------------------------------------------------------------------------
 	SRCFILE "texas.bas",284
+	;[285] write_room_appkey: PROCEDURE
+	SRCFILE "texas.bas",285
 	; WRITE_ROOM_APPKEY
 label_WRITE_ROOM_APPKEY:	PROC
 	BEGIN
-	;[285]     #fn_txlen = 0
-	SRCFILE "texas.bas",285
+	;[286]     #fn_txlen = 0
+	SRCFILE "texas.bas",286
 	CLRR R0
 	MVO R0,var_&FN_TXLEN
-	;[286]     #fn_src = SC_ENDPT : ls_max = 65 : GOSUB fn_strlen : GOSUB fn_putstr
-	SRCFILE "texas.bas",286
+	;[287]     #fn_src = SC_ENDPT : ls_max = 65 : GOSUB fn_strlen : GOSUB fn_putstr
+	SRCFILE "texas.bas",287
 	MVII #37136,R0
 	MVO R0,var_&FN_SRC
 	MVII #65,R0
 	MVO R0,var_LS_MAX
 	CALL label_FN_STRLEN
 	CALL label_FN_PUTSTR
-	;[287]     #fn_src = VARPTR lit_qtable(0) : fn_len = 7 : GOSUB fn_putstr
-	SRCFILE "texas.bas",287
+	;[288]     #fn_src = VARPTR lit_qtable(0) : fn_len = 7 : GOSUB fn_putstr
+	SRCFILE "texas.bas",288
 	MVII #label_LIT_QTABLE,R0
 	MVO R0,var_&FN_SRC
 	MVII #7,R0
 	MVO R0,var_FN_LEN
 	CALL label_FN_PUTSTR
-	;[288]     #fn_src = SC_TABLE : ls_max = 9 : GOSUB fn_strlen : GOSUB fn_putstr
-	SRCFILE "texas.bas",288
+	;[289]     #fn_src = SC_TABLE : ls_max = 9 : GOSUB fn_strlen : GOSUB fn_putstr
+	SRCFILE "texas.bas",289
 	MVII #37248,R0
 	MVO R0,var_&FN_SRC
 	MVII #9,R0
 	MVO R0,var_LS_MAX
 	CALL label_FN_STRLEN
 	CALL label_FN_PUTSTR
-	;[289] 
-	SRCFILE "texas.bas",289
-	;[290]     ak_creator_lo = 1 : ak_creator_hi = 0 : ak_app = 1
+	;[290] 
 	SRCFILE "texas.bas",290
+	;[291]     ak_creator_lo = 1 : ak_creator_hi = 0 : ak_app = 1
+	SRCFILE "texas.bas",291
 	MVII #1,R0
 	MVO R0,var_AK_CREATOR_LO
 	CLRR R0
 	MVO R0,var_AK_CREATOR_HI
 	MVII #1,R0
 	MVO R0,var_AK_APP
-	;[291]     ak_key = AK_LOBBY_KEY_SERVER : ak_mode = 1
-	SRCFILE "texas.bas",291
+	;[292]     ak_key = AK_LOBBY_KEY_SERVER : ak_mode = 1
+	SRCFILE "texas.bas",292
 	MVII #8,R0
 	MVO R0,var_AK_KEY
 	MVII #1,R0
 	MVO R0,var_AK_MODE
-	;[292]     GOSUB appkey_open
-	SRCFILE "texas.bas",292
-	CALL label_APPKEY_OPEN
-	;[293]     IF fn_ok THEN
+	;[293]     GOSUB appkey_open
 	SRCFILE "texas.bas",293
+	CALL label_APPKEY_OPEN
+	;[294]     IF fn_ok THEN
+	SRCFILE "texas.bas",294
 	MVI var_FN_OK,R0
 	TSTR R0
 	BEQ T101
-	;[294]         fn_len = #fn_txlen : #fn_src = FN_TX
-	SRCFILE "texas.bas",294
+	;[295]         fn_len = #fn_txlen : #fn_src = FN_TX
+	SRCFILE "texas.bas",295
 	MVI var_&FN_TXLEN,R0
 	MVO R0,var_FN_LEN
 	MVII #40000,R0
 	MVO R0,var_&FN_SRC
-	;[295]         GOSUB appkey_write
-	SRCFILE "texas.bas",295
-	CALL label_APPKEY_WRITE
-	;[296]         GOSUB appkey_close
+	;[296]         GOSUB appkey_write
 	SRCFILE "texas.bas",296
-	CALL label_APPKEY_CLOSE
-	;[297]     END IF
+	CALL label_APPKEY_WRITE
+	;[297]         GOSUB appkey_close
 	SRCFILE "texas.bas",297
-T101:
-	;[298] END
+	CALL label_APPKEY_CLOSE
+	;[298]     END IF
 	SRCFILE "texas.bas",298
+T101:
+	;[299] END
+	SRCFILE "texas.bas",299
 	RETURN
 	ENDP
-	;[299] 
-	SRCFILE "texas.bas",299
-	;[300] ' ---------------------------------------------------------------------------
+	;[300] 
 	SRCFILE "texas.bas",300
-	;[301] ' clear_room_appkey: blank the lobby server appkey slot on a deliberate
+	;[301] ' ---------------------------------------------------------------------------
 	SRCFILE "texas.bas",301
-	;[302] ' leave, so a later reboot lands on table select instead of silently
+	;[302] ' clear_room_appkey: blank the lobby server appkey slot on a deliberate
 	SRCFILE "texas.bas",302
-	;[303] ' rejoining a table the player just quit.
+	;[303] ' leave, so a later reboot lands on table select instead of silently
 	SRCFILE "texas.bas",303
-	;[304] ' ---------------------------------------------------------------------------
+	;[304] ' rejoining a table the player just quit.
 	SRCFILE "texas.bas",304
-	;[305] clear_room_appkey: PROCEDURE
+	;[305] ' ---------------------------------------------------------------------------
 	SRCFILE "texas.bas",305
+	;[306] clear_room_appkey: PROCEDURE
+	SRCFILE "texas.bas",306
 	; CLEAR_ROOM_APPKEY
 label_CLEAR_ROOM_APPKEY:	PROC
 	BEGIN
-	;[306]     ak_creator_lo = 1 : ak_creator_hi = 0 : ak_app = 1
-	SRCFILE "texas.bas",306
+	;[307]     ak_creator_lo = 1 : ak_creator_hi = 0 : ak_app = 1
+	SRCFILE "texas.bas",307
 	MVII #1,R0
 	MVO R0,var_AK_CREATOR_LO
 	CLRR R0
 	MVO R0,var_AK_CREATOR_HI
 	MVII #1,R0
 	MVO R0,var_AK_APP
-	;[307]     ak_key = AK_LOBBY_KEY_SERVER : ak_mode = 1
-	SRCFILE "texas.bas",307
+	;[308]     ak_key = AK_LOBBY_KEY_SERVER : ak_mode = 1
+	SRCFILE "texas.bas",308
 	MVII #8,R0
 	MVO R0,var_AK_KEY
 	MVII #1,R0
 	MVO R0,var_AK_MODE
-	;[308]     GOSUB appkey_open
-	SRCFILE "texas.bas",308
-	CALL label_APPKEY_OPEN
-	;[309]     IF fn_ok THEN
+	;[309]     GOSUB appkey_open
 	SRCFILE "texas.bas",309
+	CALL label_APPKEY_OPEN
+	;[310]     IF fn_ok THEN
+	SRCFILE "texas.bas",310
 	MVI var_FN_OK,R0
 	TSTR R0
 	BEQ T102
-	;[310]         fn_len = 0 : #fn_src = FN_TX
-	SRCFILE "texas.bas",310
+	;[311]         fn_len = 0 : #fn_src = FN_TX
+	SRCFILE "texas.bas",311
 	CLRR R0
 	MVO R0,var_FN_LEN
 	MVII #40000,R0
 	MVO R0,var_&FN_SRC
-	;[311]         GOSUB appkey_write
-	SRCFILE "texas.bas",311
-	CALL label_APPKEY_WRITE
-	;[312]         GOSUB appkey_close
+	;[312]         GOSUB appkey_write
 	SRCFILE "texas.bas",312
-	CALL label_APPKEY_CLOSE
-	;[313]     END IF
+	CALL label_APPKEY_WRITE
+	;[313]         GOSUB appkey_close
 	SRCFILE "texas.bas",313
-T102:
-	;[314]     POKE SC_TABLE, 0
+	CALL label_APPKEY_CLOSE
+	;[314]     END IF
 	SRCFILE "texas.bas",314
+T102:
+	;[315]     POKE SC_TABLE, 0
+	SRCFILE "texas.bas",315
 	CLRR R0
 	MVO R0,37248
-	;[315] END
-	SRCFILE "texas.bas",315
+	;[316] END
+	SRCFILE "texas.bas",316
 	RETURN
 	ENDP
-	;[316] 
-	SRCFILE "texas.bas",316
-	;[317] ' ===========================================================================
+	;[317] 
 	SRCFILE "texas.bas",317
-	;[318] ' Boot
+	;[318] ' ===========================================================================
 	SRCFILE "texas.bas",318
-	;[319] ' ===========================================================================
+	;[319] ' Boot
 	SRCFILE "texas.bas",319
-	;[320] boot_start:
+	;[320] ' ===========================================================================
 	SRCFILE "texas.bas",320
-	; BOOT_START
-label_BOOT_START:	;[321]     MODE 1
+	;[321] boot_start:
 	SRCFILE "texas.bas",321
+	; BOOT_START
+label_BOOT_START:	;[322]     MODE 1
+	SRCFILE "texas.bas",322
 	MVII #3,R0
 	MVO R0,_mode_select
-	;[322]     CLS
-	SRCFILE "texas.bas",322
-	CALL CLRSCR
-	;[323]     GOSUB fill_bg
+	;[323]     CLS
 	SRCFILE "texas.bas",323
-	CALL label_FILL_BG
-	;[324]     GOSUB gfx_init
+	CALL CLRSCR
+	;[324]     GOSUB fill_bg
 	SRCFILE "texas.bas",324
-	CALL label_GFX_INIT
-	;[325] 
+	CALL label_FILL_BG
+	;[325]     GOSUB gfx_init
 	SRCFILE "texas.bas",325
-	;[326]     PRINT AT 0 COLOR COL_STATUS, "TEXAS HOLDEM"
+	CALL label_GFX_INIT
+	;[326] 
 	SRCFILE "texas.bas",326
+	;[327]     PRINT AT 0 COLOR COL_STATUS, "TEXAS HOLDEM"
+	SRCFILE "texas.bas",327
 	MVII #512,R0
 	MVO R0,_screen
 	MVII #7,R0
@@ -7513,8 +7515,8 @@ label_BOOT_START:	;[321]     MODE 1
 	XORI #64,R0
 	MVO@ R0,R4
 	MVO R4,_screen
-	;[327]     PRINT AT 20, "IN GAME, PRESS KEYPAD"
-	SRCFILE "texas.bas",327
+	;[328]     PRINT AT 20, "IN GAME, PRESS KEYPAD"
+	SRCFILE "texas.bas",328
 	MVII #532,R0
 	MVO R0,_screen
 	MOVR R0,R4
@@ -7561,8 +7563,8 @@ label_BOOT_START:	;[321]     MODE 1
 	XORI #40,R0
 	MVO@ R0,R4
 	MVO R4,_screen
-	;[328]     PRINT AT 40, "CLEAR FOR THE MENU"
-	SRCFILE "texas.bas",328
+	;[329]     PRINT AT 40, "CLEAR FOR THE MENU"
+	SRCFILE "texas.bas",329
 	MVII #552,R0
 	MVO R0,_screen
 	MOVR R0,R4
@@ -7604,8 +7606,8 @@ label_BOOT_START:	;[321]     MODE 1
 	XORI #216,R0
 	MVO@ R0,R4
 	MVO R4,_screen
-	;[329]     PRINT AT 60, "CONNECTING TO FUJINET"
-	SRCFILE "texas.bas",329
+	;[330]     PRINT AT 60, "CONNECTING TO FUJINET"
+	SRCFILE "texas.bas",330
 	MVII #572,R0
 	MVO R0,_screen
 	MOVR R0,R4
@@ -7652,16 +7654,16 @@ label_BOOT_START:	;[321]     MODE 1
 	XORI #136,R0
 	MVO@ R0,R4
 	MVO R4,_screen
-	;[330]     GOSUB fn_wait_mailbox
-	SRCFILE "texas.bas",330
-	CALL label_FN_WAIT_MAILBOX
-	;[331]     IF fn_ok = 0 THEN
+	;[331]     GOSUB fn_wait_mailbox
 	SRCFILE "texas.bas",331
+	CALL label_FN_WAIT_MAILBOX
+	;[332]     IF fn_ok = 0 THEN
+	SRCFILE "texas.bas",332
 	MVI var_FN_OK,R0
 	TSTR R0
 	BNE T103
-	;[332]         PRINT AT 60, "NO CARTRIDGE MAILBOX"
-	SRCFILE "texas.bas",332
+	;[333]         PRINT AT 60, "NO CARTRIDGE MAILBOX"
+	SRCFILE "texas.bas",333
 	MVII #572,R0
 	MVO R0,_screen
 	MOVR R0,R4
@@ -7707,48 +7709,48 @@ label_BOOT_START:	;[321]     MODE 1
 	XORI #184,R0
 	MVO@ R0,R4
 	MVO R4,_screen
-	;[333]         GOTO halt
-	SRCFILE "texas.bas",333
-	B label_HALT
-	;[334]     END IF
+	;[334]         GOTO halt
 	SRCFILE "texas.bas",334
-T103:
-	;[335] 
+	B label_HALT
+	;[335]     END IF
 	SRCFILE "texas.bas",335
-	;[336] ' ---------------------------------------------------------------------------
+T103:
+	;[336] 
 	SRCFILE "texas.bas",336
-	;[337] ' Name: try the lobby appkey first; fall back to the disc letter picker if
+	;[337] ' ---------------------------------------------------------------------------
 	SRCFILE "texas.bas",337
-	;[338] ' the transaction fails or the stored name is empty.
+	;[338] ' Name: try the lobby appkey first; fall back to the disc letter picker if
 	SRCFILE "texas.bas",338
-	;[339] ' ---------------------------------------------------------------------------
+	;[339] ' the transaction fails or the stored name is empty.
 	SRCFILE "texas.bas",339
-	;[340]     ' Every other network call in this game gets an implicit retry via the
+	;[340] ' ---------------------------------------------------------------------------
 	SRCFILE "texas.bas",340
-	;[341]     ' outer poll loop; this one-shot boot-time appkey read didn't, so a
+	;[341]     ' Every other network call in this game gets an implicit retry via the
 	SRCFILE "texas.bas",341
-	;[342]     ' single cold-connection timeout (the RP2040/ESP32 link needing a
+	;[342]     ' outer poll loop; this one-shot boot-time appkey read didn't, so a
 	SRCFILE "texas.bas",342
-	;[343]     ' moment right after the mailbox first comes up -- the same thing
+	;[343]     ' single cold-connection timeout (the RP2040/ESP32 link needing a
 	SRCFILE "texas.bas",343
-	;[344]     ' that made the very first transaction after boot occasionally time
+	;[344]     ' moment right after the mailbox first comes up -- the same thing
 	SRCFILE "texas.bas",344
-	;[345]     ' out earlier in testing) meant falling back to manual name entry for
+	;[345]     ' that made the very first transaction after boot occasionally time
 	SRCFILE "texas.bas",345
-	;[346]     ' the whole session even though a name was genuinely stored. Retry
+	;[346]     ' out earlier in testing) meant falling back to manual name entry for
 	SRCFILE "texas.bas",346
-	;[347]     ' once before giving up.
+	;[347]     ' the whole session even though a name was genuinely stored. Retry
 	SRCFILE "texas.bas",347
-	;[348]     gs_i = 0
+	;[348]     ' once before giving up.
 	SRCFILE "texas.bas",348
+	;[349]     gs_i = 0
+	SRCFILE "texas.bas",349
 	CLRR R0
 	MVO R0,var_GS_I
-	;[349]     FOR ak_try = 0 TO 1
-	SRCFILE "texas.bas",349
+	;[350]     FOR ak_try = 0 TO 1
+	SRCFILE "texas.bas",350
 	MVO R0,var_AK_TRY
 T104:
-	;[350]         ak_creator_lo = 1 : ak_creator_hi = 0 : ak_app = 1 : ak_key = 0 : ak_mode = 0
-	SRCFILE "texas.bas",350
+	;[351]         ak_creator_lo = 1 : ak_creator_hi = 0 : ak_app = 1 : ak_key = 0 : ak_mode = 0
+	SRCFILE "texas.bas",351
 	MVII #1,R0
 	MVO R0,var_AK_CREATOR_LO
 	CLRR R0
@@ -7758,83 +7760,83 @@ T104:
 	CLRR R0
 	MVO R0,var_AK_KEY
 	MVO R0,var_AK_MODE
-	;[351]         GOSUB appkey_open
-	SRCFILE "texas.bas",351
-	CALL label_APPKEY_OPEN
-	;[352]         IF fn_ok THEN EXIT FOR
+	;[352]         GOSUB appkey_open
 	SRCFILE "texas.bas",352
+	CALL label_APPKEY_OPEN
+	;[353]         IF fn_ok THEN EXIT FOR
+	SRCFILE "texas.bas",353
 	MVI var_FN_OK,R0
 	TSTR R0
 	BNE T106
-	;[353]     NEXT ak_try
-	SRCFILE "texas.bas",353
+	;[354]     NEXT ak_try
+	SRCFILE "texas.bas",354
 	MVI var_AK_TRY,R0
 	INCR R0
 	MVO R0,var_AK_TRY
 	CMPI #1,R0
 	BLE T104
 T106:
-	;[354]     IF fn_ok THEN
-	SRCFILE "texas.bas",354
+	;[355]     IF fn_ok THEN
+	SRCFILE "texas.bas",355
 	MVI var_FN_OK,R0
 	TSTR R0
 	BEQ T107
-	;[355]         #fn_src = SC_NAME : ls_max = 9 : GOSUB appkey_read
-	SRCFILE "texas.bas",355
+	;[356]         #fn_src = SC_NAME : ls_max = 9 : GOSUB appkey_read
+	SRCFILE "texas.bas",356
 	MVII #37120,R0
 	MVO R0,var_&FN_SRC
 	MVII #9,R0
 	MVO R0,var_LS_MAX
 	CALL label_APPKEY_READ
-	;[356]         GOSUB appkey_close
-	SRCFILE "texas.bas",356
-	CALL label_APPKEY_CLOSE
-	;[357]         IF fn_len > 0 THEN
+	;[357]         GOSUB appkey_close
 	SRCFILE "texas.bas",357
+	CALL label_APPKEY_CLOSE
+	;[358]         IF fn_len > 0 THEN
+	SRCFILE "texas.bas",358
 	MVI var_FN_LEN,R0
 	CMPI #0,R0
 	BLE T108
-	;[358]             ' Validate every character -- the appkey slot (creator=1,
-	SRCFILE "texas.bas",358
-	;[359]             ' app=1, key=0) is the *shared* lobby username used by every
+	;[359]             ' Validate every character -- the appkey slot (creator=1,
 	SRCFILE "texas.bas",359
-	;[360]             ' FujiNet client on this server, so it can hold stale or
+	;[360]             ' app=1, key=0) is the *shared* lobby username used by every
 	SRCFILE "texas.bas",360
-	;[361]             ' outright incompatible data left by other testing (this
+	;[361]             ' FujiNet client on this server, so it can hold stale or
 	SRCFILE "texas.bas",361
-	;[362]             ' repo's own earlier test runs included). Our name-entry
+	;[362]             ' outright incompatible data left by other testing (this
 	SRCFILE "texas.bas",362
-	;[363]             ' screen can only ever produce A-Z/0-9, so anything outside
+	;[363]             ' repo's own earlier test runs included). Our name-entry
 	SRCFILE "texas.bas",363
-	;[364]             ' that -- a space, punctuation, an '&' or '?' -- is untrusted:
+	;[364]             ' screen can only ever produce A-Z/0-9, so anything outside
 	SRCFILE "texas.bas",364
-	;[365]             ' it goes straight into the /state URL's query string
+	;[365]             ' that -- a space, punctuation, an '&' or '?' -- is untrusted:
 	SRCFILE "texas.bas",365
-	;[366]             ' unescaped, and a stray reserved character there is exactly
+	;[366]             ' it goes straight into the /state URL's query string
 	SRCFILE "texas.bas",366
-	;[367]             ' the kind of thing that gets the request rejected by the
+	;[367]             ' unescaped, and a stray reserved character there is exactly
 	SRCFILE "texas.bas",367
-	;[368]             ' server (seen as an HTTP 400 page landing in FN_RX, which
+	;[368]             ' the kind of thing that gets the request rejected by the
 	SRCFILE "texas.bas",368
-	;[369]             ' render_game then tries to draw as if it were game data).
+	;[369]             ' server (seen as an HTTP 400 page landing in FN_RX, which
 	SRCFILE "texas.bas",369
-	;[370]             gs_i = 1
+	;[370]             ' render_game then tries to draw as if it were game data).
 	SRCFILE "texas.bas",370
+	;[371]             gs_i = 1
+	SRCFILE "texas.bas",371
 	MVII #1,R0
 	MVO R0,var_GS_I
-	;[371]             FOR gs_j = 0 TO fn_len - 1
-	SRCFILE "texas.bas",371
+	;[372]             FOR gs_j = 0 TO fn_len - 1
+	SRCFILE "texas.bas",372
 	CLRR R0
 	MVO R0,var_GS_J
 T109:
-	;[372]                 gs_char = PEEK(SC_NAME + gs_j) AND 255
-	SRCFILE "texas.bas",372
+	;[373]                 gs_char = PEEK(SC_NAME + gs_j) AND 255
+	SRCFILE "texas.bas",373
 	MVI var_GS_J,R1
 	ADDI #37120,R1
 	MVI@ R1,R0
 	MVO R0,var_GS_CHAR
-	;[373]                 IF gs_char >= 97 AND gs_char <= 122 THEN gs_char = gs_char - 32 ' fold to uppercase for the check
-	SRCFILE "texas.bas",373
+	;[374]                 IF gs_char >= 97 AND gs_char <= 122 THEN gs_char = gs_char - 32 ' fold to uppercase for the check
+	SRCFILE "texas.bas",374
 	MVI var_GS_CHAR,R0
 	CMPI #97,R0
 	MVII #65535,R0
@@ -7853,8 +7855,8 @@ T112:
 	SUBI #32,R0
 	MVO R0,var_GS_CHAR
 T110:
-	;[374]                 IF (gs_char < 65 OR gs_char > 90) AND (gs_char < 48 OR gs_char > 57) THEN gs_i = 0
-	SRCFILE "texas.bas",374
+	;[375]                 IF (gs_char < 65 OR gs_char > 90) AND (gs_char < 48 OR gs_char > 57) THEN gs_i = 0
+	SRCFILE "texas.bas",375
 	MVI var_GS_CHAR,R0
 	CMPI #65,R0
 	MVII #65535,R0
@@ -7892,8 +7894,8 @@ T117:
 	CLRR R0
 	MVO R0,var_GS_I
 T113:
-	;[375]             NEXT gs_j
-	SRCFILE "texas.bas",375
+	;[376]             NEXT gs_j
+	SRCFILE "texas.bas",376
 	MVI var_GS_J,R0
 	INCR R0
 	MVO R0,var_GS_J
@@ -7901,44 +7903,44 @@ T113:
 	DECR R1
 	CMPR R1,R0
 	BLE T109
-	;[376]         END IF
-	SRCFILE "texas.bas",376
-T108:
-	;[377]     END IF
+	;[377]         END IF
 	SRCFILE "texas.bas",377
-T107:
-	;[378]     IF gs_i = 0 THEN GOSUB name_entry_screen
+T108:
+	;[378]     END IF
 	SRCFILE "texas.bas",378
+T107:
+	;[379]     IF gs_i = 0 THEN GOSUB name_entry_screen
+	SRCFILE "texas.bas",379
 	MVI var_GS_I,R0
 	TSTR R0
 	BNE T118
 	CALL label_NAME_ENTRY_SCREEN
 T118:
-	;[379] 
-	SRCFILE "texas.bas",379
-	;[380] ' ---------------------------------------------------------------------------
+	;[380] 
 	SRCFILE "texas.bas",380
-	;[381] ' Room: check the lobby server appkey (creator 1 / app 1 / key
+	;[381] ' ---------------------------------------------------------------------------
 	SRCFILE "texas.bas",381
-	;[382] ' AK_LOBBY_KEY_SERVER). If the lobby wrote a room there, split it into
+	;[382] ' Room: check the lobby server appkey (creator 1 / app 1 / key
 	SRCFILE "texas.bas",382
-	;[383] ' SC_ENDPT/SC_TABLE and skip straight past table select. Seed the
+	;[383] ' AK_LOBBY_KEY_SERVER). If the lobby wrote a room there, split it into
 	SRCFILE "texas.bas",383
-	;[384] ' compiled-in default endpoint first so SC_ENDPT is always valid even if
+	;[384] ' SC_ENDPT/SC_TABLE and skip straight past table select. Seed the
 	SRCFILE "texas.bas",384
-	;[385] ' the appkey is empty or the read fails -- compose_url relies on it from
+	;[385] ' compiled-in default endpoint first so SC_ENDPT is always valid even if
 	SRCFILE "texas.bas",385
-	;[386] ' here on for every request, not just /tables.
+	;[386] ' the appkey is empty or the read fails -- compose_url relies on it from
 	SRCFILE "texas.bas",386
-	;[387] ' ---------------------------------------------------------------------------
+	;[387] ' here on for every request, not just /tables.
 	SRCFILE "texas.bas",387
-	;[388]     FOR gs_i = 0 TO LEN_HTTPS - 1
+	;[388] ' ---------------------------------------------------------------------------
 	SRCFILE "texas.bas",388
+	;[389]     FOR gs_i = 0 TO LEN_HTTPS - 1
+	SRCFILE "texas.bas",389
 	CLRR R0
 	MVO R0,var_GS_I
 T119:
-	;[389]         POKE (SC_ENDPT + gs_i), PEEK(VARPTR lit_https(0) + gs_i) AND 255
-	SRCFILE "texas.bas",389
+	;[390]         POKE (SC_ENDPT + gs_i), PEEK(VARPTR lit_https(0) + gs_i) AND 255
+	SRCFILE "texas.bas",390
 	MVII #label_LIT_HTTPS,R3
 	ADD var_GS_I,R3
 	MVI@ R3,R0
@@ -7946,97 +7948,97 @@ T119:
 	MVI var_GS_I,R1
 	ADDI #37136,R1
 	MVO@ R0,R1
-	;[390]     NEXT gs_i
-	SRCFILE "texas.bas",390
+	;[391]     NEXT gs_i
+	SRCFILE "texas.bas",391
 	MVI var_GS_I,R0
 	INCR R0
 	MVO R0,var_GS_I
 	CMPI #27,R0
 	BLE T119
-	;[391]     POKE (SC_ENDPT + LEN_HTTPS), 0
-	SRCFILE "texas.bas",391
+	;[392]     POKE (SC_ENDPT + LEN_HTTPS), 0
+	SRCFILE "texas.bas",392
 	CLRR R0
 	MVO R0,37164
-	;[392]     POKE SC_TABLE, 0
-	SRCFILE "texas.bas",392
-	MVO R0,37248
-	;[393] 
+	;[393]     POKE SC_TABLE, 0
 	SRCFILE "texas.bas",393
-	;[394]     FOR ak_try = 0 TO 1
+	MVO R0,37248
+	;[394] 
 	SRCFILE "texas.bas",394
+	;[395]     FOR ak_try = 0 TO 1
+	SRCFILE "texas.bas",395
 	NOP
 	MVO R0,var_AK_TRY
 T120:
-	;[395]         ak_creator_lo = 1 : ak_creator_hi = 0 : ak_app = 1
-	SRCFILE "texas.bas",395
+	;[396]         ak_creator_lo = 1 : ak_creator_hi = 0 : ak_app = 1
+	SRCFILE "texas.bas",396
 	MVII #1,R0
 	MVO R0,var_AK_CREATOR_LO
 	CLRR R0
 	MVO R0,var_AK_CREATOR_HI
 	MVII #1,R0
 	MVO R0,var_AK_APP
-	;[396]         ak_key = AK_LOBBY_KEY_SERVER : ak_mode = 0
-	SRCFILE "texas.bas",396
+	;[397]         ak_key = AK_LOBBY_KEY_SERVER : ak_mode = 0
+	SRCFILE "texas.bas",397
 	MVII #8,R0
 	MVO R0,var_AK_KEY
 	CLRR R0
 	MVO R0,var_AK_MODE
-	;[397]         GOSUB appkey_open
-	SRCFILE "texas.bas",397
-	CALL label_APPKEY_OPEN
-	;[398]         IF fn_ok THEN EXIT FOR
+	;[398]         GOSUB appkey_open
 	SRCFILE "texas.bas",398
+	CALL label_APPKEY_OPEN
+	;[399]         IF fn_ok THEN EXIT FOR
+	SRCFILE "texas.bas",399
 	MVI var_FN_OK,R0
 	TSTR R0
 	BNE T122
-	;[399]     NEXT ak_try
-	SRCFILE "texas.bas",399
+	;[400]     NEXT ak_try
+	SRCFILE "texas.bas",400
 	MVI var_AK_TRY,R0
 	INCR R0
 	MVO R0,var_AK_TRY
 	CMPI #1,R0
 	BLE T120
 T122:
-	;[400]     IF fn_ok THEN
-	SRCFILE "texas.bas",400
+	;[401]     IF fn_ok THEN
+	SRCFILE "texas.bas",401
 	MVI var_FN_OK,R0
 	TSTR R0
 	BEQ T123
-	;[401]         #fn_src = SC_ENDPT : ls_max = 65 : GOSUB appkey_read
-	SRCFILE "texas.bas",401
+	;[402]         #fn_src = SC_ENDPT : ls_max = 65 : GOSUB appkey_read
+	SRCFILE "texas.bas",402
 	MVII #37136,R0
 	MVO R0,var_&FN_SRC
 	MVII #65,R0
 	MVO R0,var_LS_MAX
 	CALL label_APPKEY_READ
-	;[402]         GOSUB appkey_close
-	SRCFILE "texas.bas",402
-	CALL label_APPKEY_CLOSE
-	;[403]         IF fn_len > 0 THEN
+	;[403]         GOSUB appkey_close
 	SRCFILE "texas.bas",403
+	CALL label_APPKEY_CLOSE
+	;[404]         IF fn_len > 0 THEN
+	SRCFILE "texas.bas",404
 	MVI var_FN_LEN,R0
 	CMPI #0,R0
 	BLE T124
-	;[404]             GOSUB split_room_url
-	SRCFILE "texas.bas",404
-	CALL label_SPLIT_ROOM_URL
-	;[405]         ELSE
+	;[405]             GOSUB split_room_url
 	SRCFILE "texas.bas",405
+	CALL label_SPLIT_ROOM_URL
+	;[406]         ELSE
+	SRCFILE "texas.bas",406
 	B T125
 T124:
-	;[406]             ' appkey_read always NUL-terminates at fn_len, even when
-	SRCFILE "texas.bas",406
-	;[407]             ' empty, which would otherwise wipe out the default just
+	;[407]             ' appkey_read always NUL-terminates at fn_len, even when
 	SRCFILE "texas.bas",407
-	;[408]             ' seeded above -- restore it.
+	;[408]             ' empty, which would otherwise wipe out the default just
 	SRCFILE "texas.bas",408
-	;[409]             FOR gs_i = 0 TO LEN_HTTPS - 1
+	;[409]             ' seeded above -- restore it.
 	SRCFILE "texas.bas",409
+	;[410]             FOR gs_i = 0 TO LEN_HTTPS - 1
+	SRCFILE "texas.bas",410
 	CLRR R0
 	MVO R0,var_GS_I
 T126:
-	;[410]                 POKE (SC_ENDPT + gs_i), PEEK(VARPTR lit_https(0) + gs_i) AND 255
-	SRCFILE "texas.bas",410
+	;[411]                 POKE (SC_ENDPT + gs_i), PEEK(VARPTR lit_https(0) + gs_i) AND 255
+	SRCFILE "texas.bas",411
 	MVII #label_LIT_HTTPS,R3
 	ADD var_GS_I,R3
 	MVI@ R3,R0
@@ -8044,49 +8046,49 @@ T126:
 	MVI var_GS_I,R1
 	ADDI #37136,R1
 	MVO@ R0,R1
-	;[411]             NEXT gs_i
-	SRCFILE "texas.bas",411
+	;[412]             NEXT gs_i
+	SRCFILE "texas.bas",412
 	MVI var_GS_I,R0
 	INCR R0
 	MVO R0,var_GS_I
 	CMPI #27,R0
 	BLE T126
-	;[412]             POKE (SC_ENDPT + LEN_HTTPS), 0
-	SRCFILE "texas.bas",412
+	;[413]             POKE (SC_ENDPT + LEN_HTTPS), 0
+	SRCFILE "texas.bas",413
 	CLRR R0
 	MVO R0,37164
-	;[413]         END IF
-	SRCFILE "texas.bas",413
-T125:
-	;[414]     END IF
+	;[414]         END IF
 	SRCFILE "texas.bas",414
-T123:
-	;[415] 
+T125:
+	;[415]     END IF
 	SRCFILE "texas.bas",415
-	;[416]     IF (PEEK(SC_TABLE) AND 255) <> 0 THEN GOTO table_joined
+T123:
+	;[416] 
 	SRCFILE "texas.bas",416
+	;[417]     IF (PEEK(SC_TABLE) AND 255) <> 0 THEN GOTO table_joined
+	SRCFILE "texas.bas",417
 	MVI 37248,R0
 	ANDI #255,R0
 	BNE label_TABLE_JOINED
-	;[417] 
-	SRCFILE "texas.bas",417
-	;[418] ' ===========================================================================
+	;[418] 
 	SRCFILE "texas.bas",418
-	;[419] ' Table select (re-entered after leaving a table)
+	;[419] ' ===========================================================================
 	SRCFILE "texas.bas",419
-	;[420] ' ===========================================================================
+	;[420] ' Table select (re-entered after leaving a table)
 	SRCFILE "texas.bas",420
-	;[421] table_select:
+	;[421] ' ===========================================================================
 	SRCFILE "texas.bas",421
-	; TABLE_SELECT
-label_TABLE_SELECT:	;[422]     CLS
+	;[422] table_select:
 	SRCFILE "texas.bas",422
-	CALL CLRSCR
-	;[423]     GOSUB fill_bg
+	; TABLE_SELECT
+label_TABLE_SELECT:	;[423]     CLS
 	SRCFILE "texas.bas",423
-	CALL label_FILL_BG
-	;[424]     PRINT AT 0 COLOR COL_STATUS, "CHOOSE A TABLE"
+	CALL CLRSCR
+	;[424]     GOSUB fill_bg
 	SRCFILE "texas.bas",424
+	CALL label_FILL_BG
+	;[425]     PRINT AT 0 COLOR COL_STATUS, "CHOOSE A TABLE"
+	SRCFILE "texas.bas",425
 	MVII #512,R0
 	MVO R0,_screen
 	MVII #7,R0
@@ -8121,8 +8123,8 @@ label_TABLE_SELECT:	;[422]     CLS
 	XORI #72,R0
 	MVO@ R0,R4
 	MVO R4,_screen
-	;[425]     PRINT AT 40, "REFRESHING..."
-	SRCFILE "texas.bas",425
+	;[426]     PRINT AT 40, "REFRESHING..."
+	SRCFILE "texas.bas",426
 	MVII #552,R0
 	MVO R0,_screen
 	MOVR R0,R4
@@ -8153,64 +8155,64 @@ label_TABLE_SELECT:	;[422]     CLS
 	MVO@ R0,R4
 	NOP
 	MVO R4,_screen
-	;[426] 
-	SRCFILE "texas.bas",426
-	;[427]     gs_path = 0 : GOSUB compose_url
+	;[427] 
 	SRCFILE "texas.bas",427
+	;[428]     gs_path = 0 : GOSUB compose_url
+	SRCFILE "texas.bas",428
 	CLRR R0
 	MVO R0,var_GS_PATH
 	CALL label_COMPOSE_URL
-	;[428]     #net_readlen = TABLES_MAXLEN
-	SRCFILE "texas.bas",428
+	;[429]     #net_readlen = TABLES_MAXLEN
+	SRCFILE "texas.bas",429
 	MVII #361,R0
 	MVO R0,var_&NET_READLEN
-	;[429]     GOSUB api_call
-	SRCFILE "texas.bas",429
-	CALL label_API_CALL
-	;[430] 
+	;[430]     GOSUB api_call
 	SRCFILE "texas.bas",430
-	;[431]     ' As with /state: the mailbox transaction can report success (the
+	CALL label_API_CALL
+	;[431] 
 	SRCFILE "texas.bas",431
-	;[432]     ' RP2040 relayed *a* reply) even when the HTTP request itself was
+	;[432]     ' As with /state: the mailbox transaction can report success (the
 	SRCFILE "texas.bas",432
-	;[433]     ' rejected -- an error page's bytes would otherwise get misread as a
+	;[433]     ' RP2040 relayed *a* reply) even when the HTTP request itself was
 	SRCFILE "texas.bas",433
-	;[434]     ' Tables struct. Validate the response length against what the
+	;[434]     ' rejected -- an error page's bytes would otherwise get misread as a
 	SRCFILE "texas.bas",434
-	;[435]     ' reported count actually implies before trusting it.
+	;[435]     ' Tables struct. Validate the response length against what the
 	SRCFILE "texas.bas",435
-	;[436]     IF fn_ok = 1 THEN
+	;[436]     ' reported count actually implies before trusting it.
 	SRCFILE "texas.bas",436
+	;[437]     IF fn_ok = 1 THEN
+	SRCFILE "texas.bas",437
 	MVI var_FN_OK,R0
 	CMPI #1,R0
 	BNE T128
-	;[437]         #tmp_expect = 1 + (PEEK(FN_RX) AND 255) * TABLE_STRIDE
-	SRCFILE "texas.bas",437
+	;[438]         #tmp_expect = 1 + (PEEK(FN_RX) AND 255) * TABLE_STRIDE
+	SRCFILE "texas.bas",438
 	MVI 40256,R0
 	ANDI #255,R0
 	MULT R0,R4,36
 	INCR R0
 	MVO R0,var_&TMP_EXPECT
-	;[438]         IF #net_gotlen < #tmp_expect THEN fn_ok = 0
-	SRCFILE "texas.bas",438
+	;[439]         IF #net_gotlen < #tmp_expect THEN fn_ok = 0
+	SRCFILE "texas.bas",439
 	MVI var_&NET_GOTLEN,R0
 	CMP var_&TMP_EXPECT,R0
 	BGE T129
 	CLRR R0
 	MVO R0,var_FN_OK
 T129:
-	;[439]     END IF
-	SRCFILE "texas.bas",439
-T128:
-	;[440] 
+	;[440]     END IF
 	SRCFILE "texas.bas",440
-	;[441]     IF fn_ok = 0 THEN
+T128:
+	;[441] 
 	SRCFILE "texas.bas",441
+	;[442]     IF fn_ok = 0 THEN
+	SRCFILE "texas.bas",442
 	MVI var_FN_OK,R0
 	TSTR R0
 	BNE T130
-	;[442]         PRINT AT 40, "SERVER UNREACHABLE  "
-	SRCFILE "texas.bas",442
+	;[443]         PRINT AT 40, "SERVER UNREACHABLE  "
+	SRCFILE "texas.bas",443
 	MVII #552,R0
 	MVO R0,_screen
 	MOVR R0,R4
@@ -8256,12 +8258,12 @@ T128:
 	MVO@ R0,R4
 	NOP
 	MVO R4,_screen
-	;[443]         ' TEMP DEBUG: show the exact outgoing URL so a repeat failure is
-	SRCFILE "texas.bas",443
-	;[444]         ' diagnosable from a screenshot instead of needing another round trip.
+	;[444]         ' TEMP DEBUG: show the exact outgoing URL so a repeat failure is
 	SRCFILE "texas.bas",444
-	;[445]         #df_src = FN_TX : df_pos = 60 : df_len = 20 : #df_color = COL_STATUS
+	;[445]         ' diagnosable from a screenshot instead of needing another round trip.
 	SRCFILE "texas.bas",445
+	;[446]         #df_src = FN_TX : df_pos = 60 : df_len = 20 : #df_color = COL_STATUS
+	SRCFILE "texas.bas",446
 	MVII #40000,R0
 	MVO R0,var_&DF_SRC
 	MVII #60,R0
@@ -8270,11 +8272,11 @@ T128:
 	MVO R0,var_DF_LEN
 	MVII #7,R0
 	MVO R0,var_&DF_COLOR
-	;[446]         GOSUB draw_field
-	SRCFILE "texas.bas",446
-	CALL label_DRAW_FIELD
-	;[447]         #df_src = FN_TX + 20 : df_pos = 80 : df_len = 20 : #df_color = COL_STATUS
+	;[447]         GOSUB draw_field
 	SRCFILE "texas.bas",447
+	CALL label_DRAW_FIELD
+	;[448]         #df_src = FN_TX + 20 : df_pos = 80 : df_len = 20 : #df_color = COL_STATUS
+	SRCFILE "texas.bas",448
 	MVII #40020,R0
 	MVO R0,var_&DF_SRC
 	MVII #80,R0
@@ -8283,11 +8285,11 @@ T128:
 	MVO R0,var_DF_LEN
 	MVII #7,R0
 	MVO R0,var_&DF_COLOR
-	;[448]         GOSUB draw_field
-	SRCFILE "texas.bas",448
-	CALL label_DRAW_FIELD
-	;[449]         #df_src = FN_TX + 40 : df_pos = 100 : df_len = 20 : #df_color = COL_STATUS
+	;[449]         GOSUB draw_field
 	SRCFILE "texas.bas",449
+	CALL label_DRAW_FIELD
+	;[450]         #df_src = FN_TX + 40 : df_pos = 100 : df_len = 20 : #df_color = COL_STATUS
+	SRCFILE "texas.bas",450
 	MVII #40040,R0
 	MVO R0,var_&DF_SRC
 	MVII #100,R0
@@ -8296,57 +8298,57 @@ T128:
 	MVO R0,var_DF_LEN
 	MVII #7,R0
 	MVO R0,var_&DF_COLOR
-	;[450]         GOSUB draw_field
-	SRCFILE "texas.bas",450
-	CALL label_DRAW_FIELD
-	;[451]         poll_wait = 90
+	;[451]         GOSUB draw_field
 	SRCFILE "texas.bas",451
+	CALL label_DRAW_FIELD
+	;[452]         poll_wait = 90
+	SRCFILE "texas.bas",452
 	MVII #90,R0
 	MVO R0,var_POLL_WAIT
-	;[452]         WHILE poll_wait > 0
-	SRCFILE "texas.bas",452
+	;[453]         WHILE poll_wait > 0
+	SRCFILE "texas.bas",453
 T131:
 	MVI var_POLL_WAIT,R0
 	CMPI #0,R0
 	BLE T132
-	;[453]             poll_wait = poll_wait - 1
-	SRCFILE "texas.bas",453
+	;[454]             poll_wait = poll_wait - 1
+	SRCFILE "texas.bas",454
 	DECR R0
 	MVO R0,var_POLL_WAIT
-	;[454]             WAIT
-	SRCFILE "texas.bas",454
-	CALL _wait
-	;[455]         WEND
+	;[455]             WAIT
 	SRCFILE "texas.bas",455
+	CALL _wait
+	;[456]         WEND
+	SRCFILE "texas.bas",456
 	B T131
 T132:
-	;[456]         GOTO table_select
-	SRCFILE "texas.bas",456
-	B label_TABLE_SELECT
-	;[457]     END IF
+	;[457]         GOTO table_select
 	SRCFILE "texas.bas",457
-T130:
-	;[458] 
+	B label_TABLE_SELECT
+	;[458]     END IF
 	SRCFILE "texas.bas",458
-	;[459]     tbl_count = PEEK(FN_RX) AND 255
+T130:
+	;[459] 
 	SRCFILE "texas.bas",459
+	;[460]     tbl_count = PEEK(FN_RX) AND 255
+	SRCFILE "texas.bas",460
 	MVI 40256,R0
 	MVO R0,var_TBL_COUNT
-	;[460]     IF tbl_count > 6 THEN tbl_count = 6
-	SRCFILE "texas.bas",460
+	;[461]     IF tbl_count > 6 THEN tbl_count = 6
+	SRCFILE "texas.bas",461
 	MVI var_TBL_COUNT,R0
 	CMPI #6,R0
 	BLE T133
 	MVII #6,R0
 	MVO R0,var_TBL_COUNT
 T133:
-	;[461]     IF tbl_count = 0 THEN
-	SRCFILE "texas.bas",461
+	;[462]     IF tbl_count = 0 THEN
+	SRCFILE "texas.bas",462
 	MVI var_TBL_COUNT,R0
 	TSTR R0
 	BNE T134
-	;[462]         PRINT AT 40, "NO TABLES AVAILABLE "
-	SRCFILE "texas.bas",462
+	;[463]         PRINT AT 40, "NO TABLES AVAILABLE "
+	SRCFILE "texas.bas",463
 	MVII #552,R0
 	MVO R0,_screen
 	MOVR R0,R4
@@ -8392,43 +8394,43 @@ T133:
 	XORI #296,R0
 	MVO@ R0,R4
 	MVO R4,_screen
-	;[463]         poll_wait = 90
-	SRCFILE "texas.bas",463
+	;[464]         poll_wait = 90
+	SRCFILE "texas.bas",464
 	MVII #90,R0
 	MVO R0,var_POLL_WAIT
-	;[464]         WHILE poll_wait > 0
-	SRCFILE "texas.bas",464
+	;[465]         WHILE poll_wait > 0
+	SRCFILE "texas.bas",465
 T135:
 	MVI var_POLL_WAIT,R0
 	CMPI #0,R0
 	BLE T136
-	;[465]             poll_wait = poll_wait - 1
-	SRCFILE "texas.bas",465
+	;[466]             poll_wait = poll_wait - 1
+	SRCFILE "texas.bas",466
 	DECR R0
 	MVO R0,var_POLL_WAIT
-	;[466]             WAIT
-	SRCFILE "texas.bas",466
-	CALL _wait
-	;[467]         WEND
+	;[467]             WAIT
 	SRCFILE "texas.bas",467
+	CALL _wait
+	;[468]         WEND
+	SRCFILE "texas.bas",468
 	B T135
 T136:
-	;[468]         GOTO table_select
-	SRCFILE "texas.bas",468
-	B label_TABLE_SELECT
-	;[469]     END IF
+	;[469]         GOTO table_select
 	SRCFILE "texas.bas",469
-T134:
-	;[470] 
+	B label_TABLE_SELECT
+	;[470]     END IF
 	SRCFILE "texas.bas",470
-	;[471]     CLS
+T134:
+	;[471] 
 	SRCFILE "texas.bas",471
-	CALL CLRSCR
-	;[472]     GOSUB fill_bg
+	;[472]     CLS
 	SRCFILE "texas.bas",472
-	CALL label_FILL_BG
-	;[473]     PRINT AT 0 COLOR COL_STATUS, "CHOOSE A TABLE"
+	CALL CLRSCR
+	;[473]     GOSUB fill_bg
 	SRCFILE "texas.bas",473
+	CALL label_FILL_BG
+	;[474]     PRINT AT 0 COLOR COL_STATUS, "CHOOSE A TABLE"
+	SRCFILE "texas.bas",474
 	MVII #512,R0
 	MVO R0,_screen
 	MVII #7,R0
@@ -8463,19 +8465,19 @@ T134:
 	XORI #72,R0
 	MVO@ R0,R4
 	MVO R4,_screen
-	;[474]     FOR gs_i = 0 TO tbl_count - 1
-	SRCFILE "texas.bas",474
+	;[475]     FOR gs_i = 0 TO tbl_count - 1
+	SRCFILE "texas.bas",475
 	CLRR R0
 	MVO R0,var_GS_I
 T137:
-	;[475]         #tmp_addr = table_addr(gs_i)
-	SRCFILE "texas.bas",475
+	;[476]         #tmp_addr = table_addr(gs_i)
+	SRCFILE "texas.bas",476
 	MVI var_GS_I,R0
 	MULT R0,R4,36
 	ADDI #40257,R0
 	MVO R0,var_&TMP_ADDR
-	;[476]         #df_src = #tmp_addr + TBL_NAME : df_pos = 20 + gs_i * 20 + 1 : df_len = 14 : #df_color = COL_NAME
-	SRCFILE "texas.bas",476
+	;[477]         #df_src = #tmp_addr + TBL_NAME : df_pos = 20 + gs_i * 20 + 1 : df_len = 14 : #df_color = COL_NAME
+	SRCFILE "texas.bas",477
 	ADDI #9,R0
 	MVO R0,var_&DF_SRC
 	MVI var_GS_I,R0
@@ -8486,11 +8488,11 @@ T137:
 	MVO R0,var_DF_LEN
 	MVII #8199,R0
 	MVO R0,var_&DF_COLOR
-	;[477]         GOSUB draw_field
-	SRCFILE "texas.bas",477
-	CALL label_DRAW_FIELD
-	;[478]         #df_src = #tmp_addr + TBL_PLAYERS : df_pos = 20 + gs_i * 20 + 15 : df_len = 5 : #df_color = COL_NAME
+	;[478]         GOSUB draw_field
 	SRCFILE "texas.bas",478
+	CALL label_DRAW_FIELD
+	;[479]         #df_src = #tmp_addr + TBL_PLAYERS : df_pos = 20 + gs_i * 20 + 15 : df_len = 5 : #df_color = COL_NAME
+	SRCFILE "texas.bas",479
 	MVI var_&TMP_ADDR,R0
 	ADDI #30,R0
 	MVO R0,var_&DF_SRC
@@ -8502,11 +8504,11 @@ T137:
 	MVO R0,var_DF_LEN
 	MVII #8199,R0
 	MVO R0,var_&DF_COLOR
-	;[479]         GOSUB draw_field
-	SRCFILE "texas.bas",479
-	CALL label_DRAW_FIELD
-	;[480]     NEXT gs_i
+	;[480]         GOSUB draw_field
 	SRCFILE "texas.bas",480
+	CALL label_DRAW_FIELD
+	;[481]     NEXT gs_i
+	SRCFILE "texas.bas",481
 	MVI var_GS_I,R0
 	INCR R0
 	MVO R0,var_GS_I
@@ -8514,43 +8516,43 @@ T137:
 	DECR R1
 	CMPR R1,R0
 	BLE T137
-	;[481] 
-	SRCFILE "texas.bas",481
-	;[482]     tbl_sel = 0
+	;[482] 
 	SRCFILE "texas.bas",482
+	;[483]     tbl_sel = 0
+	SRCFILE "texas.bas",483
 	CLRR R0
 	MVO R0,var_TBL_SEL
-	;[483]     inp_lock = 0
-	SRCFILE "texas.bas",483
-	MVO R0,var_INP_LOCK
-	;[484] tbl_input:
+	;[484]     inp_lock = 0
 	SRCFILE "texas.bas",484
-	; TBL_INPUT
-label_TBL_INPUT:	;[485]     WAIT
+	MVO R0,var_INP_LOCK
+	;[485] tbl_input:
 	SRCFILE "texas.bas",485
-	CALL _wait
-	;[486]     GOSUB read_input
+	; TBL_INPUT
+label_TBL_INPUT:	;[486]     WAIT
 	SRCFILE "texas.bas",486
-	CALL label_READ_INPUT
-	;[487]     FOR gs_i = 0 TO tbl_count - 1
+	CALL _wait
+	;[487]     GOSUB read_input
 	SRCFILE "texas.bas",487
+	CALL label_READ_INPUT
+	;[488]     FOR gs_i = 0 TO tbl_count - 1
+	SRCFILE "texas.bas",488
 	CLRR R0
 	MVO R0,var_GS_I
 T138:
-	;[488]         #gs_c = COL_NAME
-	SRCFILE "texas.bas",488
+	;[489]         #gs_c = COL_NAME
+	SRCFILE "texas.bas",489
 	MVII #8199,R0
 	MVO R0,var_&GS_C
-	;[489]         IF gs_i = tbl_sel THEN #gs_c = COL_HILITE
-	SRCFILE "texas.bas",489
+	;[490]         IF gs_i = tbl_sel THEN #gs_c = COL_HILITE
+	SRCFILE "texas.bas",490
 	MVI var_GS_I,R0
 	CMP var_TBL_SEL,R0
 	BNE T139
 	MVII #8198,R0
 	MVO R0,var_&GS_C
 T139:
-	;[490]         #BACKTAB(20 + gs_i * 20) = (62 - 32) * 8 + #gs_c ' '>' cursor glyph
-	SRCFILE "texas.bas",490
+	;[491]         #BACKTAB(20 + gs_i * 20) = (62 - 32) * 8 + #gs_c ' '>' cursor glyph
+	SRCFILE "texas.bas",491
 	MVII #Q2+20,R0
 	MVI var_GS_I,R1
 	MULT R1,R4,20
@@ -8559,8 +8561,8 @@ T139:
 	ADDI #240,R1
 	MOVR R0,R4
 	MVO@ R1,R4
-	;[491]     NEXT gs_i
-	SRCFILE "texas.bas",491
+	;[492]     NEXT gs_i
+	SRCFILE "texas.bas",492
 	MVI var_GS_I,R0
 	INCR R0
 	MVO R0,var_GS_I
@@ -8568,10 +8570,10 @@ T139:
 	DECR R1
 	CMPR R1,R0
 	BLE T138
-	;[492] 
-	SRCFILE "texas.bas",492
-	;[493]     IF inp_lock > 0 THEN inp_lock = inp_lock - 1 : GOTO tbl_input
+	;[493] 
 	SRCFILE "texas.bas",493
+	;[494]     IF inp_lock > 0 THEN inp_lock = inp_lock - 1 : GOTO tbl_input
+	SRCFILE "texas.bas",494
 	MVI var_INP_LOCK,R0
 	CMPI #0,R0
 	BLE T140
@@ -8579,93 +8581,93 @@ T139:
 	MVO R0,var_INP_LOCK
 	B label_TBL_INPUT
 T140:
-	;[494] 
-	SRCFILE "texas.bas",494
-	;[495]     IF inp_dir AND DISC_DOWN THEN
+	;[495] 
 	SRCFILE "texas.bas",495
+	;[496]     IF inp_dir AND DISC_DOWN THEN
+	SRCFILE "texas.bas",496
 	MVI var_INP_DIR,R0
 	ANDI #1,R0
 	BEQ T141
-	;[496]         tbl_sel = tbl_sel + 1
-	SRCFILE "texas.bas",496
+	;[497]         tbl_sel = tbl_sel + 1
+	SRCFILE "texas.bas",497
 	MVI var_TBL_SEL,R0
 	INCR R0
 	MVO R0,var_TBL_SEL
-	;[497]         IF tbl_sel >= tbl_count THEN tbl_sel = 0
-	SRCFILE "texas.bas",497
+	;[498]         IF tbl_sel >= tbl_count THEN tbl_sel = 0
+	SRCFILE "texas.bas",498
 	MVI var_TBL_SEL,R0
 	CMP var_TBL_COUNT,R0
 	BLT T142
 	CLRR R0
 	MVO R0,var_TBL_SEL
 T142:
-	;[498]         inp_lock = 8
-	SRCFILE "texas.bas",498
+	;[499]         inp_lock = 8
+	SRCFILE "texas.bas",499
 	MVII #8,R0
 	MVO R0,var_INP_LOCK
-	;[499]         GOSUB sound_cursor
-	SRCFILE "texas.bas",499
-	CALL label_SOUND_CURSOR
-	;[500]         GOTO tbl_input
+	;[500]         GOSUB sound_cursor
 	SRCFILE "texas.bas",500
-	B label_TBL_INPUT
-	;[501]     END IF
+	CALL label_SOUND_CURSOR
+	;[501]         GOTO tbl_input
 	SRCFILE "texas.bas",501
-T141:
-	;[502]     IF inp_dir AND DISC_UP THEN
+	B label_TBL_INPUT
+	;[502]     END IF
 	SRCFILE "texas.bas",502
+T141:
+	;[503]     IF inp_dir AND DISC_UP THEN
+	SRCFILE "texas.bas",503
 	MVI var_INP_DIR,R0
 	ANDI #4,R0
 	BEQ T143
-	;[503]         IF tbl_sel = 0 THEN tbl_sel = tbl_count
-	SRCFILE "texas.bas",503
+	;[504]         IF tbl_sel = 0 THEN tbl_sel = tbl_count
+	SRCFILE "texas.bas",504
 	MVI var_TBL_SEL,R0
 	TSTR R0
 	BNE T144
 	MVI var_TBL_COUNT,R0
 	MVO R0,var_TBL_SEL
 T144:
-	;[504]         tbl_sel = tbl_sel - 1
-	SRCFILE "texas.bas",504
+	;[505]         tbl_sel = tbl_sel - 1
+	SRCFILE "texas.bas",505
 	MVI var_TBL_SEL,R0
 	DECR R0
 	MVO R0,var_TBL_SEL
-	;[505]         inp_lock = 8
-	SRCFILE "texas.bas",505
+	;[506]         inp_lock = 8
+	SRCFILE "texas.bas",506
 	MVII #8,R0
 	MVO R0,var_INP_LOCK
-	;[506]         GOSUB sound_cursor
-	SRCFILE "texas.bas",506
-	CALL label_SOUND_CURSOR
-	;[507]         GOTO tbl_input
+	;[507]         GOSUB sound_cursor
 	SRCFILE "texas.bas",507
-	B label_TBL_INPUT
-	;[508]     END IF
+	CALL label_SOUND_CURSOR
+	;[508]         GOTO tbl_input
 	SRCFILE "texas.bas",508
-T143:
-	;[509]     IF inp_btn_hit = 0 THEN GOTO tbl_input
+	B label_TBL_INPUT
+	;[509]     END IF
 	SRCFILE "texas.bas",509
+T143:
+	;[510]     IF inp_btn_hit = 0 THEN GOTO tbl_input
+	SRCFILE "texas.bas",510
 	MVI var_INP_BTN_HIT,R0
 	TSTR R0
 	BEQ label_TBL_INPUT
-	;[510]     GOSUB sound_select
-	SRCFILE "texas.bas",510
-	CALL label_SOUND_SELECT
-	;[511] 
+	;[511]     GOSUB sound_select
 	SRCFILE "texas.bas",511
-	;[512]     #tmp_addr = table_addr(tbl_sel)
+	CALL label_SOUND_SELECT
+	;[512] 
 	SRCFILE "texas.bas",512
+	;[513]     #tmp_addr = table_addr(tbl_sel)
+	SRCFILE "texas.bas",513
 	MVI var_TBL_SEL,R0
 	MULT R0,R4,36
 	ADDI #40257,R0
 	MVO R0,var_&TMP_ADDR
-	;[513]     FOR gs_i = 0 TO 8
-	SRCFILE "texas.bas",513
+	;[514]     FOR gs_i = 0 TO 8
+	SRCFILE "texas.bas",514
 	CLRR R0
 	MVO R0,var_GS_I
 T146:
-	;[514]         POKE (SC_TABLE + gs_i), PEEK(#tmp_addr + TBL_ID + gs_i) AND 255
-	SRCFILE "texas.bas",514
+	;[515]         POKE (SC_TABLE + gs_i), PEEK(#tmp_addr + TBL_ID + gs_i) AND 255
+	SRCFILE "texas.bas",515
 	MVI var_&TMP_ADDR,R1
 	ADD var_GS_I,R1
 	MVI@ R1,R0
@@ -8673,205 +8675,209 @@ T146:
 	MVI var_GS_I,R1
 	ADDI #37248,R1
 	MVO@ R0,R1
-	;[515]     NEXT gs_i
-	SRCFILE "texas.bas",515
+	;[516]     NEXT gs_i
+	SRCFILE "texas.bas",516
 	MVI var_GS_I,R0
 	INCR R0
 	MVO R0,var_GS_I
 	CMPI #8,R0
 	BLE T146
-	;[516] 
-	SRCFILE "texas.bas",516
-	;[517]     ' Update the lobby server appkey so a reboot without going back
+	;[517] 
 	SRCFILE "texas.bas",517
-	;[518]     ' through the lobby rejoins this table.
+	;[518]     ' Update the lobby server appkey so a reboot without going back
 	SRCFILE "texas.bas",518
-	;[519]     GOSUB write_room_appkey
+	;[519]     ' through the lobby rejoins this table.
 	SRCFILE "texas.bas",519
-	CALL label_WRITE_ROOM_APPKEY
-	;[520] 
+	;[520]     GOSUB write_room_appkey
 	SRCFILE "texas.bas",520
-	;[521] table_joined:
+	CALL label_WRITE_ROOM_APPKEY
+	;[521] 
 	SRCFILE "texas.bas",521
-	; TABLE_JOINED
-label_TABLE_JOINED:	;[522] ' ===========================================================================
+	;[522] table_joined:
 	SRCFILE "texas.bas",522
-	;[523] ' Main game loop
+	; TABLE_JOINED
+label_TABLE_JOINED:	;[523] ' ===========================================================================
 	SRCFILE "texas.bas",523
-	;[524] ' ===========================================================================
+	;[524] ' Main game loop
 	SRCFILE "texas.bas",524
-	;[525]     GOSUB sound_join
+	;[525] ' ===========================================================================
 	SRCFILE "texas.bas",525
-	CALL label_SOUND_JOIN
-	;[526]     has_move = 0
+	;[526]     GOSUB sound_join
 	SRCFILE "texas.bas",526
+	CALL label_SOUND_JOIN
+	;[527]     has_move = 0
+	SRCFILE "texas.bas",527
 	CLRR R0
 	MVO R0,var_HAS_MOVE
-	;[527]     poll_wait = 0
-	SRCFILE "texas.bas",527
-	MVO R0,var_POLL_WAIT
-	;[528]     force_redraw = 0
+	;[528]     poll_wait = 0
 	SRCFILE "texas.bas",528
+	MVO R0,var_POLL_WAIT
+	;[529]     force_redraw = 0
+	SRCFILE "texas.bas",529
 	NOP
 	MVO R0,var_FORCE_REDRAW
-	;[529]     prev_round = 255      ' sentinel: forces a full CLS on the first render_game
-	SRCFILE "texas.bas",529
+	;[530]     prev_round = 255      ' sentinel: forces a full CLS on the first render_game
+	SRCFILE "texas.bas",530
 	MVII #255,R0
 	MVO R0,var_PREV_ROUND
-	;[530]     prev_playercount = 255
-	SRCFILE "texas.bas",530
-	MVO R0,var_PREV_PLAYERCOUNT
-	;[531]     #prev_pot = 65535
+	;[531]     prev_playercount = 255
 	SRCFILE "texas.bas",531
+	MVO R0,var_PREV_PLAYERCOUNT
+	;[532]     #prev_pot = 65535
+	SRCFILE "texas.bas",532
 	MVII #65535,R0
 	MVO R0,var_&PREV_POT
-	;[532]     #prev_purse = 65535
-	SRCFILE "texas.bas",532
-	MVO R0,var_&PREV_PURSE
-	;[533]     #prev_result_hash = 65535 ' sentinel: max possible real hash is 20*255=5100
+	;[533]     #prev_purse = 65535
 	SRCFILE "texas.bas",533
+	MVO R0,var_&PREV_PURSE
+	;[534]     #prev_result_hash = 65535 ' sentinel: max possible real hash is 20*255=5100
+	SRCFILE "texas.bas",534
 	NOP
 	MVO R0,var_&PREV_RESULT_HASH
-	;[534]     first_poll = 1 ' arm the baseline on the first poll instead of showing it --
-	SRCFILE "texas.bas",534
+	;[535]     prev_active = 255 ' sentinel: forces the turn cue if we sit down mid-turn
+	SRCFILE "texas.bas",535
+	MVII #255,R0
+	MVO R0,var_PREV_ACTIVE
+	;[536]     first_poll = 1 ' arm the baseline on the first poll instead of showing it --
+	SRCFILE "texas.bas",536
 	MVII #1,R0
 	MVO R0,var_FIRST_POLL
-	;[535]                     ' lastResult can already hold a message from a hand that
-	SRCFILE "texas.bas",535
-	;[536]                     ' finished before we joined/sat down, which isn't "new"
-	SRCFILE "texas.bas",536
-	;[537]     prev_community = 0
+	;[537]                     ' lastResult can already hold a message from a hand that
 	SRCFILE "texas.bas",537
+	;[538]                     ' finished before we joined/sat down, which isn't "new"
+	SRCFILE "texas.bas",538
+	;[539]     prev_community = 0
+	SRCFILE "texas.bas",539
 	CLRR R0
 	MVO R0,var_PREV_COMMUNITY
-	;[538]     FOR gs_i = 0 TO 7
-	SRCFILE "texas.bas",538
+	;[540]     FOR gs_i = 0 TO 7
+	SRCFILE "texas.bas",540
 	MVO R0,var_GS_I
 T147:
-	;[539]         prev_bet(gs_i) = 255
-	SRCFILE "texas.bas",539
+	;[541]         prev_bet(gs_i) = 255
+	SRCFILE "texas.bas",541
 	MVII #255,R0
 	MVII #array_PREV_BET,R3
 	ADD var_GS_I,R3
 	MVO@ R0,R3
-	;[540]         prev_cards(gs_i) = 0
-	SRCFILE "texas.bas",540
+	;[542]         prev_cards(gs_i) = 0
+	SRCFILE "texas.bas",542
 	CLRR R0
 	ADDI #(array_PREV_CARDS-array_PREV_BET) AND $FFFF,R3
 	MVO@ R0,R3
-	;[541]     NEXT gs_i
-	SRCFILE "texas.bas",541
+	;[543]     NEXT gs_i
+	SRCFILE "texas.bas",543
 	MVI var_GS_I,R0
 	INCR R0
 	MVO R0,var_GS_I
 	CMPI #7,R0
 	BLE T147
-	;[542] 
-	SRCFILE "texas.bas",542
-	;[543] game_loop:
-	SRCFILE "texas.bas",543
-	; GAME_LOOP
-label_GAME_LOOP:	;[544]     WAIT
+	;[544] 
 	SRCFILE "texas.bas",544
-	CALL _wait
-	;[545]     GOSUB read_input
+	;[545] game_loop:
 	SRCFILE "texas.bas",545
-	CALL label_READ_INPUT
-	;[546] 
+	; GAME_LOOP
+label_GAME_LOOP:	;[546]     WAIT
 	SRCFILE "texas.bas",546
-	;[547]     IF poll_wait > 0 THEN
+	CALL _wait
+	;[547]     GOSUB read_input
 	SRCFILE "texas.bas",547
+	CALL label_READ_INPUT
+	;[548] 
+	SRCFILE "texas.bas",548
+	;[549]     IF poll_wait > 0 THEN
+	SRCFILE "texas.bas",549
 	MVI var_POLL_WAIT,R0
 	CMPI #0,R0
 	BLE T148
-	;[548]         poll_wait = poll_wait - 1
-	SRCFILE "texas.bas",548
+	;[550]         poll_wait = poll_wait - 1
+	SRCFILE "texas.bas",550
 	DECR R0
 	MVO R0,var_POLL_WAIT
-	;[549]         GOTO input_check
-	SRCFILE "texas.bas",549
-	B label_INPUT_CHECK
-	;[550]     END IF
-	SRCFILE "texas.bas",550
-T148:
-	;[551] 
+	;[551]         GOTO input_check
 	SRCFILE "texas.bas",551
-	;[552]     IF has_move THEN
+	B label_INPUT_CHECK
+	;[552]     END IF
 	SRCFILE "texas.bas",552
+T148:
+	;[553] 
+	SRCFILE "texas.bas",553
+	;[554]     IF has_move THEN
+	SRCFILE "texas.bas",554
 	MVI var_HAS_MOVE,R0
 	TSTR R0
 	BEQ T149
-	;[553]         gs_path = 2
-	SRCFILE "texas.bas",553
+	;[555]         gs_path = 2
+	SRCFILE "texas.bas",555
 	MVII #2,R0
 	MVO R0,var_GS_PATH
-	;[554]     ELSE
-	SRCFILE "texas.bas",554
+	;[556]     ELSE
+	SRCFILE "texas.bas",556
 	B T150
 T149:
-	;[555]         gs_path = 1
-	SRCFILE "texas.bas",555
+	;[557]         gs_path = 1
+	SRCFILE "texas.bas",557
 	MVII #1,R0
 	MVO R0,var_GS_PATH
-	;[556]     END IF
-	SRCFILE "texas.bas",556
-T150:
-	;[557]     GOSUB compose_url
-	SRCFILE "texas.bas",557
-	CALL label_COMPOSE_URL
-	;[558]     #net_readlen = GAME_MAXLEN
+	;[558]     END IF
 	SRCFILE "texas.bas",558
+T150:
+	;[559]     GOSUB compose_url
+	SRCFILE "texas.bas",559
+	CALL label_COMPOSE_URL
+	;[560]     #net_readlen = GAME_MAXLEN
+	SRCFILE "texas.bas",560
 	MVII #429,R0
 	MVO R0,var_&NET_READLEN
-	;[559]     GOSUB api_call
-	SRCFILE "texas.bas",559
+	;[561]     GOSUB api_call
+	SRCFILE "texas.bas",561
 	CALL label_API_CALL
-	;[560]     has_move = 0
-	SRCFILE "texas.bas",560
+	;[562]     has_move = 0
+	SRCFILE "texas.bas",562
 	CLRR R0
 	MVO R0,var_HAS_MOVE
-	;[561] 
-	SRCFILE "texas.bas",561
-	;[562]     ' A short read means FN_RX beyond #net_gotlen still holds stale bytes
-	SRCFILE "texas.bas",562
-	;[563]     ' from a previous, larger response -- render_game trusts fixed offsets
+	;[563] 
 	SRCFILE "texas.bas",563
-	;[564]     ' deep into the buffer, so rendering it would show corrupted-looking
+	;[564]     ' A short read means FN_RX beyond #net_gotlen still holds stale bytes
 	SRCFILE "texas.bas",564
-	;[565]     ' data (a garbage pot/bet value, or a stray card glyph) instead of
+	;[565]     ' from a previous, larger response -- render_game trusts fixed offsets
 	SRCFILE "texas.bas",565
-	;[566]     ' just skipping this poll. GAME_MINLEN alone isn't tight enough: it's
+	;[566]     ' deep into the buffer, so rendering it would show corrupted-looking
 	SRCFILE "texas.bas",566
-	;[567]     ' only the 0-player floor, so a 7-8 player game's response could land
+	;[567]     ' data (a garbage pot/bet value, or a stray card glyph) instead of
 	SRCFILE "texas.bas",567
-	;[568]     ' anywhere from 165 bytes up to its true ~400 bytes and still pass
+	;[568]     ' just skipping this poll. GAME_MINLEN alone isn't tight enough: it's
 	SRCFILE "texas.bas",568
-	;[569]     ' that check while genuinely truncated partway through the player
+	;[569]     ' only the 0-player floor, so a 7-8 player game's response could land
 	SRCFILE "texas.bas",569
-	;[570]     ' array. playerCount (offset 164) is read from before where any
+	;[570]     ' anywhere from 165 bytes up to its true ~400 bytes and still pass
 	SRCFILE "texas.bas",570
-	;[571]     ' truncation could have happened, so it's safe to use here to compute
+	;[571]     ' that check while genuinely truncated partway through the player
 	SRCFILE "texas.bas",571
-	;[572]     ' the *exact* expected length for this specific response.
+	;[572]     ' array. playerCount (offset 164) is read from before where any
 	SRCFILE "texas.bas",572
-	;[573]     ' A malformed request (e.g. a stray character somewhere it shouldn't
+	;[573]     ' truncation could have happened, so it's safe to use here to compute
 	SRCFILE "texas.bas",573
-	;[574]     ' be) can get rejected by the server with an HTTP error page instead
+	;[574]     ' the *exact* expected length for this specific response.
 	SRCFILE "texas.bas",574
-	;[575]     ' of a Game struct -- our mailbox transaction still reports "OK" (the
+	;[575]     ' A malformed request (e.g. a stray character somewhere it shouldn't
 	SRCFILE "texas.bas",575
-	;[576]     ' RP2040 got *a* reply, just not the one we wanted), so round/
+	;[576]     ' be) can get rejected by the server with an HTTP error page instead
 	SRCFILE "texas.bas",576
-	;[577]     ' playerCount are the cheapest smoke test: neither should ever be
+	;[577]     ' of a Game struct -- our mailbox transaction still reports "OK" (the
 	SRCFILE "texas.bas",577
-	;[578]     ' implausible for a real response, and checking them here means a
+	;[578]     ' RP2040 got *a* reply, just not the one we wanted), so round/
 	SRCFILE "texas.bas",578
-	;[579]     ' bogus response gets treated as a failed poll instead of being
+	;[579]     ' playerCount are the cheapest smoke test: neither should ever be
 	SRCFILE "texas.bas",579
-	;[580]     ' handed to render_game as if it were valid.
+	;[580]     ' implausible for a real response, and checking them here means a
 	SRCFILE "texas.bas",580
-	;[581]     IF fn_ok = 1 AND #net_gotlen >= GAME_MINLEN THEN
+	;[581]     ' bogus response gets treated as a failed poll instead of being
 	SRCFILE "texas.bas",581
+	;[582]     ' handed to render_game as if it were valid.
+	SRCFILE "texas.bas",582
+	;[583]     IF fn_ok = 1 AND #net_gotlen >= GAME_MINLEN THEN
+	SRCFILE "texas.bas",583
 	MVI var_FN_OK,R0
 	CMPI #1,R0
 	MVII #65535,R0
@@ -8886,8 +8892,8 @@ T152:
 T153:
 	ANDR R1,R0
 	BEQ T151
-	;[582]         IF (PEEK(FN_RX + GAME_ROUND) AND 255) > 5 OR (PEEK(FN_RX + GAME_PLAYERCOUNT) AND 255) > 8 THEN fn_ok = 0
-	SRCFILE "texas.bas",582
+	;[584]         IF (PEEK(FN_RX + GAME_ROUND) AND 255) > 5 OR (PEEK(FN_RX + GAME_PLAYERCOUNT) AND 255) > 8 THEN fn_ok = 0
+	SRCFILE "texas.bas",584
 	MVI 40337,R0
 	ANDI #255,R0
 	CMPI #5,R0
@@ -8910,13 +8916,13 @@ T156:
 	CLRR R0
 	MVO R0,var_FN_OK
 T154:
-	;[583]     END IF
-	SRCFILE "texas.bas",583
-T151:
-	;[584] 
-	SRCFILE "texas.bas",584
-	;[585]     IF fn_ok = 1 AND #net_gotlen >= GAME_MINLEN THEN
+	;[585]     END IF
 	SRCFILE "texas.bas",585
+T151:
+	;[586] 
+	SRCFILE "texas.bas",586
+	;[587]     IF fn_ok = 1 AND #net_gotlen >= GAME_MINLEN THEN
+	SRCFILE "texas.bas",587
 	MVI var_FN_OK,R0
 	CMPI #1,R0
 	MVII #65535,R0
@@ -8931,28 +8937,28 @@ T158:
 T159:
 	ANDR R1,R0
 	BEQ T157
-	;[586]         #tmp_expect = GAME_PLAYERS + (PEEK(FN_RX + GAME_PLAYERCOUNT) AND 255) * PLAYER_STRIDE
-	SRCFILE "texas.bas",586
+	;[588]         #tmp_expect = GAME_PLAYERS + (PEEK(FN_RX + GAME_PLAYERCOUNT) AND 255) * PLAYER_STRIDE
+	SRCFILE "texas.bas",588
 	MVI 40420,R0
 	ANDI #255,R0
 	MULT R0,R4,33
 	ADDI #165,R0
 	MVO R0,var_&TMP_EXPECT
-	;[587]         IF #net_gotlen < #tmp_expect THEN fn_ok = 0
-	SRCFILE "texas.bas",587
+	;[589]         IF #net_gotlen < #tmp_expect THEN fn_ok = 0
+	SRCFILE "texas.bas",589
 	MVI var_&NET_GOTLEN,R0
 	CMP var_&TMP_EXPECT,R0
 	BGE T160
 	CLRR R0
 	MVO R0,var_FN_OK
 T160:
-	;[588]     END IF
-	SRCFILE "texas.bas",588
-T157:
-	;[589] 
-	SRCFILE "texas.bas",589
-	;[590]     IF fn_ok = 0 OR #net_gotlen < GAME_MINLEN THEN
+	;[590]     END IF
 	SRCFILE "texas.bas",590
+T157:
+	;[591] 
+	SRCFILE "texas.bas",591
+	;[592]     IF fn_ok = 0 OR #net_gotlen < GAME_MINLEN THEN
+	SRCFILE "texas.bas",592
 	MVI var_FN_OK,R0
 	TSTR R0
 	MVII #65535,R0
@@ -8970,97 +8976,97 @@ T163:
 	COMR R1
 	XORR R1,R0
 	BEQ T161
-	;[591]         poll_wait = 30
-	SRCFILE "texas.bas",591
+	;[593]         poll_wait = 30
+	SRCFILE "texas.bas",593
 	MVII #30,R0
 	MVO R0,var_POLL_WAIT
-	;[592]         GOTO input_check
-	SRCFILE "texas.bas",592
-	B label_INPUT_CHECK
-	;[593]     END IF
-	SRCFILE "texas.bas",593
-T161:
-	;[594] 
+	;[594]         GOTO input_check
 	SRCFILE "texas.bas",594
-	;[595]     ' Render *before* checking for a new result message: this is the one
+	B label_INPUT_CHECK
+	;[595]     END IF
 	SRCFILE "texas.bas",595
-	;[596]     ' poll whose response actually carries the showdown's revealed hands
+T161:
+	;[596] 
 	SRCFILE "texas.bas",596
-	;[597]     ' (masked "????" flips to the real hole cards only for this response --
+	;[597]     ' Render *before* checking for a new result message: this is the one
 	SRCFILE "texas.bas",597
-	;[598]     ' by the next poll the server has usually already started a new hand
+	;[598]     ' poll whose response actually carries the showdown's revealed hands
 	SRCFILE "texas.bas",598
-	;[599]     ' and reset them). Rendering first means the reveal lands on screen
+	;[599]     ' (masked "????" flips to the real hole cards only for this response --
 	SRCFILE "texas.bas",599
-	;[600]     ' before the message overlay below covers the bottom two rows; doing
+	;[600]     ' by the next poll the server has usually already started a new hand
 	SRCFILE "texas.bas",600
-	;[601]     ' it the other way around (as before) meant the reveal was drawn *at
+	;[601]     ' and reset them). Rendering first means the reveal lands on screen
 	SRCFILE "texas.bas",601
-	;[602]     ' the earliest* 4 seconds later, by which point it was already gone,
+	;[602]     ' before the message overlay below covers the bottom two rows; doing
 	SRCFILE "texas.bas",602
-	;[603]     ' so it never actually appeared.
+	;[603]     ' it the other way around (as before) meant the reveal was drawn *at
 	SRCFILE "texas.bas",603
-	;[604]     GOSUB render_game
+	;[604]     ' the earliest* 4 seconds later, by which point it was already gone,
 	SRCFILE "texas.bas",604
-	CALL label_RENDER_GAME
-	;[605] 
+	;[605]     ' so it never actually appeared.
 	SRCFILE "texas.bas",605
-	;[606]     ' The server sends a one-shot message (e.g. "Fry BOT won with Pair,
+	;[606]     GOSUB render_game
 	SRCFILE "texas.bas",606
-	;[607]     ' Sixes") in lastResult at the end of a round/hand, but it's normally
+	CALL label_RENDER_GAME
+	;[607] 
 	SRCFILE "texas.bas",607
-	;[608]     ' only shown in the single-line status row -- easy to miss entirely
+	;[608]     ' The server sends a one-shot message (e.g. "Fry BOT won with Pair,
 	SRCFILE "texas.bas",608
-	;[609]     ' since bots move fast and the round can already have advanced past
+	;[609]     ' Sixes") in lastResult at the end of a round/hand, but it's normally
 	SRCFILE "texas.bas",609
-	;[610]     ' it by the next poll. Detect a new (changed, non-empty) message via
+	;[610]     ' only shown in the single-line status row -- easy to miss entirely
 	SRCFILE "texas.bas",610
-	;[611]     ' a cheap byte-sum "hash" and, when one shows up, black out the
+	;[611]     ' since bots move fast and the round can already have advanced past
 	SRCFILE "texas.bas",611
-	;[612]     ' bottom two rows to display it prominently and hold it there for a
+	;[612]     ' it by the next poll. Detect a new (changed, non-empty) message via
 	SRCFILE "texas.bas",612
-	;[613]     ' few seconds before resuming play.
+	;[613]     ' a cheap byte-sum "hash" and, when one shows up, black out the
 	SRCFILE "texas.bas",613
-	;[614]     #tmp_hash = 0
+	;[614]     ' bottom two rows to display it prominently and hold it there for a
 	SRCFILE "texas.bas",614
+	;[615]     ' few seconds before resuming play.
+	SRCFILE "texas.bas",615
+	;[616]     #tmp_hash = 0
+	SRCFILE "texas.bas",616
 	CLRR R0
 	MVO R0,var_&TMP_HASH
-	;[615]     FOR gs_i = 0 TO 19
-	SRCFILE "texas.bas",615
+	;[617]     FOR gs_i = 0 TO 19
+	SRCFILE "texas.bas",617
 	MVO R0,var_GS_I
 T164:
-	;[616]         #tmp_hash = #tmp_hash + (PEEK(FN_RX + GAME_LASTRESULT + gs_i) AND 255)
-	SRCFILE "texas.bas",616
+	;[618]         #tmp_hash = #tmp_hash + (PEEK(FN_RX + GAME_LASTRESULT + gs_i) AND 255)
+	SRCFILE "texas.bas",618
 	MVI var_GS_I,R1
 	ADDI #40256,R1
 	MVI@ R1,R0
 	ANDI #255,R0
 	ADD var_&TMP_HASH,R0
 	MVO R0,var_&TMP_HASH
-	;[617]     NEXT gs_i
-	SRCFILE "texas.bas",617
+	;[619]     NEXT gs_i
+	SRCFILE "texas.bas",619
 	MVI var_GS_I,R0
 	INCR R0
 	MVO R0,var_GS_I
 	CMPI #19,R0
 	BLE T164
-	;[618]     IF first_poll THEN
-	SRCFILE "texas.bas",618
+	;[620]     IF first_poll THEN
+	SRCFILE "texas.bas",620
 	MVI var_FIRST_POLL,R0
 	TSTR R0
 	BEQ T165
-	;[619]         first_poll = 0
-	SRCFILE "texas.bas",619
+	;[621]         first_poll = 0
+	SRCFILE "texas.bas",621
 	CLRR R0
 	MVO R0,var_FIRST_POLL
-	;[620]         #prev_result_hash = #tmp_hash ' arm the baseline silently; whatever's
-	SRCFILE "texas.bas",620
+	;[622]         #prev_result_hash = #tmp_hash ' arm the baseline silently; whatever's
+	SRCFILE "texas.bas",622
 	MVI var_&TMP_HASH,R0
 	MVO R0,var_&PREV_RESULT_HASH
-	;[621]                                         ' already there predates us sitting down
-	SRCFILE "texas.bas",621
-	;[622]     ELSEIF (PEEK(FN_RX + GAME_LASTRESULT) AND 255) <> 0 AND #tmp_hash <> #prev_result_hash THEN
-	SRCFILE "texas.bas",622
+	;[623]                                         ' already there predates us sitting down
+	SRCFILE "texas.bas",623
+	;[624]     ELSEIF (PEEK(FN_RX + GAME_LASTRESULT) AND 255) <> 0 AND #tmp_hash <> #prev_result_hash THEN
+	SRCFILE "texas.bas",624
 	B T166
 T165:
 	MVI 40256,R0
@@ -9077,30 +9083,30 @@ T168:
 T169:
 	ANDR R1,R0
 	BEQ T167
-	;[623]         #prev_result_hash = #tmp_hash
-	SRCFILE "texas.bas",623
+	;[625]         #prev_result_hash = #tmp_hash
+	SRCFILE "texas.bas",625
 	MVI var_&TMP_HASH,R0
 	MVO R0,var_&PREV_RESULT_HASH
-	;[624]         FOR gs_i = STATUS_ROW - ROWCELLS TO STATUS_ROW + ROWCELLS - 1
-	SRCFILE "texas.bas",624
+	;[626]         FOR gs_i = STATUS_ROW - ROWCELLS TO STATUS_ROW + ROWCELLS - 1
+	SRCFILE "texas.bas",626
 	MVII #200,R0
 	MVO R0,var_GS_I
 T170:
-	;[625]             #BACKTAB(gs_i) = COL_STATUS
-	SRCFILE "texas.bas",625
+	;[627]             #BACKTAB(gs_i) = COL_STATUS
+	SRCFILE "texas.bas",627
 	MVII #7,R0
 	MVII #Q2,R3
 	ADD var_GS_I,R3
 	MVO@ R0,R3
-	;[626]         NEXT gs_i
-	SRCFILE "texas.bas",626
+	;[628]         NEXT gs_i
+	SRCFILE "texas.bas",628
 	MVI var_GS_I,R0
 	INCR R0
 	MVO R0,var_GS_I
 	CMPI #239,R0
 	BLE T170
-	;[627]         #df_src = FN_RX + GAME_LASTRESULT : df_pos = STATUS_ROW - ROWCELLS : df_len = 2 * ROWCELLS : #df_color = COL_STATUS
-	SRCFILE "texas.bas",627
+	;[629]         #df_src = FN_RX + GAME_LASTRESULT : df_pos = STATUS_ROW - ROWCELLS : df_len = 2 * ROWCELLS : #df_color = COL_STATUS
+	SRCFILE "texas.bas",629
 	MVII #40256,R0
 	MVO R0,var_&DF_SRC
 	MVII #200,R0
@@ -9109,35 +9115,59 @@ T170:
 	MVO R0,var_DF_LEN
 	MVII #7,R0
 	MVO R0,var_&DF_COLOR
-	;[628]         GOSUB draw_field
-	SRCFILE "texas.bas",628
-	CALL label_DRAW_FIELD
-	;[629]         GOSUB sound_gamedone
-	SRCFILE "texas.bas",629
-	CALL label_SOUND_GAMEDONE
-	;[630]         force_redraw = 1 ' restore the felt background under row 10 once play resumes
+	;[630]         GOSUB draw_field
 	SRCFILE "texas.bas",630
+	CALL label_DRAW_FIELD
+	;[631]         GOSUB sound_gamedone
+	SRCFILE "texas.bas",631
+	CALL label_SOUND_GAMEDONE
+	;[632]         force_redraw = 1 ' restore the felt background under row 10 once play resumes
+	SRCFILE "texas.bas",632
 	MVII #1,R0
 	MVO R0,var_FORCE_REDRAW
-	;[631]         poll_wait = 240
-	SRCFILE "texas.bas",631
+	;[633]         poll_wait = 240
+	SRCFILE "texas.bas",633
 	MVII #240,R0
 	MVO R0,var_POLL_WAIT
-	;[632]         GOTO input_check
-	SRCFILE "texas.bas",632
+	;[634]         GOTO input_check
+	SRCFILE "texas.bas",634
 	B label_INPUT_CHECK
-	;[633]     END IF
-	SRCFILE "texas.bas",633
+	;[635]     END IF
+	SRCFILE "texas.bas",635
 T166:
 T167:
-	;[634]     poll_wait = 20
-	SRCFILE "texas.bas",634
+	;[636]     poll_wait = 20
+	SRCFILE "texas.bas",636
 	MVII #20,R0
 	MVO R0,var_POLL_WAIT
-	;[635] 
-	SRCFILE "texas.bas",635
-	;[636]     IF active_player = 0 AND (PEEK(FN_RX + GAME_VIEWING) AND 255) = 0 THEN
-	SRCFILE "texas.bas",636
+	;[637] 
+	SRCFILE "texas.bas",637
+	;[638]     ' Turn edge: activePlayer differs from the previous poll's. move_ui is
+	SRCFILE "texas.bas",638
+	;[639]     ' re-entered on every poll where it's still your turn -- bail to the
+	SRCFILE "texas.bas",639
+	;[640]     ' in-game menu and resume and you land back in it -- so activePlayer
+	SRCFILE "texas.bas",640
+	;[641]     ' alone can't tell "your turn just began" from "still your turn", and
+	SRCFILE "texas.bas",641
+	;[642]     ' the cue would replay each time. Deliberately updated here rather than
+	SRCFILE "texas.bas",642
+	;[643]     ' at the end of the loop: the GOTO input_check early exits above (short
+	SRCFILE "texas.bas",643
+	;[644]     ' read, and the 4-second result-overlay hold) leave prev_active alone,
+	SRCFILE "texas.bas",644
+	;[645]     ' so a poll that never got as far as the move UI doesn't eat the edge.
+	SRCFILE "texas.bas",645
+	;[646]     ' Each betting street you act on is a real activePlayer transition, so
+	SRCFILE "texas.bas",646
+	;[647]     ' the cue fires once per street rather than once per hand.
+	SRCFILE "texas.bas",647
+	;[648]     turn_changed = 0
+	SRCFILE "texas.bas",648
+	CLRR R0
+	MVO R0,var_TURN_CHANGED
+	;[649]     IF active_player <> prev_active THEN turn_changed = 1
+	SRCFILE "texas.bas",649
 	MVI 40340,R0
 	ANDI #255,R0
 	CMPI #255,R0
@@ -9165,146 +9195,212 @@ T176:
 	MVI 40340,R1
 	ANDI #255,R1
 	ADDR R1,R0
+	CMP var_PREV_ACTIVE,R0
+	BEQ T171
+	MVII #1,R0
+	MVO R0,var_TURN_CHANGED
+T171:
+	;[650]     prev_active = active_player
+	SRCFILE "texas.bas",650
+	MVI 40340,R0
+	ANDI #255,R0
+	CMPI #255,R0
 	MVII #65535,R0
 	BEQ T177
 	INCR R0
 T177:
+	MVII #65280,R5
+	CLRR R4
+	CLRC
+	RRC R0,1
+	BEQ T179
+T178:
+	BNC T180
+	ADDR R5,R4
+T180:
+	ADDR R5,R5
+	SARC R0,1
+	BNE T178
+T179:
+	BNC T181
+	ADDR R5,R4
+T181:
+	MOVR R4,R0
+	MVI 40340,R1
+	ANDI #255,R1
+	ADDR R1,R0
+	MVO R0,var_PREV_ACTIVE
+	;[651] 
+	SRCFILE "texas.bas",651
+	;[652]     IF active_player = 0 AND (PEEK(FN_RX + GAME_VIEWING) AND 255) = 0 THEN
+	SRCFILE "texas.bas",652
+	MVI 40340,R0
+	ANDI #255,R0
+	CMPI #255,R0
+	MVII #65535,R0
+	BEQ T183
+	INCR R0
+T183:
+	MVII #65280,R5
+	CLRR R4
+	CLRC
+	RRC R0,1
+	BEQ T185
+T184:
+	BNC T186
+	ADDR R5,R4
+T186:
+	ADDR R5,R5
+	SARC R0,1
+	BNE T184
+T185:
+	BNC T187
+	ADDR R5,R4
+T187:
+	MOVR R4,R0
+	MVI 40340,R1
+	ANDI #255,R1
+	ADDR R1,R0
+	MVII #65535,R0
+	BEQ T188
+	INCR R0
+T188:
 	MVI 40342,R1
 	ANDI #255,R1
 	MVII #65535,R1
-	BEQ T178
+	BEQ T189
 	INCR R1
-T178:
+T189:
 	ANDR R1,R0
-	BEQ T171
-	;[637]         GOSUB move_ui
-	SRCFILE "texas.bas",637
+	BEQ T182
+	;[653]         GOSUB move_ui
+	SRCFILE "texas.bas",653
 	CALL label_MOVE_UI
-	;[638]         IF has_move THEN poll_wait = 0
-	SRCFILE "texas.bas",638
+	;[654]         IF has_move THEN poll_wait = 0
+	SRCFILE "texas.bas",654
 	MVI var_HAS_MOVE,R0
 	TSTR R0
-	BEQ T179
+	BEQ T190
 	CLRR R0
 	MVO R0,var_POLL_WAIT
-T179:
-	;[639]     END IF
-	SRCFILE "texas.bas",639
-T171:
-	;[640] 
-	SRCFILE "texas.bas",640
-	;[641] input_check:
-	SRCFILE "texas.bas",641
+T190:
+	;[655]     END IF
+	SRCFILE "texas.bas",655
+T182:
+	;[656] 
+	SRCFILE "texas.bas",656
+	;[657] input_check:
+	SRCFILE "texas.bas",657
 	; INPUT_CHECK
-label_INPUT_CHECK:	;[642]     IF inp_key_hit = 10 THEN GOSUB ingame_menu
-	SRCFILE "texas.bas",642
+label_INPUT_CHECK:	;[658]     IF inp_key_hit = 10 THEN GOSUB ingame_menu
+	SRCFILE "texas.bas",658
 	MVI var_INP_KEY_HIT,R0
 	CMPI #10,R0
-	BNE T180
+	BNE T191
 	CALL label_INGAME_MENU
-T180:
-	;[643]     IF inp_key_hit = 11 THEN GOSUB show_purses
-	SRCFILE "texas.bas",643
+T191:
+	;[659]     IF inp_key_hit = 11 THEN GOSUB show_purses
+	SRCFILE "texas.bas",659
 	MVI var_INP_KEY_HIT,R0
 	CMPI #11,R0
-	BNE T181
+	BNE T192
 	CALL label_SHOW_PURSES
-T181:
-	;[644]     IF want_leave THEN
-	SRCFILE "texas.bas",644
+T192:
+	;[660]     IF want_leave THEN
+	SRCFILE "texas.bas",660
 	MVI var_WANT_LEAVE,R0
 	TSTR R0
-	BEQ T182
-	;[645]         want_leave = 0
-	SRCFILE "texas.bas",645
+	BEQ T193
+	;[661]         want_leave = 0
+	SRCFILE "texas.bas",661
 	CLRR R0
 	MVO R0,var_WANT_LEAVE
-	;[646]         GOTO table_select
-	SRCFILE "texas.bas",646
-	B label_TABLE_SELECT
-	;[647]     END IF
-	SRCFILE "texas.bas",647
-T182:
-	;[648] 
-	SRCFILE "texas.bas",648
-	;[649]     GOTO game_loop
-	SRCFILE "texas.bas",649
-	B label_GAME_LOOP
-	;[650] 
-	SRCFILE "texas.bas",650
-	;[651] ' ===========================================================================
-	SRCFILE "texas.bas",651
-	;[652] ' render_game: redraw the table from the Game struct in FN_RX.
-	SRCFILE "texas.bas",652
-	;[653] '
-	SRCFILE "texas.bas",653
-	;[654] ' IntyBASIC/the STIC have no true page-flip (unlike the C clients' Apple2/
-	SRCFILE "texas.bas",654
-	;[655] ' C64 double buffer or CoCo/MSX's SINGLE_BUFFER differential-only mode) --
-	SRCFILE "texas.bas",655
-	;[656] ' BACKTAB is read live every frame, so a CLS visibly blanks the screen for
-	SRCFILE "texas.bas",656
-	;[657] ' a frame before the redraw lands. Since state only changes ~once per poll
-	SRCFILE "texas.bas",657
-	;[658] ' (not per frame), the fix that matters is simply not clearing the whole
-	SRCFILE "texas.bas",658
-	;[659] ' screen on every poll: a full CLS only happens on the first render after
-	SRCFILE "texas.bas",659
-	;[660] ' entering the game, or when the player count or hand round regresses
-	SRCFILE "texas.bas",660
-	;[661] ' (i.e. a new hand started) -- both mean the previous frame's layout is no
-	SRCFILE "texas.bas",661
-	;[662] ' longer valid. Every other poll only touches the specific cells whose
+	;[662]         GOTO table_select
 	SRCFILE "texas.bas",662
-	;[663] ' values can actually change (pot digits, bet digits, name/card cells,
+	B label_TABLE_SELECT
+	;[663]     END IF
 	SRCFILE "texas.bas",663
-	;[664] ' community board, street label, status row), matching the CoCo/MSX
+T193:
+	;[664] 
 	SRCFILE "texas.bas",664
-	;[665] ' approach since we're in the same no-real-double-buffer boat they were.
+	;[665]     GOTO game_loop
 	SRCFILE "texas.bas",665
-	;[666] '
+	B label_GAME_LOOP
+	;[666] 
 	SRCFILE "texas.bas",666
-	;[667] ' Center layout (all inside the c6-13 corridor no seat's art reaches):
+	;[667] ' ===========================================================================
 	SRCFILE "texas.bas",667
-	;[668] '   row 3   cells  66-73   street label
+	;[668] ' render_game: redraw the table from the Game struct in FN_RX.
 	SRCFILE "texas.bas",668
-	;[669] '   row 4-5 cells  87-91   community cards (tops r4, suit bottoms r5)
+	;[669] '
 	SRCFILE "texas.bas",669
-	;[670] '   row 6   cells 127-131  "$" + 4-digit pot
+	;[670] ' IntyBASIC/the STIC have no true page-flip (unlike the C clients' Apple2/
 	SRCFILE "texas.bas",670
-	;[671] '   row 7   cells 147-151  "P" + 4-digit purse
+	;[671] ' C64 double buffer or CoCo/MSX's SINGLE_BUFFER differential-only mode) --
 	SRCFILE "texas.bas",671
-	;[672] ' ---------------------------------------------------------------------------
+	;[672] ' BACKTAB is read live every frame, so a CLS visibly blanks the screen for
 	SRCFILE "texas.bas",672
-	;[673] render_game: PROCEDURE
+	;[673] ' a frame before the redraw lands. Since state only changes ~once per poll
 	SRCFILE "texas.bas",673
+	;[674] ' (not per frame), the fix that matters is simply not clearing the whole
+	SRCFILE "texas.bas",674
+	;[675] ' screen on every poll: a full CLS only happens on the first render after
+	SRCFILE "texas.bas",675
+	;[676] ' entering the game, or when the player count or hand round regresses
+	SRCFILE "texas.bas",676
+	;[677] ' (i.e. a new hand started) -- both mean the previous frame's layout is no
+	SRCFILE "texas.bas",677
+	;[678] ' longer valid. Every other poll only touches the specific cells whose
+	SRCFILE "texas.bas",678
+	;[679] ' values can actually change (pot digits, bet digits, name/card cells,
+	SRCFILE "texas.bas",679
+	;[680] ' community board, street label, status row), matching the CoCo/MSX
+	SRCFILE "texas.bas",680
+	;[681] ' approach since we're in the same no-real-double-buffer boat they were.
+	SRCFILE "texas.bas",681
+	;[682] '
+	SRCFILE "texas.bas",682
+	;[683] ' Center layout (all inside the c6-13 corridor no seat's art reaches):
+	SRCFILE "texas.bas",683
+	;[684] '   row 3   cells  66-73   street label
+	SRCFILE "texas.bas",684
+	;[685] '   row 4-5 cells  87-91   community cards (tops r4, suit bottoms r5)
+	SRCFILE "texas.bas",685
+	;[686] '   row 6   cells 127-131  "$" + 4-digit pot
+	SRCFILE "texas.bas",686
+	;[687] '   row 7   cells 147-151  "P" + 4-digit purse
+	SRCFILE "texas.bas",687
+	;[688] ' ---------------------------------------------------------------------------
+	SRCFILE "texas.bas",688
+	;[689] render_game: PROCEDURE
+	SRCFILE "texas.bas",689
 	; RENDER_GAME
 label_RENDER_GAME:	PROC
 	BEGIN
-	;[674]     round = PEEK(FN_RX + GAME_ROUND) AND 255
-	SRCFILE "texas.bas",674
+	;[690]     round = PEEK(FN_RX + GAME_ROUND) AND 255
+	SRCFILE "texas.bas",690
 	MVI 40337,R0
 	MVO R0,var_ROUND
-	;[675]     tmp_pc = PEEK(FN_RX + GAME_PLAYERCOUNT) AND 255
-	SRCFILE "texas.bas",675
+	;[691]     tmp_pc = PEEK(FN_RX + GAME_PLAYERCOUNT) AND 255
+	SRCFILE "texas.bas",691
 	MVI 40420,R0
 	MVO R0,var_TMP_PC
-	;[676] 
-	SRCFILE "texas.bas",676
-	;[677]     IF (tmp_pc <> prev_playercount) OR (round < prev_round) OR force_redraw THEN
-	SRCFILE "texas.bas",677
+	;[692] 
+	SRCFILE "texas.bas",692
+	;[693]     IF (tmp_pc <> prev_playercount) OR (round < prev_round) OR force_redraw THEN
+	SRCFILE "texas.bas",693
 	MVI var_TMP_PC,R0
 	CMP var_PREV_PLAYERCOUNT,R0
 	MVII #65535,R0
-	BNE T184
+	BNE T195
 	INCR R0
-T184:
+T195:
 	MVI var_ROUND,R1
 	CMP var_PREV_ROUND,R1
 	MVII #65535,R1
-	BLT T185
+	BLT T196
 	INCR R1
-T185:
+T196:
 	COMR R1
 	ANDR R1,R0
 	COMR R1
@@ -9313,23 +9409,23 @@ T185:
 	COMR R4
 	ANDR R4,R0
 	XOR var_FORCE_REDRAW,R0
-	BEQ T183
-	;[678]         CLS
-	SRCFILE "texas.bas",678
+	BEQ T194
+	;[694]         CLS
+	SRCFILE "texas.bas",694
 	CALL CLRSCR
-	;[679]         GOSUB fill_bg
-	SRCFILE "texas.bas",679
+	;[695]         GOSUB fill_bg
+	SRCFILE "texas.bas",695
 	CALL label_FILL_BG
-	;[680]         ' Center block, rows 6-7: pot ("$" + value) and your own purse ("P"
-	SRCFILE "texas.bas",680
-	;[681]         ' + value) stacked directly beneath it, both pushed down two rows
-	SRCFILE "texas.bas",681
-	;[682]         ' from where 5 Card Stud kept them so the community board and its
-	SRCFILE "texas.bas",682
-	;[683]         ' street label own rows 3-5 above.
-	SRCFILE "texas.bas",683
-	;[684]         PRINT AT 127 COLOR COL_NAME, "$"
-	SRCFILE "texas.bas",684
+	;[696]         ' Center block, rows 6-7: pot ("$" + value) and your own purse ("P"
+	SRCFILE "texas.bas",696
+	;[697]         ' + value) stacked directly beneath it, both pushed down two rows
+	SRCFILE "texas.bas",697
+	;[698]         ' from where 5 Card Stud kept them so the community board and its
+	SRCFILE "texas.bas",698
+	;[699]         ' street label own rows 3-5 above.
+	SRCFILE "texas.bas",699
+	;[700]         PRINT AT 127 COLOR COL_NAME, "$"
+	SRCFILE "texas.bas",700
 	MVII #639,R0
 	MVO R0,_screen
 	MVII #8199,R0
@@ -9339,8 +9435,8 @@ T185:
 	XOR _color,R0
 	MVO@ R0,R4
 	MVO R4,_screen
-	;[685]         PRINT AT 147 COLOR COL_NAME, "P"
-	SRCFILE "texas.bas",685
+	;[701]         PRINT AT 147 COLOR COL_NAME, "P"
+	SRCFILE "texas.bas",701
 	MVII #659,R0
 	MVO R0,_screen
 	MVII #8199,R0
@@ -9350,184 +9446,184 @@ T185:
 	XOR _color,R0
 	MVO@ R0,R4
 	MVO R4,_screen
-	;[686]         #prev_pot = 65535   ' force the pot to redraw too on a full layout reset
-	SRCFILE "texas.bas",686
+	;[702]         #prev_pot = 65535   ' force the pot to redraw too on a full layout reset
+	SRCFILE "texas.bas",702
 	MVII #65535,R0
 	MVO R0,var_&PREV_POT
-	;[687]         #prev_purse = 65535 ' likewise for purse
-	SRCFILE "texas.bas",687
+	;[703]         #prev_purse = 65535 ' likewise for purse
+	SRCFILE "texas.bas",703
 	MVO R0,var_&PREV_PURSE
-	;[688]         street_redraw = 1   ' the CLS wiped the label; force_redraw is consumed
-	SRCFILE "texas.bas",688
+	;[704]         street_redraw = 1   ' the CLS wiped the label; force_redraw is consumed
+	SRCFILE "texas.bas",704
 	MVII #1,R0
 	MVO R0,var_STREET_REDRAW
-	;[689]                             ' right below, so capture the need-to-redraw here
-	SRCFILE "texas.bas",689
-	;[690]         force_redraw = 0
-	SRCFILE "texas.bas",690
+	;[705]                             ' right below, so capture the need-to-redraw here
+	SRCFILE "texas.bas",705
+	;[706]         force_redraw = 0
+	SRCFILE "texas.bas",706
 	CLRR R0
 	MVO R0,var_FORCE_REDRAW
-	;[691]         ' A new hand means every seat's hand -- and the community board --
-	SRCFILE "texas.bas",691
-	;[692]         ' is starting over. Without this, a seat that had cards last hand
-	SRCFILE "texas.bas",692
-	;[693]         ' would treat this hand's first cards as "already dealt" and skip
-	SRCFILE "texas.bas",693
-	;[694]         ' animating them, and the next flop would land silently.
-	SRCFILE "texas.bas",694
-	;[695]         IF round < prev_round THEN
-	SRCFILE "texas.bas",695
+	;[707]         ' A new hand means every seat's hand -- and the community board --
+	SRCFILE "texas.bas",707
+	;[708]         ' is starting over. Without this, a seat that had cards last hand
+	SRCFILE "texas.bas",708
+	;[709]         ' would treat this hand's first cards as "already dealt" and skip
+	SRCFILE "texas.bas",709
+	;[710]         ' animating them, and the next flop would land silently.
+	SRCFILE "texas.bas",710
+	;[711]         IF round < prev_round THEN
+	SRCFILE "texas.bas",711
 	MVI var_ROUND,R0
 	CMP var_PREV_ROUND,R0
-	BGE T186
-	;[696]             FOR gs_i = 0 TO 7
-	SRCFILE "texas.bas",696
+	BGE T197
+	;[712]             FOR gs_i = 0 TO 7
+	SRCFILE "texas.bas",712
 	CLRR R0
 	MVO R0,var_GS_I
-T187:
-	;[697]                 prev_cards(gs_i) = 0
-	SRCFILE "texas.bas",697
+T198:
+	;[713]                 prev_cards(gs_i) = 0
+	SRCFILE "texas.bas",713
 	CLRR R0
 	MVII #array_PREV_CARDS,R3
 	ADD var_GS_I,R3
 	MVO@ R0,R3
-	;[698]             NEXT gs_i
-	SRCFILE "texas.bas",698
+	;[714]             NEXT gs_i
+	SRCFILE "texas.bas",714
 	MVI var_GS_I,R0
 	INCR R0
 	MVO R0,var_GS_I
 	CMPI #7,R0
-	BLE T187
-	;[699]             prev_community = 0
-	SRCFILE "texas.bas",699
+	BLE T198
+	;[715]             prev_community = 0
+	SRCFILE "texas.bas",715
 	CLRR R0
 	MVO R0,var_PREV_COMMUNITY
-	;[700]         END IF
-	SRCFILE "texas.bas",700
-T186:
-	;[701]     END IF
-	SRCFILE "texas.bas",701
-T183:
-	;[702] 
-	SRCFILE "texas.bas",702
-	;[703]     ' prev_playercount=255 is the boot sentinel (first render ever) -- skip
-	SRCFILE "texas.bas",703
-	;[704]     ' the join/leave cue then, there's nothing to compare against yet.
-	SRCFILE "texas.bas",704
-	;[705]     IF prev_playercount <> 255 THEN
-	SRCFILE "texas.bas",705
+	;[716]         END IF
+	SRCFILE "texas.bas",716
+T197:
+	;[717]     END IF
+	SRCFILE "texas.bas",717
+T194:
+	;[718] 
+	SRCFILE "texas.bas",718
+	;[719]     ' prev_playercount=255 is the boot sentinel (first render ever) -- skip
+	SRCFILE "texas.bas",719
+	;[720]     ' the join/leave cue then, there's nothing to compare against yet.
+	SRCFILE "texas.bas",720
+	;[721]     IF prev_playercount <> 255 THEN
+	SRCFILE "texas.bas",721
 	MVI var_PREV_PLAYERCOUNT,R0
 	CMPI #255,R0
-	BEQ T188
-	;[706]         IF tmp_pc > prev_playercount THEN GOSUB sound_player_join
-	SRCFILE "texas.bas",706
+	BEQ T199
+	;[722]         IF tmp_pc > prev_playercount THEN GOSUB sound_player_join
+	SRCFILE "texas.bas",722
 	MVI var_TMP_PC,R0
 	CMP var_PREV_PLAYERCOUNT,R0
-	BLE T189
+	BLE T200
 	CALL label_SOUND_PLAYER_JOIN
-T189:
-	;[707]         IF tmp_pc < prev_playercount THEN GOSUB sound_player_left
-	SRCFILE "texas.bas",707
+T200:
+	;[723]         IF tmp_pc < prev_playercount THEN GOSUB sound_player_left
+	SRCFILE "texas.bas",723
 	MVI var_TMP_PC,R0
 	CMP var_PREV_PLAYERCOUNT,R0
-	BGE T190
+	BGE T201
 	CALL label_SOUND_PLAYER_LEFT
-T190:
-	;[708]     END IF
-	SRCFILE "texas.bas",708
-T188:
-	;[709]     IF round < prev_round THEN GOSUB sound_deal
-	SRCFILE "texas.bas",709
+T201:
+	;[724]     END IF
+	SRCFILE "texas.bas",724
+T199:
+	;[725]     IF round < prev_round THEN GOSUB sound_deal
+	SRCFILE "texas.bas",725
 	MVI var_ROUND,R0
 	CMP var_PREV_ROUND,R0
-	BGE T191
+	BGE T202
 	CALL label_SOUND_DEAL
-T191:
-	;[710]     IF round <> prev_round THEN street_redraw = 1
-	SRCFILE "texas.bas",710
+T202:
+	;[726]     IF round <> prev_round THEN street_redraw = 1
+	SRCFILE "texas.bas",726
 	MVI var_ROUND,R0
 	CMP var_PREV_ROUND,R0
-	BEQ T192
+	BEQ T203
 	MVII #1,R0
 	MVO R0,var_STREET_REDRAW
-T192:
-	;[711] 
-	SRCFILE "texas.bas",711
-	;[712]     prev_playercount = tmp_pc
-	SRCFILE "texas.bas",712
+T203:
+	;[727] 
+	SRCFILE "texas.bas",727
+	;[728]     prev_playercount = tmp_pc
+	SRCFILE "texas.bas",728
 	MVI var_TMP_PC,R0
 	MVO R0,var_PREV_PLAYERCOUNT
-	;[713]     prev_round = round
-	SRCFILE "texas.bas",713
+	;[729]     prev_round = round
+	SRCFILE "texas.bas",729
 	MVI var_ROUND,R0
 	MVO R0,var_PREV_ROUND
-	;[714] 
-	SRCFILE "texas.bas",714
-	;[715]     ' Street label, row 3 centered above the community board. street_names
-	SRCFILE "texas.bas",715
-	;[716]     ' is 8 space-padded bytes per round value (round already validated <= 5
-	SRCFILE "texas.bas",716
-	;[717]     ' before render_game runs), so drawing it both writes the new label and
-	SRCFILE "texas.bas",717
-	;[718]     ' blanks the remainder of the field -- no stale text possible.
-	SRCFILE "texas.bas",718
-	;[719]     IF street_redraw THEN
-	SRCFILE "texas.bas",719
+	;[730] 
+	SRCFILE "texas.bas",730
+	;[731]     ' Street label, row 3 centered above the community board. street_names
+	SRCFILE "texas.bas",731
+	;[732]     ' is 8 space-padded bytes per round value (round already validated <= 5
+	SRCFILE "texas.bas",732
+	;[733]     ' before render_game runs), so drawing it both writes the new label and
+	SRCFILE "texas.bas",733
+	;[734]     ' blanks the remainder of the field -- no stale text possible.
+	SRCFILE "texas.bas",734
+	;[735]     IF street_redraw THEN
+	SRCFILE "texas.bas",735
 	MVI var_STREET_REDRAW,R0
 	TSTR R0
-	BEQ T193
-	;[720]         #df_src = VARPTR street_names(0) + round * 8
-	SRCFILE "texas.bas",720
+	BEQ T204
+	;[736]         #df_src = VARPTR street_names(0) + round * 8
+	SRCFILE "texas.bas",736
 	MVII #label_STREET_NAMES,R0
 	MVI var_ROUND,R1
 	SLL R1,2
 	ADDR R1,R1
 	ADDR R1,R0
 	MVO R0,var_&DF_SRC
-	;[721]         df_pos = 66 : df_len = 8 : #df_color = COL_NAME
-	SRCFILE "texas.bas",721
+	;[737]         df_pos = 66 : df_len = 8 : #df_color = COL_NAME
+	SRCFILE "texas.bas",737
 	MVII #66,R0
 	MVO R0,var_DF_POS
 	MVII #8,R0
 	MVO R0,var_DF_LEN
 	MVII #8199,R0
 	MVO R0,var_&DF_COLOR
-	;[722]         GOSUB draw_field
-	SRCFILE "texas.bas",722
+	;[738]         GOSUB draw_field
+	SRCFILE "texas.bas",738
 	CALL label_DRAW_FIELD
-	;[723]         street_redraw = 0
-	SRCFILE "texas.bas",723
+	;[739]         street_redraw = 0
+	SRCFILE "texas.bas",739
 	CLRR R0
 	MVO R0,var_STREET_REDRAW
-	;[724]     END IF
-	SRCFILE "texas.bas",724
-T193:
-	;[725] 
-	SRCFILE "texas.bas",725
-	;[726]     ' Real hardware/accurate emulation only guarantees a BACKTAB write is
-	SRCFILE "texas.bas",726
-	;[727]     ' tear-free if it lands within the vblank window; a full-table redraw
-	SRCFILE "texas.bas",727
-	;[728]     ' (dozens of cells plus several PRINT calls, each involving a slow
-	SRCFILE "texas.bas",728
-	;[729]     ' division loop for the digits) can run long enough to spill into
-	SRCFILE "texas.bas",729
-	;[730]     ' active display, and a live screenshot can catch that half-written
-	SRCFILE "texas.bas",730
-	;[731]     ' state -- seen as a stray non-digit glyph where only a digit could
-	SRCFILE "texas.bas",731
-	;[732]     ' ever legitimately be. Skipping the PRINT entirely when the value
-	SRCFILE "texas.bas",732
-	;[733]     ' hasn't changed since the last poll is what keeps the common-case
-	SRCFILE "texas.bas",733
-	;[734]     ' redraw (most fields static from one poll to the next) small enough
-	SRCFILE "texas.bas",734
-	;[735]     ' to actually fit in one vblank, rather than trying to chase tearing
-	SRCFILE "texas.bas",735
-	;[736]     ' after the fact.
-	SRCFILE "texas.bas",736
-	;[737]     #tmp_num = u16be(FN_RX + GAME_POT)
-	SRCFILE "texas.bas",737
+	;[740]     END IF
+	SRCFILE "texas.bas",740
+T204:
+	;[741] 
+	SRCFILE "texas.bas",741
+	;[742]     ' Real hardware/accurate emulation only guarantees a BACKTAB write is
+	SRCFILE "texas.bas",742
+	;[743]     ' tear-free if it lands within the vblank window; a full-table redraw
+	SRCFILE "texas.bas",743
+	;[744]     ' (dozens of cells plus several PRINT calls, each involving a slow
+	SRCFILE "texas.bas",744
+	;[745]     ' division loop for the digits) can run long enough to spill into
+	SRCFILE "texas.bas",745
+	;[746]     ' active display, and a live screenshot can catch that half-written
+	SRCFILE "texas.bas",746
+	;[747]     ' state -- seen as a stray non-digit glyph where only a digit could
+	SRCFILE "texas.bas",747
+	;[748]     ' ever legitimately be. Skipping the PRINT entirely when the value
+	SRCFILE "texas.bas",748
+	;[749]     ' hasn't changed since the last poll is what keeps the common-case
+	SRCFILE "texas.bas",749
+	;[750]     ' redraw (most fields static from one poll to the next) small enough
+	SRCFILE "texas.bas",750
+	;[751]     ' to actually fit in one vblank, rather than trying to chase tearing
+	SRCFILE "texas.bas",751
+	;[752]     ' after the fact.
+	SRCFILE "texas.bas",752
+	;[753]     #tmp_num = u16be(FN_RX + GAME_POT)
+	SRCFILE "texas.bas",753
 	MVI 40339,R0
 	ANDI #255,R0
 	SWAP R0
@@ -9536,29 +9632,29 @@ T193:
 	ANDI #255,R1
 	ADDR R1,R0
 	MVO R0,var_&TMP_NUM
-	;[738]     IF #tmp_num <> #prev_pot THEN
-	SRCFILE "texas.bas",738
+	;[754]     IF #tmp_num <> #prev_pot THEN
+	SRCFILE "texas.bas",754
 	CMP var_&PREV_POT,R0
-	BEQ T194
-	;[739]         IF #tmp_num > #prev_pot AND #prev_pot <> 65535 THEN GOSUB sound_chip
-	SRCFILE "texas.bas",739
+	BEQ T205
+	;[755]         IF #tmp_num > #prev_pot AND #prev_pot <> 65535 THEN GOSUB sound_chip
+	SRCFILE "texas.bas",755
 	CMP var_&PREV_POT,R0
 	MVII #65535,R0
-	BGT T196
+	BGT T207
 	INCR R0
-T196:
+T207:
 	MVI var_&PREV_POT,R1
 	CMPI #65535,R1
 	MVII #65535,R1
-	BNE T197
+	BNE T208
 	INCR R1
-T197:
+T208:
 	ANDR R1,R0
-	BEQ T195
+	BEQ T206
 	CALL label_SOUND_CHIP
-T195:
-	;[740]         PRINT AT 128 COLOR COL_NAME, <.4>#tmp_num
-	SRCFILE "texas.bas",740
+T206:
+	;[756]         PRINT AT 128 COLOR COL_NAME, <.4>#tmp_num
+	SRCFILE "texas.bas",756
 	MVII #640,R0
 	MVO R0,_screen
 	MVII #8199,R0
@@ -9569,21 +9665,21 @@ T195:
 	MVI _screen,R4
 	CALL PRNUM16.b
 	MVO R4,_screen
-	;[741]         #prev_pot = #tmp_num
-	SRCFILE "texas.bas",741
+	;[757]         #prev_pot = #tmp_num
+	SRCFILE "texas.bas",757
 	MVI var_&TMP_NUM,R0
 	MVO R0,var_&PREV_POT
-	;[742]     END IF
-	SRCFILE "texas.bas",742
-T194:
-	;[743] 
-	SRCFILE "texas.bas",743
-	;[744]     ' Your own purse (wire index 0 is always you, per the server's rotation
-	SRCFILE "texas.bas",744
-	;[745]     ' -- see state.bas), directly under the pot.
-	SRCFILE "texas.bas",745
-	;[746]     #tmp_num = u16be(player_addr(0) + PL_PURSE)
-	SRCFILE "texas.bas",746
+	;[758]     END IF
+	SRCFILE "texas.bas",758
+T205:
+	;[759] 
+	SRCFILE "texas.bas",759
+	;[760]     ' Your own purse (wire index 0 is always you, per the server's rotation
+	SRCFILE "texas.bas",760
+	;[761]     ' -- see state.bas), directly under the pot.
+	SRCFILE "texas.bas",761
+	;[762]     #tmp_num = u16be(player_addr(0) + PL_PURSE)
+	SRCFILE "texas.bas",762
 	MVI 40442,R0
 	ANDI #255,R0
 	SWAP R0
@@ -9592,12 +9688,12 @@ T194:
 	ANDI #255,R1
 	ADDR R1,R0
 	MVO R0,var_&TMP_NUM
-	;[747]     IF #tmp_num <> #prev_purse THEN
-	SRCFILE "texas.bas",747
+	;[763]     IF #tmp_num <> #prev_purse THEN
+	SRCFILE "texas.bas",763
 	CMP var_&PREV_PURSE,R0
-	BEQ T198
-	;[748]         PRINT AT 148 COLOR COL_NAME, <.4>#tmp_num
-	SRCFILE "texas.bas",748
+	BEQ T209
+	;[764]         PRINT AT 148 COLOR COL_NAME, <.4>#tmp_num
+	SRCFILE "texas.bas",764
 	MVII #660,R0
 	MVO R0,_screen
 	MVII #8199,R0
@@ -9608,205 +9704,205 @@ T194:
 	MVI _screen,R4
 	CALL PRNUM16.b
 	MVO R4,_screen
-	;[749]         #prev_purse = #tmp_num
-	SRCFILE "texas.bas",749
+	;[765]         #prev_purse = #tmp_num
+	SRCFILE "texas.bas",765
 	MVI var_&TMP_NUM,R0
 	MVO R0,var_&PREV_PURSE
-	;[750]     END IF
-	SRCFILE "texas.bas",750
-T198:
-	;[751] 
-	SRCFILE "texas.bas",751
-	;[752]     ' Community board: up to 5 cards, drawn every poll exactly like the
-	SRCFILE "texas.bas",752
-	;[753]     ' seat hands below (so the flop/turn/river land in place without a
-	SRCFILE "texas.bas",753
-	;[754]     ' CLS); only the deal click is gated on prev_community. The scan bound
-	SRCFILE "texas.bas",754
-	;[755]     ' is 5 slots (offsets 87-96 -- byte 97 is the field's NUL, never a 6th
-	SRCFILE "texas.bas",755
-	;[756]     ' card), and cards fill contiguously from index 0, so the count dealt
-	SRCFILE "texas.bas",756
-	;[757]     ' is 1 + the highest nonzero index.
-	SRCFILE "texas.bas",757
-	;[758]     deal_count = 0
-	SRCFILE "texas.bas",758
+	;[766]     END IF
+	SRCFILE "texas.bas",766
+T209:
+	;[767] 
+	SRCFILE "texas.bas",767
+	;[768]     ' Community board: up to 5 cards, drawn every poll exactly like the
+	SRCFILE "texas.bas",768
+	;[769]     ' seat hands below (so the flop/turn/river land in place without a
+	SRCFILE "texas.bas",769
+	;[770]     ' CLS); only the deal click is gated on prev_community. The scan bound
+	SRCFILE "texas.bas",770
+	;[771]     ' is 5 slots (offsets 87-96 -- byte 97 is the field's NUL, never a 6th
+	SRCFILE "texas.bas",771
+	;[772]     ' card), and cards fill contiguously from index 0, so the count dealt
+	SRCFILE "texas.bas",772
+	;[773]     ' is 1 + the highest nonzero index.
+	SRCFILE "texas.bas",773
+	;[774]     deal_count = 0
+	SRCFILE "texas.bas",774
 	CLRR R0
 	MVO R0,var_DEAL_COUNT
-	;[759]     FOR mv_sel = 0 TO 4
-	SRCFILE "texas.bas",759
+	;[775]     FOR mv_sel = 0 TO 4
+	SRCFILE "texas.bas",775
 	MVO R0,var_MV_SEL
-T199:
-	;[760]         card = PEEK(FN_RX + GAME_COMMUNITY + mv_sel * 2) AND 255
-	SRCFILE "texas.bas",760
+T210:
+	;[776]         card = PEEK(FN_RX + GAME_COMMUNITY + mv_sel * 2) AND 255
+	SRCFILE "texas.bas",776
 	MVI var_MV_SEL,R1
 	SLL R1,1
 	ADDI #40343,R1
 	MVI@ R1,R0
 	MVO R0,var_CARD
-	;[761]         IF card <> 0 THEN deal_count = mv_sel + 1
-	SRCFILE "texas.bas",761
+	;[777]         IF card <> 0 THEN deal_count = mv_sel + 1
+	SRCFILE "texas.bas",777
 	MVI var_CARD,R0
 	TSTR R0
-	BEQ T200
+	BEQ T211
 	MVI var_MV_SEL,R0
 	INCR R0
 	MVO R0,var_DEAL_COUNT
-T200:
-	;[762]     NEXT mv_sel
-	SRCFILE "texas.bas",762
+T211:
+	;[778]     NEXT mv_sel
+	SRCFILE "texas.bas",778
 	MVI var_MV_SEL,R0
 	INCR R0
 	MVO R0,var_MV_SEL
 	CMPI #4,R0
-	BLE T199
-	;[763]     ' The board can shrink without an intervening CLS: the server sends a
-	SRCFILE "texas.bas",763
-	;[764]     ' masked "??" board in some transitional states (seen live: one card
-	SRCFILE "texas.bas",764
-	;[765]     ' back drawn at pre-flop right after joining a table mid-hand), and
-	SRCFILE "texas.bas",765
-	;[766]     ' once the wire reverts to empty the draw loop below simply stops at
-	SRCFILE "texas.bas",766
-	;[767]     ' deal_count -- nothing else ever touches the leftover cells. Blank
-	SRCFILE "texas.bas",767
-	;[768]     ' any cell we drew last poll that has no card this poll back to felt
-	SRCFILE "texas.bas",768
-	;[769]     ' (same bare color-word idiom as fill_bg).
-	SRCFILE "texas.bas",769
-	;[770]     IF deal_count < prev_community THEN
-	SRCFILE "texas.bas",770
+	BLE T210
+	;[779]     ' The board can shrink without an intervening CLS: the server sends a
+	SRCFILE "texas.bas",779
+	;[780]     ' masked "??" board in some transitional states (seen live: one card
+	SRCFILE "texas.bas",780
+	;[781]     ' back drawn at pre-flop right after joining a table mid-hand), and
+	SRCFILE "texas.bas",781
+	;[782]     ' once the wire reverts to empty the draw loop below simply stops at
+	SRCFILE "texas.bas",782
+	;[783]     ' deal_count -- nothing else ever touches the leftover cells. Blank
+	SRCFILE "texas.bas",783
+	;[784]     ' any cell we drew last poll that has no card this poll back to felt
+	SRCFILE "texas.bas",784
+	;[785]     ' (same bare color-word idiom as fill_bg).
+	SRCFILE "texas.bas",785
+	;[786]     IF deal_count < prev_community THEN
+	SRCFILE "texas.bas",786
 	MVI var_DEAL_COUNT,R0
 	CMP var_PREV_COMMUNITY,R0
-	BGE T201
-	;[771]         FOR mv_sel = deal_count TO prev_community - 1
-	SRCFILE "texas.bas",771
+	BGE T212
+	;[787]         FOR mv_sel = deal_count TO prev_community - 1
+	SRCFILE "texas.bas",787
 	MVO R0,var_MV_SEL
-T202:
-	;[772]             #BACKTAB(87 + mv_sel) = COL_NAME
-	SRCFILE "texas.bas",772
+T213:
+	;[788]             #BACKTAB(87 + mv_sel) = COL_NAME
+	SRCFILE "texas.bas",788
 	MVII #8199,R0
 	MVII #Q2+87,R3
 	ADD var_MV_SEL,R3
 	MVO@ R0,R3
-	;[773]             #BACKTAB(107 + mv_sel) = COL_NAME
-	SRCFILE "texas.bas",773
+	;[789]             #BACKTAB(107 + mv_sel) = COL_NAME
+	SRCFILE "texas.bas",789
 	ADDI #20,R3
 	MVO@ R0,R3
-	;[774]         NEXT mv_sel
-	SRCFILE "texas.bas",774
+	;[790]         NEXT mv_sel
+	SRCFILE "texas.bas",790
 	MVI var_MV_SEL,R0
 	INCR R0
 	MVO R0,var_MV_SEL
 	MVI var_PREV_COMMUNITY,R1
 	DECR R1
 	CMPR R1,R0
-	BLE T202
-	;[775]     END IF
-	SRCFILE "texas.bas",775
-T201:
-	;[776]     FOR mv_sel = 0 TO deal_count - 1
-	SRCFILE "texas.bas",776
+	BLE T213
+	;[791]     END IF
+	SRCFILE "texas.bas",791
+T212:
+	;[792]     FOR mv_sel = 0 TO deal_count - 1
+	SRCFILE "texas.bas",792
 	CLRR R0
 	MVO R0,var_MV_SEL
-T203:
-	;[777]         card = PEEK(FN_RX + GAME_COMMUNITY + mv_sel * 2) AND 255
-	SRCFILE "texas.bas",777
+T214:
+	;[793]         card = PEEK(FN_RX + GAME_COMMUNITY + mv_sel * 2) AND 255
+	SRCFILE "texas.bas",793
 	MVI var_MV_SEL,R1
 	SLL R1,1
 	ADDI #40343,R1
 	MVI@ R1,R0
 	MVO R0,var_CARD
-	;[778]         suit = PEEK(FN_RX + GAME_COMMUNITY + mv_sel * 2 + 1) AND 255
-	SRCFILE "texas.bas",778
+	;[794]         suit = PEEK(FN_RX + GAME_COMMUNITY + mv_sel * 2 + 1) AND 255
+	SRCFILE "texas.bas",794
 	MVI var_MV_SEL,R1
 	SLL R1,1
 	ADDI #40344,R1
 	MVI@ R1,R0
 	MVO R0,var_SUIT
-	;[779]         IF mv_sel >= prev_community THEN GOSUB sound_deal
-	SRCFILE "texas.bas",779
+	;[795]         IF mv_sel >= prev_community THEN GOSUB sound_deal
+	SRCFILE "texas.bas",795
 	MVI var_MV_SEL,R0
 	CMP var_PREV_COMMUNITY,R0
-	BLT T204
+	BLT T215
 	CALL label_SOUND_DEAL
-T204:
-	;[780]         conv_in = card : GOSUB card_from_ascii : card = conv_out
-	SRCFILE "texas.bas",780
+T215:
+	;[796]         conv_in = card : GOSUB card_from_ascii : card = conv_out
+	SRCFILE "texas.bas",796
 	MVI var_CARD,R0
 	MVO R0,var_CONV_IN
 	CALL label_CARD_FROM_ASCII
 	MVI var_CONV_OUT,R0
 	MVO R0,var_CARD
-	;[781]         conv_in = suit : GOSUB suit_from_ascii : suit = conv_out
-	SRCFILE "texas.bas",781
+	;[797]         conv_in = suit : GOSUB suit_from_ascii : suit = conv_out
+	SRCFILE "texas.bas",797
 	MVI var_SUIT,R0
 	MVO R0,var_CONV_IN
 	CALL label_SUIT_FROM_ASCII
 	MVI var_CONV_OUT,R0
 	MVO R0,var_SUIT
-	;[782]         p = 87 + mv_sel
-	SRCFILE "texas.bas",782
+	;[798]         p = 87 + mv_sel
+	SRCFILE "texas.bas",798
 	MVI var_MV_SEL,R0
 	ADDI #87,R0
 	MVO R0,var_P
-	;[783]         GOSUB print_card
-	SRCFILE "texas.bas",783
+	;[799]         GOSUB print_card
+	SRCFILE "texas.bas",799
 	CALL label_PRINT_CARD
-	;[784]     NEXT mv_sel
-	SRCFILE "texas.bas",784
+	;[800]     NEXT mv_sel
+	SRCFILE "texas.bas",800
 	MVI var_MV_SEL,R0
 	INCR R0
 	MVO R0,var_MV_SEL
 	MVI var_DEAL_COUNT,R1
 	DECR R1
 	CMPR R1,R0
-	BLE T203
-	;[785]     prev_community = deal_count
-	SRCFILE "texas.bas",785
+	BLE T214
+	;[801]     prev_community = deal_count
+	SRCFILE "texas.bas",801
 	MVI var_DEAL_COUNT,R0
 	MVO R0,var_PREV_COMMUNITY
-	;[786]     ' Same one-vblank-budget reasoning as the per-seat WAIT below: yield a
-	SRCFILE "texas.bas",786
-	;[787]     ' frame after the board so a flop's 5 fresh cells plus the seat loop's
-	SRCFILE "texas.bas",787
-	;[788]     ' first seat can't pile into the same vblank.
-	SRCFILE "texas.bas",788
-	;[789]     WAIT
-	SRCFILE "texas.bas",789
+	;[802]     ' Same one-vblank-budget reasoning as the per-seat WAIT below: yield a
+	SRCFILE "texas.bas",802
+	;[803]     ' frame after the board so a flop's 5 fresh cells plus the seat loop's
+	SRCFILE "texas.bas",803
+	;[804]     ' first seat can't pile into the same vblank.
+	SRCFILE "texas.bas",804
+	;[805]     WAIT
+	SRCFILE "texas.bas",805
 	CALL _wait
-	;[790] 
-	SRCFILE "texas.bas",790
-	;[791]     gs_j = tmp_pc - 2
-	SRCFILE "texas.bas",791
+	;[806] 
+	SRCFILE "texas.bas",806
+	;[807]     gs_j = tmp_pc - 2
+	SRCFILE "texas.bas",807
 	MVI var_TMP_PC,R0
 	SUBI #2,R0
 	MVO R0,var_GS_J
-	;[792]     IF gs_j < 0 THEN gs_j = 0
-	SRCFILE "texas.bas",792
+	;[808]     IF gs_j < 0 THEN gs_j = 0
+	SRCFILE "texas.bas",808
 	MVI var_GS_J,R0
 	CMPI #0,R0
-	BGE T205
+	BGE T216
 	CLRR R0
 	MVO R0,var_GS_J
-T205:
-	;[793]     IF gs_j > 6 THEN gs_j = 6
-	SRCFILE "texas.bas",793
+T216:
+	;[809]     IF gs_j > 6 THEN gs_j = 6
+	SRCFILE "texas.bas",809
 	MVI var_GS_J,R0
 	CMPI #6,R0
-	BLE T206
+	BLE T217
 	MVII #6,R0
 	MVO R0,var_GS_J
-T206:
-	;[794] 
-	SRCFILE "texas.bas",794
-	;[795]     FOR gs_i = 0 TO tmp_pc - 1
-	SRCFILE "texas.bas",795
+T217:
+	;[810] 
+	SRCFILE "texas.bas",810
+	;[811]     FOR gs_i = 0 TO tmp_pc - 1
+	SRCFILE "texas.bas",811
 	CLRR R0
 	MVO R0,var_GS_I
-T207:
-	;[796]         sel_seat = PEEK(VARPTR seatmap(0) + gs_j * 8 + gs_i) AND 255
-	SRCFILE "texas.bas",796
+T218:
+	;[812]         sel_seat = PEEK(VARPTR seatmap(0) + gs_j * 8 + gs_i) AND 255
+	SRCFILE "texas.bas",812
 	MVII #label_SEATMAP,R1
 	MVI var_GS_J,R2
 	SLL R2,2
@@ -9815,68 +9911,68 @@ T207:
 	ADD var_GS_I,R1
 	MVI@ R1,R0
 	MVO R0,var_SEL_SEAT
-	;[797]         IF sel_seat <> 255 THEN
-	SRCFILE "texas.bas",797
+	;[813]         IF sel_seat <> 255 THEN
+	SRCFILE "texas.bas",813
 	MVI var_SEL_SEAT,R0
 	CMPI #255,R0
-	BEQ T208
-	;[798]             sel_i = PEEK(VARPTR seat_name_off(0) + sel_seat) AND 255
-	SRCFILE "texas.bas",798
+	BEQ T219
+	;[814]             sel_i = PEEK(VARPTR seat_name_off(0) + sel_seat) AND 255
+	SRCFILE "texas.bas",814
 	MVII #label_SEAT_NAME_OFF,R3
 	ADDR R0,R3
 	MVI@ R3,R0
 	MVO R0,var_SEL_I
-	;[799] 
-	SRCFILE "texas.bas",799
-	;[800]             #gs_c = COL_NAME
-	SRCFILE "texas.bas",800
+	;[815] 
+	SRCFILE "texas.bas",815
+	;[816]             #gs_c = COL_NAME
+	SRCFILE "texas.bas",816
 	MVII #8199,R0
 	MVO R0,var_&GS_C
-	;[801]             IF gs_i = active_player THEN #gs_c = COL_HILITE
-	SRCFILE "texas.bas",801
+	;[817]             IF gs_i = active_player THEN #gs_c = COL_HILITE
+	SRCFILE "texas.bas",817
 	MVI 40340,R0
 	ANDI #255,R0
 	CMPI #255,R0
 	MVII #65535,R0
-	BEQ T210
+	BEQ T221
 	INCR R0
-T210:
+T221:
 	MVII #65280,R5
 	CLRR R4
 	CLRC
 	RRC R0,1
-	BEQ T212
-T211:
-	BNC T213
+	BEQ T223
+T222:
+	BNC T224
 	ADDR R5,R4
-T213:
+T224:
 	ADDR R5,R5
 	SARC R0,1
-	BNE T211
-T212:
-	BNC T214
+	BNE T222
+T223:
+	BNC T225
 	ADDR R5,R4
-T214:
+T225:
 	MOVR R4,R0
 	MVI 40340,R1
 	ANDI #255,R1
 	ADDR R1,R0
 	MVI var_GS_I,R1
 	CMPR R1,R0
-	BNE T209
+	BNE T220
 	MVII #8198,R0
 	MVO R0,var_&GS_C
-T209:
-	;[802] 
-	SRCFILE "texas.bas",802
-	;[803]             #tmp_addr = player_addr(gs_i)
-	SRCFILE "texas.bas",803
+T220:
+	;[818] 
+	SRCFILE "texas.bas",818
+	;[819]             #tmp_addr = player_addr(gs_i)
+	SRCFILE "texas.bas",819
 	MVI var_GS_I,R0
 	MULT R0,R4,33
 	ADDI #40421,R0
 	MVO R0,var_&TMP_ADDR
-	;[804]             #df_src = #tmp_addr + PL_NAME : df_pos = sel_i : df_len = 4 : #df_color = #gs_c
-	SRCFILE "texas.bas",804
+	;[820]             #df_src = #tmp_addr + PL_NAME : df_pos = sel_i : df_len = 4 : #df_color = #gs_c
+	SRCFILE "texas.bas",820
 	MVO R0,var_&DF_SRC
 	MVI var_SEL_I,R0
 	MVO R0,var_DF_POS
@@ -9884,13 +9980,13 @@ T209:
 	MVO R0,var_DF_LEN
 	MVI var_&GS_C,R0
 	MVO R0,var_&DF_COLOR
-	;[805]             GOSUB draw_field
-	SRCFILE "texas.bas",805
+	;[821]             GOSUB draw_field
+	SRCFILE "texas.bas",821
 	CALL label_DRAW_FIELD
-	;[806] 
-	SRCFILE "texas.bas",806
-	;[807]             #tmp_num = u16be(#tmp_addr + PL_BET)
-	SRCFILE "texas.bas",807
+	;[822] 
+	SRCFILE "texas.bas",822
+	;[823]             #tmp_num = u16be(#tmp_addr + PL_BET)
+	SRCFILE "texas.bas",823
 	MVI var_&TMP_ADDR,R1
 	ADDI #11,R1
 	MVI@ R1,R0
@@ -9903,36 +9999,36 @@ T209:
 	ANDI #255,R1
 	ADDR R1,R0
 	MVO R0,var_&TMP_NUM
-	;[808]             ' Clamp to 99: the bet field is 2 cells wide (a 3-digit PRINT
-	SRCFILE "texas.bas",808
-	;[809]             ' would spill a digit past it -- for the right-edge seats,
-	SRCFILE "texas.bas",809
-	;[810]             ' whose bet sits in the row's last 2 columns, that digit wraps
-	SRCFILE "texas.bas",810
-	;[811]             ' to the next row on top of another seat's card cell), and it
-	SRCFILE "texas.bas",811
-	;[812]             ' keeps the value inside prev_bet's 8-bit range for the
-	SRCFILE "texas.bas",812
-	;[813]             ' change-detection compare. Hold'em raises pass 100 routinely,
-	SRCFILE "texas.bas",813
-	;[814]             ' unlike 5 Card Stud where this was only latent.
-	SRCFILE "texas.bas",814
-	;[815]             IF #tmp_num > 99 THEN #tmp_num = 99
-	SRCFILE "texas.bas",815
+	;[824]             ' Clamp to 99: the bet field is 2 cells wide (a 3-digit PRINT
+	SRCFILE "texas.bas",824
+	;[825]             ' would spill a digit past it -- for the right-edge seats,
+	SRCFILE "texas.bas",825
+	;[826]             ' whose bet sits in the row's last 2 columns, that digit wraps
+	SRCFILE "texas.bas",826
+	;[827]             ' to the next row on top of another seat's card cell), and it
+	SRCFILE "texas.bas",827
+	;[828]             ' keeps the value inside prev_bet's 8-bit range for the
+	SRCFILE "texas.bas",828
+	;[829]             ' change-detection compare. Hold'em raises pass 100 routinely,
+	SRCFILE "texas.bas",829
+	;[830]             ' unlike 5 Card Stud where this was only latent.
+	SRCFILE "texas.bas",830
+	;[831]             IF #tmp_num > 99 THEN #tmp_num = 99
+	SRCFILE "texas.bas",831
 	CMPI #99,R0
-	BLE T215
+	BLE T226
 	MVII #99,R0
 	MVO R0,var_&TMP_NUM
-T215:
-	;[816]             IF #tmp_num <> prev_bet(sel_seat) THEN
-	SRCFILE "texas.bas",816
+T226:
+	;[832]             IF #tmp_num <> prev_bet(sel_seat) THEN
+	SRCFILE "texas.bas",832
 	MVI var_&TMP_NUM,R0
 	MVII #array_PREV_BET,R3
 	ADD var_SEL_SEAT,R3
 	CMP@ R3,R0
-	BEQ T216
-	;[817]                 PRINT AT sel_i + 4 COLOR #gs_c, <2>#tmp_num
-	SRCFILE "texas.bas",817
+	BEQ T227
+	;[833]                 PRINT AT sel_i + 4 COLOR #gs_c, <2>#tmp_num
+	SRCFILE "texas.bas",833
 	MVI var_SEL_I,R0
 	ADDI #516,R0
 	MVO R0,_screen
@@ -9944,39 +10040,39 @@ T215:
 	MVI _screen,R4
 	CALL PRNUM16.z
 	MVO R4,_screen
-	;[818]                 prev_bet(sel_seat) = #tmp_num
-	SRCFILE "texas.bas",818
+	;[834]                 prev_bet(sel_seat) = #tmp_num
+	SRCFILE "texas.bas",834
 	MVI var_&TMP_NUM,R0
 	MVII #array_PREV_BET,R3
 	ADD var_SEL_SEAT,R3
 	MVO@ R0,R3
-	;[819]             END IF
-	SRCFILE "texas.bas",819
-T216:
-	;[820] 
-	SRCFILE "texas.bas",820
-	;[821]             ' Hole cards (2 in Hold'em) fill the hand contiguously from
-	SRCFILE "texas.bas",821
-	;[822]             ' index 0 (never a gap), so the count currently dealt is just
-	SRCFILE "texas.bas",822
-	;[823]             ' 1 + the highest nonzero index. Comparing that against what
-	SRCFILE "texas.bas",823
-	;[824]             ' this seat showed last poll (prev_cards) is what tells a
-	SRCFILE "texas.bas",824
-	;[825]             ' genuinely new card apart from one we've already drawn on
-	SRCFILE "texas.bas",825
-	;[826]             ' every previous poll.
-	SRCFILE "texas.bas",826
-	;[827]             deal_count = 0
-	SRCFILE "texas.bas",827
+	;[835]             END IF
+	SRCFILE "texas.bas",835
+T227:
+	;[836] 
+	SRCFILE "texas.bas",836
+	;[837]             ' Hole cards (2 in Hold'em) fill the hand contiguously from
+	SRCFILE "texas.bas",837
+	;[838]             ' index 0 (never a gap), so the count currently dealt is just
+	SRCFILE "texas.bas",838
+	;[839]             ' 1 + the highest nonzero index. Comparing that against what
+	SRCFILE "texas.bas",839
+	;[840]             ' this seat showed last poll (prev_cards) is what tells a
+	SRCFILE "texas.bas",840
+	;[841]             ' genuinely new card apart from one we've already drawn on
+	SRCFILE "texas.bas",841
+	;[842]             ' every previous poll.
+	SRCFILE "texas.bas",842
+	;[843]             deal_count = 0
+	SRCFILE "texas.bas",843
 	CLRR R0
 	MVO R0,var_DEAL_COUNT
-	;[828]             FOR mv_sel = 0 TO 1
-	SRCFILE "texas.bas",828
+	;[844]             FOR mv_sel = 0 TO 1
+	SRCFILE "texas.bas",844
 	MVO R0,var_MV_SEL
-T217:
-	;[829]                 card = PEEK(#tmp_addr + PL_HAND + mv_sel * 2) AND 255
-	SRCFILE "texas.bas",829
+T228:
+	;[845]                 card = PEEK(#tmp_addr + PL_HAND + mv_sel * 2) AND 255
+	SRCFILE "texas.bas",845
 	MVI var_&TMP_ADDR,R1
 	ADDI #22,R1
 	MVI var_MV_SEL,R2
@@ -9984,47 +10080,47 @@ T217:
 	ADDR R2,R1
 	MVI@ R1,R0
 	MVO R0,var_CARD
-	;[830]                 IF card <> 0 THEN deal_count = mv_sel + 1
-	SRCFILE "texas.bas",830
+	;[846]                 IF card <> 0 THEN deal_count = mv_sel + 1
+	SRCFILE "texas.bas",846
 	MVI var_CARD,R0
 	TSTR R0
-	BEQ T218
+	BEQ T229
 	MVI var_MV_SEL,R0
 	INCR R0
 	MVO R0,var_DEAL_COUNT
-T218:
-	;[831]             NEXT mv_sel
-	SRCFILE "texas.bas",831
+T229:
+	;[847]             NEXT mv_sel
+	SRCFILE "texas.bas",847
 	MVI var_MV_SEL,R0
 	INCR R0
 	MVO R0,var_MV_SEL
 	CMPI #1,R0
-	BLE T217
-	;[832] 
-	SRCFILE "texas.bas",832
-	;[833]             ' Same shrink-without-CLS gap as the community board above: a
-	SRCFILE "texas.bas",833
-	;[834]             ' fold shrinks "????" (2 backs) to "??" (1 back), and the
-	SRCFILE "texas.bas",834
-	;[835]             ' draw loop below would leave the second back on screen
-	SRCFILE "texas.bas",835
-	;[836]             ' forever. Blank the cells this seat showed last poll but not
-	SRCFILE "texas.bas",836
-	;[837]             ' this one.
-	SRCFILE "texas.bas",837
-	;[838]             IF deal_count < prev_cards(sel_seat) THEN
-	SRCFILE "texas.bas",838
+	BLE T228
+	;[848] 
+	SRCFILE "texas.bas",848
+	;[849]             ' Same shrink-without-CLS gap as the community board above: a
+	SRCFILE "texas.bas",849
+	;[850]             ' fold shrinks "????" (2 backs) to "??" (1 back), and the
+	SRCFILE "texas.bas",850
+	;[851]             ' draw loop below would leave the second back on screen
+	SRCFILE "texas.bas",851
+	;[852]             ' forever. Blank the cells this seat showed last poll but not
+	SRCFILE "texas.bas",852
+	;[853]             ' this one.
+	SRCFILE "texas.bas",853
+	;[854]             IF deal_count < prev_cards(sel_seat) THEN
+	SRCFILE "texas.bas",854
 	MVI var_DEAL_COUNT,R0
 	MVII #array_PREV_CARDS,R3
 	ADD var_SEL_SEAT,R3
 	CMP@ R3,R0
-	BGE T219
-	;[839]                 FOR mv_sel = deal_count TO prev_cards(sel_seat) - 1
-	SRCFILE "texas.bas",839
+	BGE T230
+	;[855]                 FOR mv_sel = deal_count TO prev_cards(sel_seat) - 1
+	SRCFILE "texas.bas",855
 	MVO R0,var_MV_SEL
-T220:
-	;[840]                     #BACKTAB(sel_i + 20 + mv_sel) = COL_NAME
-	SRCFILE "texas.bas",840
+T231:
+	;[856]                     #BACKTAB(sel_i + 20 + mv_sel) = COL_NAME
+	SRCFILE "texas.bas",856
 	MVII #Q2,R0
 	MVI var_SEL_I,R1
 	ADDI #20,R1
@@ -10033,8 +10129,8 @@ T220:
 	MVII #8199,R1
 	MOVR R0,R4
 	MVO@ R1,R4
-	;[841]                     #BACKTAB(sel_i + 40 + mv_sel) = COL_NAME
-	SRCFILE "texas.bas",841
+	;[857]                     #BACKTAB(sel_i + 40 + mv_sel) = COL_NAME
+	SRCFILE "texas.bas",857
 	MVII #Q2,R0
 	MVI var_SEL_I,R1
 	ADDI #40,R1
@@ -10043,8 +10139,8 @@ T220:
 	MVII #8199,R1
 	MOVR R0,R4
 	MVO@ R1,R4
-	;[842]                 NEXT mv_sel
-	SRCFILE "texas.bas",842
+	;[858]                 NEXT mv_sel
+	SRCFILE "texas.bas",858
 	MVI var_MV_SEL,R0
 	INCR R0
 	MVO R0,var_MV_SEL
@@ -10053,19 +10149,19 @@ T220:
 	MVI@ R3,R1
 	DECR R1
 	CMPR R1,R0
-	BLE T220
-	;[843]             END IF
-	SRCFILE "texas.bas",843
-T219:
-	;[844] 
-	SRCFILE "texas.bas",844
-	;[845]             FOR mv_sel = 0 TO deal_count - 1
-	SRCFILE "texas.bas",845
+	BLE T231
+	;[859]             END IF
+	SRCFILE "texas.bas",859
+T230:
+	;[860] 
+	SRCFILE "texas.bas",860
+	;[861]             FOR mv_sel = 0 TO deal_count - 1
+	SRCFILE "texas.bas",861
 	CLRR R0
 	MVO R0,var_MV_SEL
-T221:
-	;[846]                 card = PEEK(#tmp_addr + PL_HAND + mv_sel * 2) AND 255
-	SRCFILE "texas.bas",846
+T232:
+	;[862]                 card = PEEK(#tmp_addr + PL_HAND + mv_sel * 2) AND 255
+	SRCFILE "texas.bas",862
 	MVI var_&TMP_ADDR,R1
 	ADDI #22,R1
 	MVI var_MV_SEL,R2
@@ -10073,8 +10169,8 @@ T221:
 	ADDR R2,R1
 	MVI@ R1,R0
 	MVO R0,var_CARD
-	;[847]                 suit = PEEK(#tmp_addr + PL_HAND + mv_sel * 2 + 1) AND 255
-	SRCFILE "texas.bas",847
+	;[863]                 suit = PEEK(#tmp_addr + PL_HAND + mv_sel * 2 + 1) AND 255
+	SRCFILE "texas.bas",863
 	MVI var_&TMP_ADDR,R1
 	ADDI #22,R1
 	MVI var_MV_SEL,R2
@@ -10083,180 +10179,180 @@ T221:
 	INCR R1
 	MVI@ R1,R0
 	MVO R0,var_SUIT
-	;[848]                 ' A card index this seat hasn't shown before is a fresh
-	SRCFILE "texas.bas",848
-	;[849]                 ' deal -- the click (and its own built-in pause) stands in
-	SRCFILE "texas.bas",849
-	;[850]                 ' for the "card landing on the table" beat, instead of
-	SRCFILE "texas.bas",850
-	;[851]                 ' every new card just popping in silently and instantly
-	SRCFILE "texas.bas",851
-	;[852]                 ' like the C clients' animated deal never happens here.
-	SRCFILE "texas.bas",852
-	;[853]                 IF mv_sel >= prev_cards(sel_seat) THEN GOSUB sound_deal
-	SRCFILE "texas.bas",853
+	;[864]                 ' A card index this seat hasn't shown before is a fresh
+	SRCFILE "texas.bas",864
+	;[865]                 ' deal -- the click (and its own built-in pause) stands in
+	SRCFILE "texas.bas",865
+	;[866]                 ' for the "card landing on the table" beat, instead of
+	SRCFILE "texas.bas",866
+	;[867]                 ' every new card just popping in silently and instantly
+	SRCFILE "texas.bas",867
+	;[868]                 ' like the C clients' animated deal never happens here.
+	SRCFILE "texas.bas",868
+	;[869]                 IF mv_sel >= prev_cards(sel_seat) THEN GOSUB sound_deal
+	SRCFILE "texas.bas",869
 	MVI var_MV_SEL,R0
 	MVII #array_PREV_CARDS,R3
 	ADD var_SEL_SEAT,R3
 	CMP@ R3,R0
-	BLT T222
+	BLT T233
 	CALL label_SOUND_DEAL
-T222:
-	;[854]                 ' card=0/suit=0 after conversion (an unrecognized wire
-	SRCFILE "texas.bas",854
-	;[855]                 ' char, e.g. "??" for a folded/masked hand) is itself a
-	SRCFILE "texas.bas",855
-	;[856]                 ' valid "hidden" input to print_card -- draws the card-
-	SRCFILE "texas.bas",856
-	;[857]                 ' back glyph, which is what keeps a folded/masked card
-	SRCFILE "texas.bas",857
-	;[858]                 ' from leaving stale rank art on screen instead of just
-	SRCFILE "texas.bas",858
-	;[859]                 ' going quiet. The showdown flip needs no code at all:
-	SRCFILE "texas.bas",859
-	;[860]                 ' the server swaps "????" for the real chars in this
-	SRCFILE "texas.bas",860
-	;[861]                 ' response and this same loop redraws whatever arrives.
-	SRCFILE "texas.bas",861
-	;[862]                 conv_in = card : GOSUB card_from_ascii : card = conv_out
-	SRCFILE "texas.bas",862
+T233:
+	;[870]                 ' card=0/suit=0 after conversion (an unrecognized wire
+	SRCFILE "texas.bas",870
+	;[871]                 ' char, e.g. "??" for a folded/masked hand) is itself a
+	SRCFILE "texas.bas",871
+	;[872]                 ' valid "hidden" input to print_card -- draws the card-
+	SRCFILE "texas.bas",872
+	;[873]                 ' back glyph, which is what keeps a folded/masked card
+	SRCFILE "texas.bas",873
+	;[874]                 ' from leaving stale rank art on screen instead of just
+	SRCFILE "texas.bas",874
+	;[875]                 ' going quiet. The showdown flip needs no code at all:
+	SRCFILE "texas.bas",875
+	;[876]                 ' the server swaps "????" for the real chars in this
+	SRCFILE "texas.bas",876
+	;[877]                 ' response and this same loop redraws whatever arrives.
+	SRCFILE "texas.bas",877
+	;[878]                 conv_in = card : GOSUB card_from_ascii : card = conv_out
+	SRCFILE "texas.bas",878
 	MVI var_CARD,R0
 	MVO R0,var_CONV_IN
 	CALL label_CARD_FROM_ASCII
 	MVI var_CONV_OUT,R0
 	MVO R0,var_CARD
-	;[863]                 conv_in = suit : GOSUB suit_from_ascii : suit = conv_out
-	SRCFILE "texas.bas",863
+	;[879]                 conv_in = suit : GOSUB suit_from_ascii : suit = conv_out
+	SRCFILE "texas.bas",879
 	MVI var_SUIT,R0
 	MVO R0,var_CONV_IN
 	CALL label_SUIT_FROM_ASCII
 	MVI var_CONV_OUT,R0
 	MVO R0,var_SUIT
-	;[864]                 p = sel_i + 20 + mv_sel
-	SRCFILE "texas.bas",864
+	;[880]                 p = sel_i + 20 + mv_sel
+	SRCFILE "texas.bas",880
 	MVI var_SEL_I,R0
 	ADDI #20,R0
 	ADD var_MV_SEL,R0
 	MVO R0,var_P
-	;[865]                 GOSUB print_card
-	SRCFILE "texas.bas",865
+	;[881]                 GOSUB print_card
+	SRCFILE "texas.bas",881
 	CALL label_PRINT_CARD
-	;[866]             NEXT mv_sel
-	SRCFILE "texas.bas",866
+	;[882]             NEXT mv_sel
+	SRCFILE "texas.bas",882
 	MVI var_MV_SEL,R0
 	INCR R0
 	MVO R0,var_MV_SEL
 	MVI var_DEAL_COUNT,R1
 	DECR R1
 	CMPR R1,R0
-	BLE T221
-	;[867]             prev_cards(sel_seat) = deal_count
-	SRCFILE "texas.bas",867
+	BLE T232
+	;[883]             prev_cards(sel_seat) = deal_count
+	SRCFILE "texas.bas",883
 	MVI var_DEAL_COUNT,R0
 	MVII #array_PREV_CARDS,R3
 	ADD var_SEL_SEAT,R3
 	MVO@ R0,R3
-	;[868] 
-	SRCFILE "texas.bas",868
-	;[869]             ' One seat's worth of pokes (name + bet digits + 2 cards) is
-	SRCFILE "texas.bas",869
-	;[870]             ' small enough to reliably land within a single vblank; the
-	SRCFILE "texas.bas",870
-	;[871]             ' full ~8-seat redraw as one unbroken burst isn't, and that's
-	SRCFILE "texas.bas",871
-	;[872]             ' what let a screenshot catch a genuinely half-written frame
-	SRCFILE "texas.bas",872
-	;[873]             ' (garbage that looked like data corruption but wasn't -- nothing
-	SRCFILE "texas.bas",873
-	;[874]             ' in FN_RX was wrong, the *display* was mid-update). Yielding a
-	SRCFILE "texas.bas",874
-	;[875]             ' frame between seats bounds the tear to at most one seat's
-	SRCFILE "texas.bas",875
-	;[876]             ' fields at a time instead of the whole table, at the cost of
-	SRCFILE "texas.bas",876
-	;[877]             ' a full new-hand redraw taking up to ~8 extra frames (moot;
-	SRCFILE "texas.bas",877
-	;[878]             ' that only happens once per hand, not every poll).
-	SRCFILE "texas.bas",878
-	;[879]             WAIT
-	SRCFILE "texas.bas",879
+	;[884] 
+	SRCFILE "texas.bas",884
+	;[885]             ' One seat's worth of pokes (name + bet digits + 2 cards) is
+	SRCFILE "texas.bas",885
+	;[886]             ' small enough to reliably land within a single vblank; the
+	SRCFILE "texas.bas",886
+	;[887]             ' full ~8-seat redraw as one unbroken burst isn't, and that's
+	SRCFILE "texas.bas",887
+	;[888]             ' what let a screenshot catch a genuinely half-written frame
+	SRCFILE "texas.bas",888
+	;[889]             ' (garbage that looked like data corruption but wasn't -- nothing
+	SRCFILE "texas.bas",889
+	;[890]             ' in FN_RX was wrong, the *display* was mid-update). Yielding a
+	SRCFILE "texas.bas",890
+	;[891]             ' frame between seats bounds the tear to at most one seat's
+	SRCFILE "texas.bas",891
+	;[892]             ' fields at a time instead of the whole table, at the cost of
+	SRCFILE "texas.bas",892
+	;[893]             ' a full new-hand redraw taking up to ~8 extra frames (moot;
+	SRCFILE "texas.bas",893
+	;[894]             ' that only happens once per hand, not every poll).
+	SRCFILE "texas.bas",894
+	;[895]             WAIT
+	SRCFILE "texas.bas",895
 	CALL _wait
-	;[880]         END IF
-	SRCFILE "texas.bas",880
-T208:
-	;[881]     NEXT gs_i
-	SRCFILE "texas.bas",881
+	;[896]         END IF
+	SRCFILE "texas.bas",896
+T219:
+	;[897]     NEXT gs_i
+	SRCFILE "texas.bas",897
 	MVI var_GS_I,R0
 	INCR R0
 	MVO R0,var_GS_I
 	MVI var_TMP_PC,R1
 	DECR R1
 	CMPR R1,R0
-	BLE T207
-	;[882] 
-	SRCFILE "texas.bas",882
-	;[883]     GOSUB draw_status
-	SRCFILE "texas.bas",883
+	BLE T218
+	;[898] 
+	SRCFILE "texas.bas",898
+	;[899]     GOSUB draw_status
+	SRCFILE "texas.bas",899
 	CALL label_DRAW_STATUS
-	;[884] END
-	SRCFILE "texas.bas",884
+	;[900] END
+	SRCFILE "texas.bas",900
 	RETURN
 	ENDP
-	;[885] 
-	SRCFILE "texas.bas",885
-	;[886] ' ---------------------------------------------------------------------------
-	SRCFILE "texas.bas",886
-	;[887] ' show_purses: while KEYPAD ENTER is held, overwrite every seated player's
-	SRCFILE "texas.bas",887
-	;[888] ' name cells with their purse value instead. Reuses tmp_pc/seatmap/
-	SRCFILE "texas.bas",888
-	;[889] ' seat_name_off exactly as render_game's own seat loop does -- tmp_pc is a
-	SRCFILE "texas.bas",889
-	;[890] ' global left holding the last poll's player count, so this works between
-	SRCFILE "texas.bas",890
-	;[891] ' polls without needing a fresh network round-trip. Releasing the key just
-	SRCFILE "texas.bas",891
-	;[892] ' asks for a full redraw on the next poll (the same trick the win-message
-	SRCFILE "texas.bas",892
-	;[893] ' overlay uses) rather than restoring each name field by hand here.
-	SRCFILE "texas.bas",893
-	;[894] ' ---------------------------------------------------------------------------
-	SRCFILE "texas.bas",894
-	;[895] show_purses: PROCEDURE
-	SRCFILE "texas.bas",895
+	;[901] 
+	SRCFILE "texas.bas",901
+	;[902] ' ---------------------------------------------------------------------------
+	SRCFILE "texas.bas",902
+	;[903] ' show_purses: while KEYPAD ENTER is held, overwrite every seated player's
+	SRCFILE "texas.bas",903
+	;[904] ' name cells with their purse value instead. Reuses tmp_pc/seatmap/
+	SRCFILE "texas.bas",904
+	;[905] ' seat_name_off exactly as render_game's own seat loop does -- tmp_pc is a
+	SRCFILE "texas.bas",905
+	;[906] ' global left holding the last poll's player count, so this works between
+	SRCFILE "texas.bas",906
+	;[907] ' polls without needing a fresh network round-trip. Releasing the key just
+	SRCFILE "texas.bas",907
+	;[908] ' asks for a full redraw on the next poll (the same trick the win-message
+	SRCFILE "texas.bas",908
+	;[909] ' overlay uses) rather than restoring each name field by hand here.
+	SRCFILE "texas.bas",909
+	;[910] ' ---------------------------------------------------------------------------
+	SRCFILE "texas.bas",910
+	;[911] show_purses: PROCEDURE
+	SRCFILE "texas.bas",911
 	; SHOW_PURSES
 label_SHOW_PURSES:	PROC
 	BEGIN
-	;[896]     gs_j = tmp_pc - 2
-	SRCFILE "texas.bas",896
+	;[912]     gs_j = tmp_pc - 2
+	SRCFILE "texas.bas",912
 	MVI var_TMP_PC,R0
 	SUBI #2,R0
 	MVO R0,var_GS_J
-	;[897]     IF gs_j < 0 THEN gs_j = 0
-	SRCFILE "texas.bas",897
+	;[913]     IF gs_j < 0 THEN gs_j = 0
+	SRCFILE "texas.bas",913
 	MVI var_GS_J,R0
 	CMPI #0,R0
-	BGE T223
+	BGE T234
 	CLRR R0
 	MVO R0,var_GS_J
-T223:
-	;[898]     IF gs_j > 6 THEN gs_j = 6
-	SRCFILE "texas.bas",898
+T234:
+	;[914]     IF gs_j > 6 THEN gs_j = 6
+	SRCFILE "texas.bas",914
 	MVI var_GS_J,R0
 	CMPI #6,R0
-	BLE T224
+	BLE T235
 	MVII #6,R0
 	MVO R0,var_GS_J
-T224:
-	;[899] 
-	SRCFILE "texas.bas",899
-	;[900]     FOR gs_i = 0 TO tmp_pc - 1
-	SRCFILE "texas.bas",900
+T235:
+	;[915] 
+	SRCFILE "texas.bas",915
+	;[916]     FOR gs_i = 0 TO tmp_pc - 1
+	SRCFILE "texas.bas",916
 	CLRR R0
 	MVO R0,var_GS_I
-T225:
-	;[901]         sel_seat = PEEK(VARPTR seatmap(0) + gs_j * 8 + gs_i) AND 255
-	SRCFILE "texas.bas",901
+T236:
+	;[917]         sel_seat = PEEK(VARPTR seatmap(0) + gs_j * 8 + gs_i) AND 255
+	SRCFILE "texas.bas",917
 	MVII #label_SEATMAP,R1
 	MVI var_GS_J,R2
 	SLL R2,2
@@ -10265,25 +10361,25 @@ T225:
 	ADD var_GS_I,R1
 	MVI@ R1,R0
 	MVO R0,var_SEL_SEAT
-	;[902]         IF sel_seat <> 255 THEN
-	SRCFILE "texas.bas",902
+	;[918]         IF sel_seat <> 255 THEN
+	SRCFILE "texas.bas",918
 	MVI var_SEL_SEAT,R0
 	CMPI #255,R0
-	BEQ T226
-	;[903]             sel_i = PEEK(VARPTR seat_name_off(0) + sel_seat) AND 255
-	SRCFILE "texas.bas",903
+	BEQ T237
+	;[919]             sel_i = PEEK(VARPTR seat_name_off(0) + sel_seat) AND 255
+	SRCFILE "texas.bas",919
 	MVII #label_SEAT_NAME_OFF,R3
 	ADDR R0,R3
 	MVI@ R3,R0
 	MVO R0,var_SEL_I
-	;[904]             #tmp_addr = player_addr(gs_i)
-	SRCFILE "texas.bas",904
+	;[920]             #tmp_addr = player_addr(gs_i)
+	SRCFILE "texas.bas",920
 	MVI var_GS_I,R0
 	MULT R0,R4,33
 	ADDI #40421,R0
 	MVO R0,var_&TMP_ADDR
-	;[905]             #tmp_num = u16be(#tmp_addr + PL_PURSE)
-	SRCFILE "texas.bas",905
+	;[921]             #tmp_num = u16be(#tmp_addr + PL_PURSE)
+	SRCFILE "texas.bas",921
 	MOVR R0,R1
 	ADDI #21,R1
 	MVI@ R1,R0
@@ -10296,15 +10392,15 @@ T225:
 	ANDI #255,R1
 	ADDR R1,R0
 	MVO R0,var_&TMP_NUM
-	;[906]             IF #tmp_num > 9999 THEN #tmp_num = 9999
-	SRCFILE "texas.bas",906
+	;[922]             IF #tmp_num > 9999 THEN #tmp_num = 9999
+	SRCFILE "texas.bas",922
 	CMPI #9999,R0
-	BLE T227
+	BLE T238
 	MVII #9999,R0
 	MVO R0,var_&TMP_NUM
-T227:
-	;[907]             PRINT AT sel_i COLOR COL_HILITE, <.4>#tmp_num
-	SRCFILE "texas.bas",907
+T238:
+	;[923]             PRINT AT sel_i COLOR COL_HILITE, <.4>#tmp_num
+	SRCFILE "texas.bas",923
 	MVI var_SEL_I,R0
 	ADDI #512,R0
 	MVO R0,_screen
@@ -10316,331 +10412,331 @@ T227:
 	MVI _screen,R4
 	CALL PRNUM16.b
 	MVO R4,_screen
-	;[908]         END IF
-	SRCFILE "texas.bas",908
-T226:
-	;[909]     NEXT gs_i
-	SRCFILE "texas.bas",909
+	;[924]         END IF
+	SRCFILE "texas.bas",924
+T237:
+	;[925]     NEXT gs_i
+	SRCFILE "texas.bas",925
 	MVI var_GS_I,R0
 	INCR R0
 	MVO R0,var_GS_I
 	MVI var_TMP_PC,R1
 	DECR R1
 	CMPR R1,R0
-	BLE T225
-	;[910] 
-	SRCFILE "texas.bas",910
-	;[911] sp_wait:
-	SRCFILE "texas.bas",911
+	BLE T236
+	;[926] 
+	SRCFILE "texas.bas",926
+	;[927] sp_wait:
+	SRCFILE "texas.bas",927
 	; SP_WAIT
-label_SP_WAIT:	;[912]     WAIT
-	SRCFILE "texas.bas",912
+label_SP_WAIT:	;[928]     WAIT
+	SRCFILE "texas.bas",928
 	CALL _wait
-	;[913]     GOSUB read_input
-	SRCFILE "texas.bas",913
+	;[929]     GOSUB read_input
+	SRCFILE "texas.bas",929
 	CALL label_READ_INPUT
-	;[914]     IF inp_key = 11 THEN GOTO sp_wait ' level, not an edge -- this is hold-to-view
-	SRCFILE "texas.bas",914
+	;[930]     IF inp_key = 11 THEN GOTO sp_wait ' level, not an edge -- this is hold-to-view
+	SRCFILE "texas.bas",930
 	MVI var_INP_KEY,R0
 	CMPI #11,R0
 	BEQ label_SP_WAIT
-	;[915] 
-	SRCFILE "texas.bas",915
-	;[916]     force_redraw = 1 ' restore names (and everything else) on the next poll
-	SRCFILE "texas.bas",916
+	;[931] 
+	SRCFILE "texas.bas",931
+	;[932]     force_redraw = 1 ' restore names (and everything else) on the next poll
+	SRCFILE "texas.bas",932
 	MVII #1,R0
 	MVO R0,var_FORCE_REDRAW
-	;[917] END
-	SRCFILE "texas.bas",917
+	;[933] END
+	SRCFILE "texas.bas",933
 	RETURN
 	ENDP
-	;[918] 
-	SRCFILE "texas.bas",918
-	;[919] ' ---------------------------------------------------------------------------
-	SRCFILE "texas.bas",919
-	;[920] ' card_from_ascii / suit_from_ascii: translate the wire's lowercase ASCII
-	SRCFILE "texas.bas",920
-	;[921] ' rank/suit chars (conv_in) into print_card's expected numeric codes
-	SRCFILE "texas.bas",921
-	;[922] ' (conv_out; 0 = unrecognized/blank).
-	SRCFILE "texas.bas",922
-	;[923] ' ---------------------------------------------------------------------------
-	SRCFILE "texas.bas",923
-	;[924] card_from_ascii: PROCEDURE
-	SRCFILE "texas.bas",924
+	;[934] 
+	SRCFILE "texas.bas",934
+	;[935] ' ---------------------------------------------------------------------------
+	SRCFILE "texas.bas",935
+	;[936] ' card_from_ascii / suit_from_ascii: translate the wire's lowercase ASCII
+	SRCFILE "texas.bas",936
+	;[937] ' rank/suit chars (conv_in) into print_card's expected numeric codes
+	SRCFILE "texas.bas",937
+	;[938] ' (conv_out; 0 = unrecognized/blank).
+	SRCFILE "texas.bas",938
+	;[939] ' ---------------------------------------------------------------------------
+	SRCFILE "texas.bas",939
+	;[940] card_from_ascii: PROCEDURE
+	SRCFILE "texas.bas",940
 	; CARD_FROM_ASCII
 label_CARD_FROM_ASCII:	PROC
 	BEGIN
-	;[925]     IF conv_in = 50 THEN
-	SRCFILE "texas.bas",925
+	;[941]     IF conv_in = 50 THEN
+	SRCFILE "texas.bas",941
 	MVI var_CONV_IN,R0
 	CMPI #50,R0
-	BNE T229
-	;[926]         conv_out = 2
-	SRCFILE "texas.bas",926
+	BNE T240
+	;[942]         conv_out = 2
+	SRCFILE "texas.bas",942
 	MVII #2,R0
 	MVO R0,var_CONV_OUT
-	;[927]     ELSEIF conv_in = 51 THEN
-	SRCFILE "texas.bas",927
-	B T230
-T229:
-	MVI var_CONV_IN,R0
-	CMPI #51,R0
-	BNE T231
-	;[928]         conv_out = 3
-	SRCFILE "texas.bas",928
-	MVII #3,R0
-	MVO R0,var_CONV_OUT
-	;[929]     ELSEIF conv_in = 52 THEN
-	SRCFILE "texas.bas",929
-	B T230
-T231:
-	MVI var_CONV_IN,R0
-	CMPI #52,R0
-	BNE T232
-	;[930]         conv_out = 4
-	SRCFILE "texas.bas",930
-	MVII #4,R0
-	MVO R0,var_CONV_OUT
-	;[931]     ELSEIF conv_in = 53 THEN
-	SRCFILE "texas.bas",931
-	B T230
-T232:
-	MVI var_CONV_IN,R0
-	CMPI #53,R0
-	BNE T233
-	;[932]         conv_out = 5
-	SRCFILE "texas.bas",932
-	MVII #5,R0
-	MVO R0,var_CONV_OUT
-	;[933]     ELSEIF conv_in = 54 THEN
-	SRCFILE "texas.bas",933
-	B T230
-T233:
-	MVI var_CONV_IN,R0
-	CMPI #54,R0
-	BNE T234
-	;[934]         conv_out = 6
-	SRCFILE "texas.bas",934
-	MVII #6,R0
-	MVO R0,var_CONV_OUT
-	;[935]     ELSEIF conv_in = 55 THEN
-	SRCFILE "texas.bas",935
-	B T230
-T234:
-	MVI var_CONV_IN,R0
-	CMPI #55,R0
-	BNE T235
-	;[936]         conv_out = 7
-	SRCFILE "texas.bas",936
-	MVII #7,R0
-	MVO R0,var_CONV_OUT
-	;[937]     ELSEIF conv_in = 56 THEN
-	SRCFILE "texas.bas",937
-	B T230
-T235:
-	MVI var_CONV_IN,R0
-	CMPI #56,R0
-	BNE T236
-	;[938]         conv_out = 8
-	SRCFILE "texas.bas",938
-	MVII #8,R0
-	MVO R0,var_CONV_OUT
-	;[939]     ELSEIF conv_in = 57 THEN
-	SRCFILE "texas.bas",939
-	B T230
-T236:
-	MVI var_CONV_IN,R0
-	CMPI #57,R0
-	BNE T237
-	;[940]         conv_out = 9
-	SRCFILE "texas.bas",940
-	MVII #9,R0
-	MVO R0,var_CONV_OUT
-	;[941]     ELSEIF conv_in = 116 THEN
-	SRCFILE "texas.bas",941
-	B T230
-T237:
-	MVI var_CONV_IN,R0
-	CMPI #116,R0
-	BNE T238
-	;[942]         conv_out = 10
-	SRCFILE "texas.bas",942
-	MVII #10,R0
-	MVO R0,var_CONV_OUT
-	;[943]     ELSEIF conv_in = 106 THEN
+	;[943]     ELSEIF conv_in = 51 THEN
 	SRCFILE "texas.bas",943
-	B T230
-T238:
-	MVI var_CONV_IN,R0
-	CMPI #106,R0
-	BNE T239
-	;[944]         conv_out = 11
-	SRCFILE "texas.bas",944
-	MVII #11,R0
-	MVO R0,var_CONV_OUT
-	;[945]     ELSEIF conv_in = 113 THEN
-	SRCFILE "texas.bas",945
-	B T230
-T239:
-	MVI var_CONV_IN,R0
-	CMPI #113,R0
-	BNE T240
-	;[946]         conv_out = 12
-	SRCFILE "texas.bas",946
-	MVII #12,R0
-	MVO R0,var_CONV_OUT
-	;[947]     ELSEIF conv_in = 107 THEN
-	SRCFILE "texas.bas",947
-	B T230
+	B T241
 T240:
 	MVI var_CONV_IN,R0
-	CMPI #107,R0
-	BNE T241
-	;[948]         conv_out = 13
+	CMPI #51,R0
+	BNE T242
+	;[944]         conv_out = 3
+	SRCFILE "texas.bas",944
+	MVII #3,R0
+	MVO R0,var_CONV_OUT
+	;[945]     ELSEIF conv_in = 52 THEN
+	SRCFILE "texas.bas",945
+	B T241
+T242:
+	MVI var_CONV_IN,R0
+	CMPI #52,R0
+	BNE T243
+	;[946]         conv_out = 4
+	SRCFILE "texas.bas",946
+	MVII #4,R0
+	MVO R0,var_CONV_OUT
+	;[947]     ELSEIF conv_in = 53 THEN
+	SRCFILE "texas.bas",947
+	B T241
+T243:
+	MVI var_CONV_IN,R0
+	CMPI #53,R0
+	BNE T244
+	;[948]         conv_out = 5
 	SRCFILE "texas.bas",948
+	MVII #5,R0
+	MVO R0,var_CONV_OUT
+	;[949]     ELSEIF conv_in = 54 THEN
+	SRCFILE "texas.bas",949
+	B T241
+T244:
+	MVI var_CONV_IN,R0
+	CMPI #54,R0
+	BNE T245
+	;[950]         conv_out = 6
+	SRCFILE "texas.bas",950
+	MVII #6,R0
+	MVO R0,var_CONV_OUT
+	;[951]     ELSEIF conv_in = 55 THEN
+	SRCFILE "texas.bas",951
+	B T241
+T245:
+	MVI var_CONV_IN,R0
+	CMPI #55,R0
+	BNE T246
+	;[952]         conv_out = 7
+	SRCFILE "texas.bas",952
+	MVII #7,R0
+	MVO R0,var_CONV_OUT
+	;[953]     ELSEIF conv_in = 56 THEN
+	SRCFILE "texas.bas",953
+	B T241
+T246:
+	MVI var_CONV_IN,R0
+	CMPI #56,R0
+	BNE T247
+	;[954]         conv_out = 8
+	SRCFILE "texas.bas",954
+	MVII #8,R0
+	MVO R0,var_CONV_OUT
+	;[955]     ELSEIF conv_in = 57 THEN
+	SRCFILE "texas.bas",955
+	B T241
+T247:
+	MVI var_CONV_IN,R0
+	CMPI #57,R0
+	BNE T248
+	;[956]         conv_out = 9
+	SRCFILE "texas.bas",956
+	MVII #9,R0
+	MVO R0,var_CONV_OUT
+	;[957]     ELSEIF conv_in = 116 THEN
+	SRCFILE "texas.bas",957
+	B T241
+T248:
+	MVI var_CONV_IN,R0
+	CMPI #116,R0
+	BNE T249
+	;[958]         conv_out = 10
+	SRCFILE "texas.bas",958
+	MVII #10,R0
+	MVO R0,var_CONV_OUT
+	;[959]     ELSEIF conv_in = 106 THEN
+	SRCFILE "texas.bas",959
+	B T241
+T249:
+	MVI var_CONV_IN,R0
+	CMPI #106,R0
+	BNE T250
+	;[960]         conv_out = 11
+	SRCFILE "texas.bas",960
+	MVII #11,R0
+	MVO R0,var_CONV_OUT
+	;[961]     ELSEIF conv_in = 113 THEN
+	SRCFILE "texas.bas",961
+	B T241
+T250:
+	MVI var_CONV_IN,R0
+	CMPI #113,R0
+	BNE T251
+	;[962]         conv_out = 12
+	SRCFILE "texas.bas",962
+	MVII #12,R0
+	MVO R0,var_CONV_OUT
+	;[963]     ELSEIF conv_in = 107 THEN
+	SRCFILE "texas.bas",963
+	B T241
+T251:
+	MVI var_CONV_IN,R0
+	CMPI #107,R0
+	BNE T252
+	;[964]         conv_out = 13
+	SRCFILE "texas.bas",964
 	MVII #13,R0
 	MVO R0,var_CONV_OUT
-	;[949]     ELSEIF conv_in = 97 THEN
-	SRCFILE "texas.bas",949
-	B T230
-T241:
+	;[965]     ELSEIF conv_in = 97 THEN
+	SRCFILE "texas.bas",965
+	B T241
+T252:
 	MVI var_CONV_IN,R0
 	CMPI #97,R0
-	BNE T242
-	;[950]         conv_out = 14
-	SRCFILE "texas.bas",950
+	BNE T253
+	;[966]         conv_out = 14
+	SRCFILE "texas.bas",966
 	MVII #14,R0
 	MVO R0,var_CONV_OUT
-	;[951]     ELSE
-	SRCFILE "texas.bas",951
-	B T230
-T242:
-	;[952]         conv_out = 0
-	SRCFILE "texas.bas",952
+	;[967]     ELSE
+	SRCFILE "texas.bas",967
+	B T241
+T253:
+	;[968]         conv_out = 0
+	SRCFILE "texas.bas",968
 	CLRR R0
 	MVO R0,var_CONV_OUT
-	;[953]     END IF
-	SRCFILE "texas.bas",953
-T230:
-	;[954] END
-	SRCFILE "texas.bas",954
+	;[969]     END IF
+	SRCFILE "texas.bas",969
+T241:
+	;[970] END
+	SRCFILE "texas.bas",970
 	RETURN
 	ENDP
-	;[955] 
-	SRCFILE "texas.bas",955
-	;[956] suit_from_ascii: PROCEDURE
-	SRCFILE "texas.bas",956
+	;[971] 
+	SRCFILE "texas.bas",971
+	;[972] suit_from_ascii: PROCEDURE
+	SRCFILE "texas.bas",972
 	; SUIT_FROM_ASCII
 label_SUIT_FROM_ASCII:	PROC
 	BEGIN
-	;[957]     IF conv_in = 100 THEN
-	SRCFILE "texas.bas",957
+	;[973]     IF conv_in = 100 THEN
+	SRCFILE "texas.bas",973
 	MVI var_CONV_IN,R0
 	CMPI #100,R0
-	BNE T243
-	;[958]         conv_out = DIAMONDS
-	SRCFILE "texas.bas",958
+	BNE T254
+	;[974]         conv_out = DIAMONDS
+	SRCFILE "texas.bas",974
 	MVII #1,R0
 	MVO R0,var_CONV_OUT
-	;[959]     ELSEIF conv_in = 104 THEN
-	SRCFILE "texas.bas",959
-	B T244
-T243:
+	;[975]     ELSEIF conv_in = 104 THEN
+	SRCFILE "texas.bas",975
+	B T255
+T254:
 	MVI var_CONV_IN,R0
 	CMPI #104,R0
-	BNE T245
-	;[960]         conv_out = HEARTS
-	SRCFILE "texas.bas",960
+	BNE T256
+	;[976]         conv_out = HEARTS
+	SRCFILE "texas.bas",976
 	MVII #2,R0
 	MVO R0,var_CONV_OUT
-	;[961]     ELSEIF conv_in = 99 THEN
-	SRCFILE "texas.bas",961
-	B T244
-T245:
+	;[977]     ELSEIF conv_in = 99 THEN
+	SRCFILE "texas.bas",977
+	B T255
+T256:
 	MVI var_CONV_IN,R0
 	CMPI #99,R0
-	BNE T246
-	;[962]         conv_out = CLUBS
-	SRCFILE "texas.bas",962
+	BNE T257
+	;[978]         conv_out = CLUBS
+	SRCFILE "texas.bas",978
 	MVII #3,R0
 	MVO R0,var_CONV_OUT
-	;[963]     ELSEIF conv_in = 115 THEN
-	SRCFILE "texas.bas",963
-	B T244
-T246:
+	;[979]     ELSEIF conv_in = 115 THEN
+	SRCFILE "texas.bas",979
+	B T255
+T257:
 	MVI var_CONV_IN,R0
 	CMPI #115,R0
-	BNE T247
-	;[964]         conv_out = SPADES
-	SRCFILE "texas.bas",964
+	BNE T258
+	;[980]         conv_out = SPADES
+	SRCFILE "texas.bas",980
 	MVII #4,R0
 	MVO R0,var_CONV_OUT
-	;[965]     ELSE
-	SRCFILE "texas.bas",965
-	B T244
-T247:
-	;[966]         conv_out = 0
-	SRCFILE "texas.bas",966
+	;[981]     ELSE
+	SRCFILE "texas.bas",981
+	B T255
+T258:
+	;[982]         conv_out = 0
+	SRCFILE "texas.bas",982
 	CLRR R0
 	MVO R0,var_CONV_OUT
-	;[967]     END IF
-	SRCFILE "texas.bas",967
-T244:
-	;[968] END
-	SRCFILE "texas.bas",968
+	;[983]     END IF
+	SRCFILE "texas.bas",983
+T255:
+	;[984] END
+	SRCFILE "texas.bas",984
 	RETURN
 	ENDP
-	;[969] 
-	SRCFILE "texas.bas",969
-	;[970] ' ---------------------------------------------------------------------------
-	SRCFILE "texas.bas",970
-	;[971] ' draw_status: status row (row 11). Your turn is handled separately by
-	SRCFILE "texas.bas",971
-	;[972] ' move_ui (which overwrites this row); otherwise show "WAIT <name>" while
-	SRCFILE "texas.bas",972
-	;[973] ' someone else acts, or the truncated lastResult otherwise.
-	SRCFILE "texas.bas",973
-	;[974] ' ---------------------------------------------------------------------------
-	SRCFILE "texas.bas",974
-	;[975] draw_status: PROCEDURE
-	SRCFILE "texas.bas",975
+	;[985] 
+	SRCFILE "texas.bas",985
+	;[986] ' ---------------------------------------------------------------------------
+	SRCFILE "texas.bas",986
+	;[987] ' draw_status: status row (row 11). Your turn is handled separately by
+	SRCFILE "texas.bas",987
+	;[988] ' move_ui (which overwrites this row); otherwise show "WAIT <name>" while
+	SRCFILE "texas.bas",988
+	;[989] ' someone else acts, or the truncated lastResult otherwise.
+	SRCFILE "texas.bas",989
+	;[990] ' ---------------------------------------------------------------------------
+	SRCFILE "texas.bas",990
+	;[991] draw_status: PROCEDURE
+	SRCFILE "texas.bas",991
 	; DRAW_STATUS
 label_DRAW_STATUS:	PROC
 	BEGIN
-	;[976]     IF active_player > 0 THEN
-	SRCFILE "texas.bas",976
+	;[992]     IF active_player > 0 THEN
+	SRCFILE "texas.bas",992
 	MVI 40340,R0
 	ANDI #255,R0
 	CMPI #255,R0
 	MVII #65535,R0
-	BEQ T249
+	BEQ T260
 	INCR R0
-T249:
+T260:
 	MVII #65280,R5
 	CLRR R4
 	CLRC
 	RRC R0,1
-	BEQ T251
-T250:
-	BNC T252
+	BEQ T262
+T261:
+	BNC T263
 	ADDR R5,R4
-T252:
+T263:
 	ADDR R5,R5
 	SARC R0,1
-	BNE T250
-T251:
-	BNC T253
+	BNE T261
+T262:
+	BNC T264
 	ADDR R5,R4
-T253:
+T264:
 	MOVR R4,R0
 	MVI 40340,R1
 	ANDI #255,R1
 	ADDR R1,R0
 	CMPI #0,R0
-	BLE T248
-	;[977]         PRINT AT STATUS_ROW COLOR COL_STATUS, "WAIT "
-	SRCFILE "texas.bas",977
+	BLE T259
+	;[993]         PRINT AT STATUS_ROW COLOR COL_STATUS, "WAIT "
+	SRCFILE "texas.bas",993
 	MVII #732,R0
 	MVO R0,_screen
 	MVII #7,R0
@@ -10658,31 +10754,31 @@ T253:
 	XORI #416,R0
 	MVO@ R0,R4
 	MVO R4,_screen
-	;[978]         #tmp_addr = player_addr(active_player)
-	SRCFILE "texas.bas",978
+	;[994]         #tmp_addr = player_addr(active_player)
+	SRCFILE "texas.bas",994
 	MVI 40340,R0
 	ANDI #255,R0
 	CMPI #255,R0
 	MVII #65535,R0
-	BEQ T254
+	BEQ T265
 	INCR R0
-T254:
+T265:
 	MVII #65280,R5
 	CLRR R4
 	CLRC
 	RRC R0,1
-	BEQ T256
-T255:
-	BNC T257
+	BEQ T267
+T266:
+	BNC T268
 	ADDR R5,R4
-T257:
+T268:
 	ADDR R5,R5
 	SARC R0,1
-	BNE T255
-T256:
-	BNC T258
+	BNE T266
+T267:
+	BNC T269
 	ADDR R5,R4
-T258:
+T269:
 	MOVR R4,R0
 	MVI 40340,R1
 	ANDI #255,R1
@@ -10690,8 +10786,8 @@ T258:
 	ADDR R1,R0
 	ADDI #40421,R0
 	MVO R0,var_&TMP_ADDR
-	;[979]         #df_src = #tmp_addr + PL_NAME : df_pos = STATUS_ROW + 5 : df_len = 4 : #df_color = COL_STATUS
-	SRCFILE "texas.bas",979
+	;[995]         #df_src = #tmp_addr + PL_NAME : df_pos = STATUS_ROW + 5 : df_len = 4 : #df_color = COL_STATUS
+	SRCFILE "texas.bas",995
 	MVO R0,var_&DF_SRC
 	MVII #225,R0
 	MVO R0,var_DF_POS
@@ -10699,41 +10795,41 @@ T258:
 	MVO R0,var_DF_LEN
 	MVII #7,R0
 	MVO R0,var_&DF_COLOR
-	;[980]         GOSUB draw_field
-	SRCFILE "texas.bas",980
+	;[996]         GOSUB draw_field
+	SRCFILE "texas.bas",996
 	CALL label_DRAW_FIELD
-	;[981]         ' "WAIT <name>" only fills 9 of the row's 20 cells -- without a
-	SRCFILE "texas.bas",981
-	;[982]         ' full CLS between polls, blank out the rest so a previous,
-	SRCFILE "texas.bas",982
-	;[983]         ' longer status line (the lastResult branch below, or a move
-	SRCFILE "texas.bas",983
-	;[984]         ' menu) can't leave stale characters past column 8.
-	SRCFILE "texas.bas",984
-	;[985]         FOR gs_i = STATUS_ROW + 9 TO STATUS_ROW + ROWCELLS - 1
-	SRCFILE "texas.bas",985
+	;[997]         ' "WAIT <name>" only fills 9 of the row's 20 cells -- without a
+	SRCFILE "texas.bas",997
+	;[998]         ' full CLS between polls, blank out the rest so a previous,
+	SRCFILE "texas.bas",998
+	;[999]         ' longer status line (the lastResult branch below, or a move
+	SRCFILE "texas.bas",999
+	;[1000]         ' menu) can't leave stale characters past column 8.
+	SRCFILE "texas.bas",1000
+	;[1001]         FOR gs_i = STATUS_ROW + 9 TO STATUS_ROW + ROWCELLS - 1
+	SRCFILE "texas.bas",1001
 	MVII #229,R0
 	MVO R0,var_GS_I
-T259:
-	;[986]             #BACKTAB(gs_i) = COL_STATUS
-	SRCFILE "texas.bas",986
+T270:
+	;[1002]             #BACKTAB(gs_i) = COL_STATUS
+	SRCFILE "texas.bas",1002
 	MVII #7,R0
 	MVII #Q2,R3
 	ADD var_GS_I,R3
 	MVO@ R0,R3
-	;[987]         NEXT gs_i
-	SRCFILE "texas.bas",987
+	;[1003]         NEXT gs_i
+	SRCFILE "texas.bas",1003
 	MVI var_GS_I,R0
 	INCR R0
 	MVO R0,var_GS_I
 	CMPI #239,R0
-	BLE T259
-	;[988]     ELSE
-	SRCFILE "texas.bas",988
-	B T260
-T248:
-	;[989]         #df_src = FN_RX + GAME_LASTRESULT : df_pos = STATUS_ROW : df_len = ROWCELLS : #df_color = COL_STATUS
-	SRCFILE "texas.bas",989
+	BLE T270
+	;[1004]     ELSE
+	SRCFILE "texas.bas",1004
+	B T271
+T259:
+	;[1005]         #df_src = FN_RX + GAME_LASTRESULT : df_pos = STATUS_ROW : df_len = ROWCELLS : #df_color = COL_STATUS
+	SRCFILE "texas.bas",1005
 	MVII #40256,R0
 	MVO R0,var_&DF_SRC
 	MVII #220,R0
@@ -10742,129 +10838,145 @@ T248:
 	MVO R0,var_DF_LEN
 	MVII #7,R0
 	MVO R0,var_&DF_COLOR
-	;[990]         GOSUB draw_field
-	SRCFILE "texas.bas",990
+	;[1006]         GOSUB draw_field
+	SRCFILE "texas.bas",1006
 	CALL label_DRAW_FIELD
-	;[991]     END IF
-	SRCFILE "texas.bas",991
-T260:
-	;[992] END
-	SRCFILE "texas.bas",992
+	;[1007]     END IF
+	SRCFILE "texas.bas",1007
+T271:
+	;[1008] END
+	SRCFILE "texas.bas",1008
 	RETURN
 	ENDP
-	;[993] 
-	SRCFILE "texas.bas",993
-	;[994] ' ===========================================================================
-	SRCFILE "texas.bas",994
-	;[995] ' move_ui: your turn. List valid moves on the status row, disc left/right
-	SRCFILE "texas.bas",995
-	;[996] ' to choose, action button to submit. Sets has_move + mvcode_a/mvcode_b.
-	SRCFILE "texas.bas",996
-	;[997] ' ===========================================================================
-	SRCFILE "texas.bas",997
-	;[998] move_ui: PROCEDURE
-	SRCFILE "texas.bas",998
+	;[1009] 
+	SRCFILE "texas.bas",1009
+	;[1010] ' ===========================================================================
+	SRCFILE "texas.bas",1010
+	;[1011] ' move_ui: your turn. List valid moves on the status row, disc left/right
+	SRCFILE "texas.bas",1011
+	;[1012] ' to choose, action button to submit. Sets has_move + mvcode_a/mvcode_b.
+	SRCFILE "texas.bas",1012
+	;[1013] ' ===========================================================================
+	SRCFILE "texas.bas",1013
+	;[1014] move_ui: PROCEDURE
+	SRCFILE "texas.bas",1014
 	; MOVE_UI
 label_MOVE_UI:	PROC
 	BEGIN
-	;[999]     mv_count = PEEK(FN_RX + GAME_VALIDMOVECOUNT) AND 255
-	SRCFILE "texas.bas",999
+	;[1015]     mv_count = PEEK(FN_RX + GAME_VALIDMOVECOUNT) AND 255
+	SRCFILE "texas.bas",1015
 	MVI 40354,R0
 	MVO R0,var_MV_COUNT
-	;[1000]     IF mv_count > 5 THEN mv_count = 5
-	SRCFILE "texas.bas",1000
+	;[1016]     IF mv_count > 5 THEN mv_count = 5
+	SRCFILE "texas.bas",1016
 	MVI var_MV_COUNT,R0
 	CMPI #5,R0
-	BLE T261
+	BLE T272
 	MVII #5,R0
 	MVO R0,var_MV_COUNT
-T261:
-	;[1001]     IF mv_count = 0 THEN RETURN
-	SRCFILE "texas.bas",1001
+T272:
+	;[1017]     IF mv_count = 0 THEN RETURN
+	SRCFILE "texas.bas",1017
 	MVI var_MV_COUNT,R0
 	TSTR R0
-	BNE T262
+	BNE T273
 	RETURN
-T262:
-	;[1002] 
-	SRCFILE "texas.bas",1002
-	;[1003]     mv_sel = 0
-	SRCFILE "texas.bas",1003
+T273:
+	;[1018] 
+	SRCFILE "texas.bas",1018
+	;[1019]     mv_sel = 0
+	SRCFILE "texas.bas",1019
 	CLRR R0
 	MVO R0,var_MV_SEL
-	;[1004]     IF mv_count > 1 THEN mv_sel = 1 ' default to the second move (not Fold), matching the C client
-	SRCFILE "texas.bas",1004
+	;[1020]     IF mv_count > 1 THEN mv_sel = 1 ' default to the second move (not Fold), matching the C client
+	SRCFILE "texas.bas",1020
 	MVI var_MV_COUNT,R0
 	CMPI #1,R0
-	BLE T263
+	BLE T274
 	MVII #1,R0
 	MVO R0,var_MV_SEL
-T263:
-	;[1005]     GOSUB sound_myturn
-	SRCFILE "texas.bas",1005
+T274:
+	;[1021]     ' Only on the poll where the turn actually changed hands -- see the
+	SRCFILE "texas.bas",1021
+	;[1022]     ' turn_changed comment in the game loop. Kept below the mv_count guard
+	SRCFILE "texas.bas",1022
+	;[1023]     ' so a state that says it's your turn but carries no moves to make
+	SRCFILE "texas.bas",1023
+	;[1024]     ' stays silent (the edge is spent either way, matching Fujitzee: the
+	SRCFILE "texas.bas",1024
+	;[1025]     ' server always attaches validMoves with the turn, so a zero count is
+	SRCFILE "texas.bas",1025
+	;[1026]     ' a malformed response rather than a turn worth announcing).
+	SRCFILE "texas.bas",1026
+	;[1027]     IF turn_changed THEN GOSUB sound_myturn
+	SRCFILE "texas.bas",1027
+	MVI var_TURN_CHANGED,R0
+	TSTR R0
+	BEQ T275
 	CALL label_SOUND_MYTURN
-	;[1006] 
-	SRCFILE "texas.bas",1006
-	;[1007]     ' Without a per-poll CLS, the status row can be carrying over a
-	SRCFILE "texas.bas",1007
-	;[1008]     ' previous, wider draw_status message (lastResult fills all 20
-	SRCFILE "texas.bas",1008
-	;[1009]     ' cells) -- move_ui only pokes the exact columns its move names
-	SRCFILE "texas.bas",1009
-	;[1010]     ' occupy, so blank the whole row once up front rather than leaving
-	SRCFILE "texas.bas",1010
-	;[1011]     ' stale text past the last move.
-	SRCFILE "texas.bas",1011
-	;[1012]     FOR gs_i = STATUS_ROW TO STATUS_ROW + ROWCELLS - 1
-	SRCFILE "texas.bas",1012
+T275:
+	;[1028] 
+	SRCFILE "texas.bas",1028
+	;[1029]     ' Without a per-poll CLS, the status row can be carrying over a
+	SRCFILE "texas.bas",1029
+	;[1030]     ' previous, wider draw_status message (lastResult fills all 20
+	SRCFILE "texas.bas",1030
+	;[1031]     ' cells) -- move_ui only pokes the exact columns its move names
+	SRCFILE "texas.bas",1031
+	;[1032]     ' occupy, so blank the whole row once up front rather than leaving
+	SRCFILE "texas.bas",1032
+	;[1033]     ' stale text past the last move.
+	SRCFILE "texas.bas",1033
+	;[1034]     FOR gs_i = STATUS_ROW TO STATUS_ROW + ROWCELLS - 1
+	SRCFILE "texas.bas",1034
 	MVII #220,R0
 	MVO R0,var_GS_I
-T264:
-	;[1013]         #BACKTAB(gs_i) = COL_STATUS
-	SRCFILE "texas.bas",1013
+T276:
+	;[1035]         #BACKTAB(gs_i) = COL_STATUS
+	SRCFILE "texas.bas",1035
 	MVII #7,R0
 	MVII #Q2,R3
 	ADD var_GS_I,R3
 	MVO@ R0,R3
-	;[1014]     NEXT gs_i
-	SRCFILE "texas.bas",1014
+	;[1036]     NEXT gs_i
+	SRCFILE "texas.bas",1036
 	MVI var_GS_I,R0
 	INCR R0
 	MVO R0,var_GS_I
 	CMPI #239,R0
-	BLE T264
-	;[1015]     ' Stopwatch icon (cardbot's 7th/last glyph, screen code 276 -- the
-	SRCFILE "texas.bas",1015
-	;[1016]     ' only one of that set that's a clock face) in the last 3 columns of
-	SRCFILE "texas.bas",1016
-	;[1017]     ' the move row, poked directly rather than through print_card since
-	SRCFILE "texas.bas",1017
-	;[1018]     ' this isn't a playing card.
-	SRCFILE "texas.bas",1018
-	;[1019]     #BACKTAB(STATUS_ROW + 17) = 276 * 8 + COL_STATUS
-	SRCFILE "texas.bas",1019
+	BLE T276
+	;[1037]     ' Stopwatch icon (cardbot's 7th/last glyph, screen code 276 -- the
+	SRCFILE "texas.bas",1037
+	;[1038]     ' only one of that set that's a clock face) in the last 3 columns of
+	SRCFILE "texas.bas",1038
+	;[1039]     ' the move row, poked directly rather than through print_card since
+	SRCFILE "texas.bas",1039
+	;[1040]     ' this isn't a playing card.
+	SRCFILE "texas.bas",1040
+	;[1041]     #BACKTAB(STATUS_ROW + 17) = 276 * 8 + COL_STATUS
+	SRCFILE "texas.bas",1041
 	MVII #2215,R0
 	MVO R0,Q2+237
-	;[1020] 
-	SRCFILE "texas.bas",1020
-	;[1021]     ' moveTime (server-computed, already net of a network round-trip
-	SRCFILE "texas.bas",1021
-	;[1022]     ' grace period -- see gameLogic.go) is our countdown's starting
-	SRCFILE "texas.bas",1022
-	;[1023]     ' point; we count it down locally frame-by-frame rather than
-	SRCFILE "texas.bas",1023
-	;[1024]     ' re-polling the server every second.
-	SRCFILE "texas.bas",1024
-	;[1025]     mv_timeleft = PEEK(FN_RX + GAME_MOVETIME) AND 255
-	SRCFILE "texas.bas",1025
+	;[1042] 
+	SRCFILE "texas.bas",1042
+	;[1043]     ' moveTime (server-computed, already net of a network round-trip
+	SRCFILE "texas.bas",1043
+	;[1044]     ' grace period -- see gameLogic.go) is our countdown's starting
+	SRCFILE "texas.bas",1044
+	;[1045]     ' point; we count it down locally frame-by-frame rather than
+	SRCFILE "texas.bas",1045
+	;[1046]     ' re-polling the server every second.
+	SRCFILE "texas.bas",1046
+	;[1047]     mv_timeleft = PEEK(FN_RX + GAME_MOVETIME) AND 255
+	SRCFILE "texas.bas",1047
 	MVI 40341,R0
 	MVO R0,var_MV_TIMELEFT
-	;[1026]     mv_framecount = 0
-	SRCFILE "texas.bas",1026
+	;[1048]     mv_framecount = 0
+	SRCFILE "texas.bas",1048
 	CLRR R0
 	MVO R0,var_MV_FRAMECOUNT
-	;[1027]     PRINT AT STATUS_ROW + 18 COLOR COL_STATUS, <2>mv_timeleft
-	SRCFILE "texas.bas",1027
+	;[1049]     PRINT AT STATUS_ROW + 18 COLOR COL_STATUS, <2>mv_timeleft
+	SRCFILE "texas.bas",1049
 	MVII #750,R0
 	MVO R0,_screen
 	MVII #7,R0
@@ -10875,102 +10987,102 @@ T264:
 	MVI _screen,R4
 	CALL PRNUM16.z
 	MVO R4,_screen
-	;[1028] 
-	SRCFILE "texas.bas",1028
-	;[1029]     ' Columns 0-16 are the move menu's budget (the stopwatch + timer own
-	SRCFILE "texas.bas",1029
-	;[1030]     ' 17-19). 5 Card Stud's fixed 5-col spacing with a clamp at 12 let a
-	SRCFILE "texas.bas",1030
-	;[1031]     ' 4th move overwrite half the 3rd ("RAIS"/"ALL-" rendering as
-	SRCFILE "texas.bas",1031
-	;[1032]     ' "RAALL-") -- rare there, but Hold'em offers FOLD/CHECK/RAISE/ALL-IN
-	SRCFILE "texas.bas",1032
-	;[1033]     ' routinely, so scale the spacing to the move count instead and show
-	SRCFILE "texas.bas",1033
-	;[1034]     ' as many name chars as fit in it: 1-3 moves get 5 cols / 4 chars
-	SRCFILE "texas.bas",1034
-	;[1035]     ' (unchanged), 4 get 4/3, 5 get 3/2. Never overlaps, never reaches
-	SRCFILE "texas.bas",1035
-	;[1036]     ' the timer.
-	SRCFILE "texas.bas",1036
-	;[1037]     mv_gap = 16 / mv_count
-	SRCFILE "texas.bas",1037
+	;[1050] 
+	SRCFILE "texas.bas",1050
+	;[1051]     ' Columns 0-16 are the move menu's budget (the stopwatch + timer own
+	SRCFILE "texas.bas",1051
+	;[1052]     ' 17-19). 5 Card Stud's fixed 5-col spacing with a clamp at 12 let a
+	SRCFILE "texas.bas",1052
+	;[1053]     ' 4th move overwrite half the 3rd ("RAIS"/"ALL-" rendering as
+	SRCFILE "texas.bas",1053
+	;[1054]     ' "RAALL-") -- rare there, but Hold'em offers FOLD/CHECK/RAISE/ALL-IN
+	SRCFILE "texas.bas",1054
+	;[1055]     ' routinely, so scale the spacing to the move count instead and show
+	SRCFILE "texas.bas",1055
+	;[1056]     ' as many name chars as fit in it: 1-3 moves get 5 cols / 4 chars
+	SRCFILE "texas.bas",1056
+	;[1057]     ' (unchanged), 4 get 4/3, 5 get 3/2. Never overlaps, never reaches
+	SRCFILE "texas.bas",1057
+	;[1058]     ' the timer.
+	SRCFILE "texas.bas",1058
+	;[1059]     mv_gap = 16 / mv_count
+	SRCFILE "texas.bas",1059
 	MVII #16,R0
 	MVI var_MV_COUNT,R4
 	MOVR R0,R5
 	TSTR R4
-	BEQ T265
+	BEQ T277
 	MVII #65535,R0
-T266:
+T278:
 	INCR R0
 	SUBR R4,R5
-	BC T266
-T265:
+	BC T278
+T277:
 	MVO R0,var_MV_GAP
-	;[1038]     IF mv_gap > 5 THEN mv_gap = 5
-	SRCFILE "texas.bas",1038
+	;[1060]     IF mv_gap > 5 THEN mv_gap = 5
+	SRCFILE "texas.bas",1060
 	MVI var_MV_GAP,R0
 	CMPI #5,R0
-	BLE T267
+	BLE T279
 	MVII #5,R0
 	MVO R0,var_MV_GAP
-T267:
-	;[1039]     mv_len = mv_gap - 1
-	SRCFILE "texas.bas",1039
+T279:
+	;[1061]     mv_len = mv_gap - 1
+	SRCFILE "texas.bas",1061
 	MVI var_MV_GAP,R0
 	DECR R0
 	MVO R0,var_MV_LEN
-	;[1040]     IF mv_len > 4 THEN mv_len = 4
-	SRCFILE "texas.bas",1040
+	;[1062]     IF mv_len > 4 THEN mv_len = 4
+	SRCFILE "texas.bas",1062
 	MVI var_MV_LEN,R0
 	CMPI #4,R0
-	BLE T268
+	BLE T280
 	MVII #4,R0
 	MVO R0,var_MV_LEN
-T268:
-	;[1041] 
-	SRCFILE "texas.bas",1041
-	;[1042]     inp_lock = 0
-	SRCFILE "texas.bas",1042
+T280:
+	;[1063] 
+	SRCFILE "texas.bas",1063
+	;[1064]     inp_lock = 0
+	SRCFILE "texas.bas",1064
 	CLRR R0
 	MVO R0,var_INP_LOCK
-	;[1043] mu_loop:
-	SRCFILE "texas.bas",1043
+	;[1065] mu_loop:
+	SRCFILE "texas.bas",1065
 	; MU_LOOP
-label_MU_LOOP:	;[1044]     gs_j = 0
-	SRCFILE "texas.bas",1044
+label_MU_LOOP:	;[1066]     gs_j = 0
+	SRCFILE "texas.bas",1066
 	CLRR R0
 	MVO R0,var_GS_J
-	;[1045]     FOR gs_i = 0 TO mv_count - 1
-	SRCFILE "texas.bas",1045
+	;[1067]     FOR gs_i = 0 TO mv_count - 1
+	SRCFILE "texas.bas",1067
 	MVO R0,var_GS_I
-T269:
-	;[1046]         mv_col(gs_i) = gs_j
-	SRCFILE "texas.bas",1046
+T281:
+	;[1068]         mv_col(gs_i) = gs_j
+	SRCFILE "texas.bas",1068
 	MVI var_GS_J,R0
 	MVII #array_MV_COL,R3
 	ADD var_GS_I,R3
 	MVO@ R0,R3
-	;[1047]         #gs_c = COL_STATUS
-	SRCFILE "texas.bas",1047
+	;[1069]         #gs_c = COL_STATUS
+	SRCFILE "texas.bas",1069
 	MVII #7,R0
 	MVO R0,var_&GS_C
-	;[1048]         IF gs_i = mv_sel THEN #gs_c = COL_HILITE
-	SRCFILE "texas.bas",1048
+	;[1070]         IF gs_i = mv_sel THEN #gs_c = COL_HILITE
+	SRCFILE "texas.bas",1070
 	MVI var_GS_I,R0
 	CMP var_MV_SEL,R0
-	BNE T270
+	BNE T282
 	MVII #8198,R0
 	MVO R0,var_&GS_C
-T270:
-	;[1049]         #tmp_addr = move_addr(gs_i)
-	SRCFILE "texas.bas",1049
+T282:
+	;[1071]         #tmp_addr = move_addr(gs_i)
+	SRCFILE "texas.bas",1071
 	MVI var_GS_I,R0
 	MULT R0,R4,13
 	ADDI #40355,R0
 	MVO R0,var_&TMP_ADDR
-	;[1050]         #df_src = #tmp_addr + MOVE_NAME : df_pos = STATUS_ROW + gs_j : df_len = mv_len : #df_color = #gs_c
-	SRCFILE "texas.bas",1050
+	;[1072]         #df_src = #tmp_addr + MOVE_NAME : df_pos = STATUS_ROW + gs_j : df_len = mv_len : #df_color = #gs_c
+	SRCFILE "texas.bas",1072
 	ADDI #3,R0
 	MVO R0,var_&DF_SRC
 	MVI var_GS_J,R0
@@ -10980,57 +11092,57 @@ T270:
 	MVO R0,var_DF_LEN
 	MVI var_&GS_C,R0
 	MVO R0,var_&DF_COLOR
-	;[1051]         GOSUB draw_field
-	SRCFILE "texas.bas",1051
+	;[1073]         GOSUB draw_field
+	SRCFILE "texas.bas",1073
 	CALL label_DRAW_FIELD
-	;[1052]         gs_j = gs_j + mv_gap
-	SRCFILE "texas.bas",1052
+	;[1074]         gs_j = gs_j + mv_gap
+	SRCFILE "texas.bas",1074
 	MVI var_GS_J,R0
 	ADD var_MV_GAP,R0
 	MVO R0,var_GS_J
-	;[1053]     NEXT gs_i
-	SRCFILE "texas.bas",1053
+	;[1075]     NEXT gs_i
+	SRCFILE "texas.bas",1075
 	MVI var_GS_I,R0
 	INCR R0
 	MVO R0,var_GS_I
 	MVI var_MV_COUNT,R1
 	DECR R1
 	CMPR R1,R0
-	BLE T269
-	;[1054] 
-	SRCFILE "texas.bas",1054
-	;[1055]     WAIT
-	SRCFILE "texas.bas",1055
+	BLE T281
+	;[1076] 
+	SRCFILE "texas.bas",1076
+	;[1077]     WAIT
+	SRCFILE "texas.bas",1077
 	CALL _wait
-	;[1056]     GOSUB read_input
-	SRCFILE "texas.bas",1056
+	;[1078]     GOSUB read_input
+	SRCFILE "texas.bas",1078
 	CALL label_READ_INPUT
-	;[1057] 
-	SRCFILE "texas.bas",1057
-	;[1058]     mv_framecount = mv_framecount + 1
-	SRCFILE "texas.bas",1058
+	;[1079] 
+	SRCFILE "texas.bas",1079
+	;[1080]     mv_framecount = mv_framecount + 1
+	SRCFILE "texas.bas",1080
 	MVI var_MV_FRAMECOUNT,R0
 	INCR R0
 	MVO R0,var_MV_FRAMECOUNT
-	;[1059]     IF mv_framecount >= 60 THEN
-	SRCFILE "texas.bas",1059
+	;[1081]     IF mv_framecount >= 60 THEN
+	SRCFILE "texas.bas",1081
 	MVI var_MV_FRAMECOUNT,R0
 	CMPI #60,R0
-	BLT T271
-	;[1060]         mv_framecount = 0
-	SRCFILE "texas.bas",1060
+	BLT T283
+	;[1082]         mv_framecount = 0
+	SRCFILE "texas.bas",1082
 	CLRR R0
 	MVO R0,var_MV_FRAMECOUNT
-	;[1061]         IF mv_timeleft > 0 THEN mv_timeleft = mv_timeleft - 1
-	SRCFILE "texas.bas",1061
+	;[1083]         IF mv_timeleft > 0 THEN mv_timeleft = mv_timeleft - 1
+	SRCFILE "texas.bas",1083
 	MVI var_MV_TIMELEFT,R0
 	CMPI #0,R0
-	BLE T272
+	BLE T284
 	DECR R0
 	MVO R0,var_MV_TIMELEFT
-T272:
-	;[1062]         PRINT AT STATUS_ROW + 18 COLOR COL_STATUS, <2>mv_timeleft
-	SRCFILE "texas.bas",1062
+T284:
+	;[1084]         PRINT AT STATUS_ROW + 18 COLOR COL_STATUS, <2>mv_timeleft
+	SRCFILE "texas.bas",1084
 	MVII #750,R0
 	MVO R0,_screen
 	MVII #7,R0
@@ -11041,178 +11153,178 @@ T272:
 	MVI _screen,R4
 	CALL PRNUM16.z
 	MVO R4,_screen
-	;[1063]         ' Timed out -- submit whatever's currently highlighted (the
-	SRCFILE "texas.bas",1063
-	;[1064]         ' default move if the player never touched the disc, matching
-	SRCFILE "texas.bas",1064
-	;[1065]         ' the C clients' timeout behavior of submitting the highlighted
-	SRCFILE "texas.bas",1065
-	;[1066]         ' selection rather than always folding).
-	SRCFILE "texas.bas",1066
-	;[1067]         IF mv_timeleft = 0 THEN GOTO mu_confirm
-	SRCFILE "texas.bas",1067
+	;[1085]         ' Timed out -- submit whatever's currently highlighted (the
+	SRCFILE "texas.bas",1085
+	;[1086]         ' default move if the player never touched the disc, matching
+	SRCFILE "texas.bas",1086
+	;[1087]         ' the C clients' timeout behavior of submitting the highlighted
+	SRCFILE "texas.bas",1087
+	;[1088]         ' selection rather than always folding).
+	SRCFILE "texas.bas",1088
+	;[1089]         IF mv_timeleft = 0 THEN GOTO mu_confirm
+	SRCFILE "texas.bas",1089
 	MVI var_MV_TIMELEFT,R0
 	TSTR R0
 	BEQ label_MU_CONFIRM
-	;[1068]     END IF
-	SRCFILE "texas.bas",1068
-T271:
-	;[1069] 
-	SRCFILE "texas.bas",1069
-	;[1070]     IF inp_lock > 0 THEN inp_lock = inp_lock - 1 : GOTO mu_loop
-	SRCFILE "texas.bas",1070
+	;[1090]     END IF
+	SRCFILE "texas.bas",1090
+T283:
+	;[1091] 
+	SRCFILE "texas.bas",1091
+	;[1092]     IF inp_lock > 0 THEN inp_lock = inp_lock - 1 : GOTO mu_loop
+	SRCFILE "texas.bas",1092
 	MVI var_INP_LOCK,R0
 	CMPI #0,R0
-	BLE T274
+	BLE T286
 	DECR R0
 	MVO R0,var_INP_LOCK
 	B label_MU_LOOP
-T274:
-	;[1071] 
-	SRCFILE "texas.bas",1071
-	;[1072]     IF inp_dir AND DISC_RIGHT THEN
-	SRCFILE "texas.bas",1072
+T286:
+	;[1093] 
+	SRCFILE "texas.bas",1093
+	;[1094]     IF inp_dir AND DISC_RIGHT THEN
+	SRCFILE "texas.bas",1094
 	MVI var_INP_DIR,R0
 	ANDI #2,R0
-	BEQ T275
-	;[1073]         mv_sel = mv_sel + 1
-	SRCFILE "texas.bas",1073
+	BEQ T287
+	;[1095]         mv_sel = mv_sel + 1
+	SRCFILE "texas.bas",1095
 	MVI var_MV_SEL,R0
 	INCR R0
 	MVO R0,var_MV_SEL
-	;[1074]         IF mv_sel >= mv_count THEN mv_sel = 0
-	SRCFILE "texas.bas",1074
+	;[1096]         IF mv_sel >= mv_count THEN mv_sel = 0
+	SRCFILE "texas.bas",1096
 	MVI var_MV_SEL,R0
 	CMP var_MV_COUNT,R0
-	BLT T276
+	BLT T288
 	CLRR R0
 	MVO R0,var_MV_SEL
-T276:
-	;[1075]         inp_lock = 8
-	SRCFILE "texas.bas",1075
+T288:
+	;[1097]         inp_lock = 8
+	SRCFILE "texas.bas",1097
 	MVII #8,R0
 	MVO R0,var_INP_LOCK
-	;[1076]         GOSUB sound_cursor
-	SRCFILE "texas.bas",1076
+	;[1098]         GOSUB sound_cursor
+	SRCFILE "texas.bas",1098
 	CALL label_SOUND_CURSOR
-	;[1077]         GOTO mu_loop
-	SRCFILE "texas.bas",1077
+	;[1099]         GOTO mu_loop
+	SRCFILE "texas.bas",1099
 	B label_MU_LOOP
-	;[1078]     END IF
-	SRCFILE "texas.bas",1078
-T275:
-	;[1079]     IF inp_dir AND DISC_LEFT THEN
-	SRCFILE "texas.bas",1079
+	;[1100]     END IF
+	SRCFILE "texas.bas",1100
+T287:
+	;[1101]     IF inp_dir AND DISC_LEFT THEN
+	SRCFILE "texas.bas",1101
 	MVI var_INP_DIR,R0
 	ANDI #8,R0
-	BEQ T277
-	;[1080]         IF mv_sel = 0 THEN mv_sel = mv_count
-	SRCFILE "texas.bas",1080
+	BEQ T289
+	;[1102]         IF mv_sel = 0 THEN mv_sel = mv_count
+	SRCFILE "texas.bas",1102
 	MVI var_MV_SEL,R0
 	TSTR R0
-	BNE T278
+	BNE T290
 	MVI var_MV_COUNT,R0
 	MVO R0,var_MV_SEL
-T278:
-	;[1081]         mv_sel = mv_sel - 1
-	SRCFILE "texas.bas",1081
+T290:
+	;[1103]         mv_sel = mv_sel - 1
+	SRCFILE "texas.bas",1103
 	MVI var_MV_SEL,R0
 	DECR R0
 	MVO R0,var_MV_SEL
-	;[1082]         inp_lock = 8
-	SRCFILE "texas.bas",1082
+	;[1104]         inp_lock = 8
+	SRCFILE "texas.bas",1104
 	MVII #8,R0
 	MVO R0,var_INP_LOCK
-	;[1083]         GOSUB sound_cursor
-	SRCFILE "texas.bas",1083
+	;[1105]         GOSUB sound_cursor
+	SRCFILE "texas.bas",1105
 	CALL label_SOUND_CURSOR
-	;[1084]         GOTO mu_loop
-	SRCFILE "texas.bas",1084
+	;[1106]         GOTO mu_loop
+	SRCFILE "texas.bas",1106
 	B label_MU_LOOP
-	;[1085]     END IF
-	SRCFILE "texas.bas",1085
-T277:
-	;[1086]     ' Bail to the in-game menu without moving. The edge isn't consumed by
-	SRCFILE "texas.bas",1086
-	;[1087]     ' returning -- input_check runs next and sees the same inp_key_hit, which
-	SRCFILE "texas.bas",1087
-	;[1088]     ' is what actually opens the menu.
-	SRCFILE "texas.bas",1088
-	;[1089]     IF inp_key_hit = 10 THEN RETURN
-	SRCFILE "texas.bas",1089
+	;[1107]     END IF
+	SRCFILE "texas.bas",1107
+T289:
+	;[1108]     ' Bail to the in-game menu without moving. The edge isn't consumed by
+	SRCFILE "texas.bas",1108
+	;[1109]     ' returning -- input_check runs next and sees the same inp_key_hit, which
+	SRCFILE "texas.bas",1109
+	;[1110]     ' is what actually opens the menu.
+	SRCFILE "texas.bas",1110
+	;[1111]     IF inp_key_hit = 10 THEN RETURN
+	SRCFILE "texas.bas",1111
 	MVI var_INP_KEY_HIT,R0
 	CMPI #10,R0
-	BNE T279
+	BNE T291
 	RETURN
-T279:
-	;[1090]     IF inp_btn_hit = 0 THEN GOTO mu_loop
-	SRCFILE "texas.bas",1090
+T291:
+	;[1112]     IF inp_btn_hit = 0 THEN GOTO mu_loop
+	SRCFILE "texas.bas",1112
 	MVI var_INP_BTN_HIT,R0
 	TSTR R0
 	BEQ label_MU_LOOP
-	;[1091]     GOSUB sound_select
-	SRCFILE "texas.bas",1091
+	;[1113]     GOSUB sound_select
+	SRCFILE "texas.bas",1113
 	CALL label_SOUND_SELECT
-	;[1092] 
-	SRCFILE "texas.bas",1092
-	;[1093] mu_confirm:
-	SRCFILE "texas.bas",1093
+	;[1114] 
+	SRCFILE "texas.bas",1114
+	;[1115] mu_confirm:
+	SRCFILE "texas.bas",1115
 	; MU_CONFIRM
-label_MU_CONFIRM:	;[1094]     #tmp_addr = move_addr(mv_sel)
-	SRCFILE "texas.bas",1094
+label_MU_CONFIRM:	;[1116]     #tmp_addr = move_addr(mv_sel)
+	SRCFILE "texas.bas",1116
 	MVI var_MV_SEL,R0
 	MULT R0,R4,13
 	ADDI #40355,R0
 	MVO R0,var_&TMP_ADDR
-	;[1095]     mvcode_a = PEEK(#tmp_addr + MOVE_CODE) AND 255
-	SRCFILE "texas.bas",1095
+	;[1117]     mvcode_a = PEEK(#tmp_addr + MOVE_CODE) AND 255
+	SRCFILE "texas.bas",1117
 	MOVR R0,R1
 	MVI@ R1,R0
 	MVO R0,var_MVCODE_A
-	;[1096]     mvcode_b = PEEK(#tmp_addr + MOVE_CODE + 1) AND 255
-	SRCFILE "texas.bas",1096
+	;[1118]     mvcode_b = PEEK(#tmp_addr + MOVE_CODE + 1) AND 255
+	SRCFILE "texas.bas",1118
 	INCR R1
 	MVI@ R1,R0
 	MVO R0,var_MVCODE_B
-	;[1097]     has_move = 1
-	SRCFILE "texas.bas",1097
+	;[1119]     has_move = 1
+	SRCFILE "texas.bas",1119
 	MVII #1,R0
 	MVO R0,var_HAS_MOVE
-	;[1098] END
-	SRCFILE "texas.bas",1098
+	;[1120] END
+	SRCFILE "texas.bas",1120
 	RETURN
 	ENDP
-	;[1099] 
-	SRCFILE "texas.bas",1099
-	;[1100] ' ===========================================================================
-	SRCFILE "texas.bas",1100
-	;[1101] ' ingame_menu: keypad CLEAR overlay. Disc up/down to choose, action button
-	SRCFILE "texas.bas",1101
-	;[1102] ' to confirm, matching every other screen's controls (Clear itself also
-	SRCFILE "texas.bas",1102
-	;[1103] ' cancels, for a quick way back in without touching the disc). Defaults
-	SRCFILE "texas.bas",1103
-	;[1104] ' to RESUME so an accidental Clear press can't quit a hand by surprise.
-	SRCFILE "texas.bas",1104
-	;[1105] ' ===========================================================================
-	SRCFILE "texas.bas",1105
-	;[1106] ingame_menu: PROCEDURE
-	SRCFILE "texas.bas",1106
+	;[1121] 
+	SRCFILE "texas.bas",1121
+	;[1122] ' ===========================================================================
+	SRCFILE "texas.bas",1122
+	;[1123] ' ingame_menu: keypad CLEAR overlay. Disc up/down to choose, action button
+	SRCFILE "texas.bas",1123
+	;[1124] ' to confirm, matching every other screen's controls (Clear itself also
+	SRCFILE "texas.bas",1124
+	;[1125] ' cancels, for a quick way back in without touching the disc). Defaults
+	SRCFILE "texas.bas",1125
+	;[1126] ' to RESUME so an accidental Clear press can't quit a hand by surprise.
+	SRCFILE "texas.bas",1126
+	;[1127] ' ===========================================================================
+	SRCFILE "texas.bas",1127
+	;[1128] ingame_menu: PROCEDURE
+	SRCFILE "texas.bas",1128
 	; INGAME_MENU
 label_INGAME_MENU:	PROC
 	BEGIN
-	;[1107]     im_sel = 0
-	SRCFILE "texas.bas",1107
+	;[1129]     im_sel = 0
+	SRCFILE "texas.bas",1129
 	CLRR R0
 	MVO R0,var_IM_SEL
-	;[1108]     inp_lock = 0
-	SRCFILE "texas.bas",1108
+	;[1130]     inp_lock = 0
+	SRCFILE "texas.bas",1130
 	MVO R0,var_INP_LOCK
-	;[1109] im_loop:
-	SRCFILE "texas.bas",1109
+	;[1131] im_loop:
+	SRCFILE "texas.bas",1131
 	; IM_LOOP
-label_IM_LOOP:	;[1110]     PRINT AT 80 COLOR COL_STATUS, "                    "
-	SRCFILE "texas.bas",1110
+label_IM_LOOP:	;[1132]     PRINT AT 80 COLOR COL_STATUS, "                    "
+	SRCFILE "texas.bas",1132
 	MVII #592,R0
 	MVO R0,_screen
 	MVII #7,R0
@@ -11244,8 +11356,8 @@ label_IM_LOOP:	;[1110]     PRINT AT 80 COLOR COL_STATUS, "                    "
 	MVO@ R0,R4
 	NOP
 	MVO R4,_screen
-	;[1111]     PRINT AT 100 COLOR COL_STATUS, "                    "
-	SRCFILE "texas.bas",1111
+	;[1133]     PRINT AT 100 COLOR COL_STATUS, "                    "
+	SRCFILE "texas.bas",1133
 	MVII #612,R0
 	MVO R0,_screen
 	MVII #7,R0
@@ -11277,8 +11389,8 @@ label_IM_LOOP:	;[1110]     PRINT AT 80 COLOR COL_STATUS, "                    "
 	MVO@ R0,R4
 	NOP
 	MVO R4,_screen
-	;[1112]     PRINT AT 120 COLOR COL_STATUS, "                    "
-	SRCFILE "texas.bas",1112
+	;[1134]     PRINT AT 120 COLOR COL_STATUS, "                    "
+	SRCFILE "texas.bas",1134
 	MVII #632,R0
 	MVO R0,_screen
 	MVII #7,R0
@@ -11310,8 +11422,8 @@ label_IM_LOOP:	;[1110]     PRINT AT 80 COLOR COL_STATUS, "                    "
 	MVO@ R0,R4
 	NOP
 	MVO R4,_screen
-	;[1113]     PRINT AT 86 COLOR COL_STATUS, "TABLE MENU"
-	SRCFILE "texas.bas",1113
+	;[1135]     PRINT AT 86 COLOR COL_STATUS, "TABLE MENU"
+	SRCFILE "texas.bas",1135
 	MVII #598,R0
 	MVO R0,_screen
 	MVII #7,R0
@@ -11339,20 +11451,20 @@ label_IM_LOOP:	;[1110]     PRINT AT 80 COLOR COL_STATUS, "                    "
 	XORI #216,R0
 	MVO@ R0,R4
 	MVO R4,_screen
-	;[1114]     #gs_c = COL_STATUS
-	SRCFILE "texas.bas",1114
+	;[1136]     #gs_c = COL_STATUS
+	SRCFILE "texas.bas",1136
 	MVII #7,R0
 	MVO R0,var_&GS_C
-	;[1115]     IF im_sel = 0 THEN #gs_c = COL_HILITE
-	SRCFILE "texas.bas",1115
+	;[1137]     IF im_sel = 0 THEN #gs_c = COL_HILITE
+	SRCFILE "texas.bas",1137
 	MVI var_IM_SEL,R0
 	TSTR R0
-	BNE T281
+	BNE T293
 	MVII #8198,R0
 	MVO R0,var_&GS_C
-T281:
-	;[1116]     PRINT AT 106 COLOR #gs_c, "RESUME"
-	SRCFILE "texas.bas",1116
+T293:
+	;[1138]     PRINT AT 106 COLOR #gs_c, "RESUME"
+	SRCFILE "texas.bas",1138
 	MVII #618,R0
 	MVO R0,_screen
 	MVI var_&GS_C,R0
@@ -11372,20 +11484,20 @@ T281:
 	XORI #64,R0
 	MVO@ R0,R4
 	MVO R4,_screen
-	;[1117]     #gs_c = COL_STATUS
-	SRCFILE "texas.bas",1117
+	;[1139]     #gs_c = COL_STATUS
+	SRCFILE "texas.bas",1139
 	MVII #7,R0
 	MVO R0,var_&GS_C
-	;[1118]     IF im_sel = 1 THEN #gs_c = COL_HILITE
-	SRCFILE "texas.bas",1118
+	;[1140]     IF im_sel = 1 THEN #gs_c = COL_HILITE
+	SRCFILE "texas.bas",1140
 	MVI var_IM_SEL,R0
 	CMPI #1,R0
-	BNE T282
+	BNE T294
 	MVII #8198,R0
 	MVO R0,var_&GS_C
-T282:
-	;[1119]     PRINT AT 126 COLOR #gs_c, "QUIT TABLE"
-	SRCFILE "texas.bas",1119
+T294:
+	;[1141]     PRINT AT 126 COLOR #gs_c, "QUIT TABLE"
+	SRCFILE "texas.bas",1141
 	MVII #638,R0
 	MVO R0,_screen
 	MVI var_&GS_C,R0
@@ -11413,132 +11525,132 @@ T282:
 	XORI #72,R0
 	MVO@ R0,R4
 	MVO R4,_screen
-	;[1120] 
-	SRCFILE "texas.bas",1120
-	;[1121]     WAIT
-	SRCFILE "texas.bas",1121
+	;[1142] 
+	SRCFILE "texas.bas",1142
+	;[1143]     WAIT
+	SRCFILE "texas.bas",1143
 	CALL _wait
-	;[1122]     GOSUB read_input
-	SRCFILE "texas.bas",1122
+	;[1144]     GOSUB read_input
+	SRCFILE "texas.bas",1144
 	CALL label_READ_INPUT
-	;[1123]     IF inp_lock > 0 THEN inp_lock = inp_lock - 1 : GOTO im_loop
-	SRCFILE "texas.bas",1123
+	;[1145]     IF inp_lock > 0 THEN inp_lock = inp_lock - 1 : GOTO im_loop
+	SRCFILE "texas.bas",1145
 	MVI var_INP_LOCK,R0
 	CMPI #0,R0
-	BLE T283
+	BLE T295
 	DECR R0
 	MVO R0,var_INP_LOCK
 	B label_IM_LOOP
-T283:
-	;[1124] 
-	SRCFILE "texas.bas",1124
-	;[1125]     IF inp_dir AND (DISC_UP OR DISC_DOWN) THEN
-	SRCFILE "texas.bas",1125
+T295:
+	;[1146] 
+	SRCFILE "texas.bas",1146
+	;[1147]     IF inp_dir AND (DISC_UP OR DISC_DOWN) THEN
+	SRCFILE "texas.bas",1147
 	MVI var_INP_DIR,R0
 	ANDI #5,R0
-	BEQ T284
-	;[1126]         im_sel = 1 - im_sel
-	SRCFILE "texas.bas",1126
+	BEQ T296
+	;[1148]         im_sel = 1 - im_sel
+	SRCFILE "texas.bas",1148
 	MVII #1,R0
 	SUB var_IM_SEL,R0
 	MVO R0,var_IM_SEL
-	;[1127]         inp_lock = 10
-	SRCFILE "texas.bas",1127
+	;[1149]         inp_lock = 10
+	SRCFILE "texas.bas",1149
 	MVII #10,R0
 	MVO R0,var_INP_LOCK
-	;[1128]         GOSUB sound_cursor
-	SRCFILE "texas.bas",1128
+	;[1150]         GOSUB sound_cursor
+	SRCFILE "texas.bas",1150
 	CALL label_SOUND_CURSOR
-	;[1129]         GOTO im_loop
-	SRCFILE "texas.bas",1129
+	;[1151]         GOTO im_loop
+	SRCFILE "texas.bas",1151
 	B label_IM_LOOP
-	;[1130]     END IF
-	SRCFILE "texas.bas",1130
-T284:
-	;[1131]     ' Clear again cancels straight back to RESUME. Safe to test on the frame
-	SRCFILE "texas.bas",1131
-	;[1132]     ' the menu opens: inp_key_hit is an edge, so the still-held press that
-	SRCFILE "texas.bas",1132
-	;[1133]     ' got us here reads as "no key" until it's released and pressed again.
-	SRCFILE "texas.bas",1133
-	;[1134]     IF inp_key_hit = 10 THEN GOTO im_done
-	SRCFILE "texas.bas",1134
+	;[1152]     END IF
+	SRCFILE "texas.bas",1152
+T296:
+	;[1153]     ' Clear again cancels straight back to RESUME. Safe to test on the frame
+	SRCFILE "texas.bas",1153
+	;[1154]     ' the menu opens: inp_key_hit is an edge, so the still-held press that
+	SRCFILE "texas.bas",1154
+	;[1155]     ' got us here reads as "no key" until it's released and pressed again.
+	SRCFILE "texas.bas",1155
+	;[1156]     IF inp_key_hit = 10 THEN GOTO im_done
+	SRCFILE "texas.bas",1156
 	MVI var_INP_KEY_HIT,R0
 	CMPI #10,R0
 	BEQ label_IM_DONE
-	;[1135]     IF inp_btn_hit = 0 THEN GOTO im_loop
-	SRCFILE "texas.bas",1135
+	;[1157]     IF inp_btn_hit = 0 THEN GOTO im_loop
+	SRCFILE "texas.bas",1157
 	MVI var_INP_BTN_HIT,R0
 	TSTR R0
 	BEQ label_IM_LOOP
-	;[1136]     GOSUB sound_select
-	SRCFILE "texas.bas",1136
+	;[1158]     GOSUB sound_select
+	SRCFILE "texas.bas",1158
 	CALL label_SOUND_SELECT
-	;[1137] 
-	SRCFILE "texas.bas",1137
-	;[1138]     IF im_sel = 1 THEN
-	SRCFILE "texas.bas",1138
+	;[1159] 
+	SRCFILE "texas.bas",1159
+	;[1160]     IF im_sel = 1 THEN
+	SRCFILE "texas.bas",1160
 	MVI var_IM_SEL,R0
 	CMPI #1,R0
-	BNE T287
-	;[1139]         gs_path = 3 : GOSUB compose_url
-	SRCFILE "texas.bas",1139
+	BNE T299
+	;[1161]         gs_path = 3 : GOSUB compose_url
+	SRCFILE "texas.bas",1161
 	MVII #3,R0
 	MVO R0,var_GS_PATH
 	CALL label_COMPOSE_URL
-	;[1140]         #net_readlen = 8
-	SRCFILE "texas.bas",1140
+	;[1162]         #net_readlen = 8
+	SRCFILE "texas.bas",1162
 	MVII #8,R0
 	MVO R0,var_&NET_READLEN
-	;[1141]         GOSUB api_call
-	SRCFILE "texas.bas",1141
+	;[1163]         GOSUB api_call
+	SRCFILE "texas.bas",1163
 	CALL label_API_CALL
-	;[1142]         GOSUB clear_room_appkey
-	SRCFILE "texas.bas",1142
+	;[1164]         GOSUB clear_room_appkey
+	SRCFILE "texas.bas",1164
 	CALL label_CLEAR_ROOM_APPKEY
-	;[1143]         want_leave = 1
-	SRCFILE "texas.bas",1143
+	;[1165]         want_leave = 1
+	SRCFILE "texas.bas",1165
 	MVII #1,R0
 	MVO R0,var_WANT_LEAVE
-	;[1144]     END IF
-	SRCFILE "texas.bas",1144
-T287:
-	;[1145] im_done:
-	SRCFILE "texas.bas",1145
+	;[1166]     END IF
+	SRCFILE "texas.bas",1166
+T299:
+	;[1167] im_done:
+	SRCFILE "texas.bas",1167
 	; IM_DONE
-label_IM_DONE:	;[1146]     force_redraw = 1
-	SRCFILE "texas.bas",1146
+label_IM_DONE:	;[1168]     force_redraw = 1
+	SRCFILE "texas.bas",1168
 	MVII #1,R0
 	MVO R0,var_FORCE_REDRAW
-	;[1147] END
-	SRCFILE "texas.bas",1147
+	;[1169] END
+	SRCFILE "texas.bas",1169
 	RETURN
 	ENDP
-	;[1148] 
-	SRCFILE "texas.bas",1148
-	;[1149] ' ===========================================================================
-	SRCFILE "texas.bas",1149
-	;[1150] ' name_entry_screen: disc letter picker, max 8 chars. Disc up/down cycles
-	SRCFILE "texas.bas",1150
-	;[1151] ' the character under the cursor through A-Z, 0-9, space; left/right moves
-	SRCFILE "texas.bas",1151
-	;[1152] ' the cursor; the action button accepts (at least 1 non-space char).
-	SRCFILE "texas.bas",1152
-	;[1153] ' ===========================================================================
-	SRCFILE "texas.bas",1153
-	;[1154] name_entry_screen: PROCEDURE
-	SRCFILE "texas.bas",1154
+	;[1170] 
+	SRCFILE "texas.bas",1170
+	;[1171] ' ===========================================================================
+	SRCFILE "texas.bas",1171
+	;[1172] ' name_entry_screen: disc letter picker, max 8 chars. Disc up/down cycles
+	SRCFILE "texas.bas",1172
+	;[1173] ' the character under the cursor through A-Z, 0-9, space; left/right moves
+	SRCFILE "texas.bas",1173
+	;[1174] ' the cursor; the action button accepts (at least 1 non-space char).
+	SRCFILE "texas.bas",1174
+	;[1175] ' ===========================================================================
+	SRCFILE "texas.bas",1175
+	;[1176] name_entry_screen: PROCEDURE
+	SRCFILE "texas.bas",1176
 	; NAME_ENTRY_SCREEN
 label_NAME_ENTRY_SCREEN:	PROC
 	BEGIN
-	;[1155]     CLS
-	SRCFILE "texas.bas",1155
+	;[1177]     CLS
+	SRCFILE "texas.bas",1177
 	CALL CLRSCR
-	;[1156]     GOSUB fill_bg
-	SRCFILE "texas.bas",1156
+	;[1178]     GOSUB fill_bg
+	SRCFILE "texas.bas",1178
 	CALL label_FILL_BG
-	;[1157]     PRINT AT 0 COLOR COL_STATUS, "ENTER YOUR NAME"
-	SRCFILE "texas.bas",1157
+	;[1179]     PRINT AT 0 COLOR COL_STATUS, "ENTER YOUR NAME"
+	SRCFILE "texas.bas",1179
 	MVII #512,R0
 	MVO R0,_screen
 	MVII #7,R0
@@ -11576,92 +11688,92 @@ label_NAME_ENTRY_SCREEN:	PROC
 	XORI #64,R0
 	MVO@ R0,R4
 	MVO R4,_screen
-	;[1158]     FOR ne_i = 0 TO 7
-	SRCFILE "texas.bas",1158
+	;[1180]     FOR ne_i = 0 TO 7
+	SRCFILE "texas.bas",1180
 	CLRR R0
 	MVO R0,var_NE_I
-T288:
-	;[1159]         ne_buf(ne_i) = 36 ' space
-	SRCFILE "texas.bas",1159
+T300:
+	;[1181]         ne_buf(ne_i) = 36 ' space
+	SRCFILE "texas.bas",1181
 	MVII #36,R0
 	MVII #array_NE_BUF,R3
 	ADD var_NE_I,R3
 	MVO@ R0,R3
-	;[1160]     NEXT ne_i
-	SRCFILE "texas.bas",1160
+	;[1182]     NEXT ne_i
+	SRCFILE "texas.bas",1182
 	MVI var_NE_I,R0
 	INCR R0
 	MVO R0,var_NE_I
 	CMPI #7,R0
-	BLE T288
-	;[1161]     ne_cur = 0
-	SRCFILE "texas.bas",1161
+	BLE T300
+	;[1183]     ne_cur = 0
+	SRCFILE "texas.bas",1183
 	CLRR R0
 	MVO R0,var_NE_CUR
-	;[1162]     inp_lock = 0
-	SRCFILE "texas.bas",1162
+	;[1184]     inp_lock = 0
+	SRCFILE "texas.bas",1184
 	MVO R0,var_INP_LOCK
-	;[1163] 
-	SRCFILE "texas.bas",1163
-	;[1164] ne_loop:
-	SRCFILE "texas.bas",1164
+	;[1185] 
+	SRCFILE "texas.bas",1185
+	;[1186] ne_loop:
+	SRCFILE "texas.bas",1186
 	; NE_LOOP
-label_NE_LOOP:	;[1165]     FOR ne_i = 0 TO 7
-	SRCFILE "texas.bas",1165
+label_NE_LOOP:	;[1187]     FOR ne_i = 0 TO 7
+	SRCFILE "texas.bas",1187
 	CLRR R0
 	MVO R0,var_NE_I
-T289:
-	;[1166]         #gs_c = COL_NAME
-	SRCFILE "texas.bas",1166
+T301:
+	;[1188]         #gs_c = COL_NAME
+	SRCFILE "texas.bas",1188
 	MVII #8199,R0
 	MVO R0,var_&GS_C
-	;[1167]         IF ne_i = ne_cur THEN #gs_c = COL_HILITE
-	SRCFILE "texas.bas",1167
+	;[1189]         IF ne_i = ne_cur THEN #gs_c = COL_HILITE
+	SRCFILE "texas.bas",1189
 	MVI var_NE_I,R0
 	CMP var_NE_CUR,R0
-	BNE T290
+	BNE T302
 	MVII #8198,R0
 	MVO R0,var_&GS_C
-T290:
-	;[1168]         ne_j = ne_buf(ne_i)
-	SRCFILE "texas.bas",1168
+T302:
+	;[1190]         ne_j = ne_buf(ne_i)
+	SRCFILE "texas.bas",1190
 	MVII #array_NE_BUF,R3
 	ADD var_NE_I,R3
 	MVI@ R3,R0
 	MVO R0,var_NE_J
-	;[1169]         IF ne_j < 26 THEN
-	SRCFILE "texas.bas",1169
+	;[1191]         IF ne_j < 26 THEN
+	SRCFILE "texas.bas",1191
 	MVI var_NE_J,R0
 	CMPI #26,R0
-	BGE T291
-	;[1170]             gs_j = 65 + ne_j
-	SRCFILE "texas.bas",1170
+	BGE T303
+	;[1192]             gs_j = 65 + ne_j
+	SRCFILE "texas.bas",1192
 	ADDI #65,R0
 	MVO R0,var_GS_J
-	;[1171]         ELSEIF ne_j < 36 THEN
-	SRCFILE "texas.bas",1171
-	B T292
-T291:
+	;[1193]         ELSEIF ne_j < 36 THEN
+	SRCFILE "texas.bas",1193
+	B T304
+T303:
 	MVI var_NE_J,R0
 	CMPI #36,R0
-	BGE T293
-	;[1172]             gs_j = 48 + ne_j - 26
-	SRCFILE "texas.bas",1172
+	BGE T305
+	;[1194]             gs_j = 48 + ne_j - 26
+	SRCFILE "texas.bas",1194
 	ADDI #22,R0
 	MVO R0,var_GS_J
-	;[1173]         ELSE
-	SRCFILE "texas.bas",1173
-	B T292
-T293:
-	;[1174]             gs_j = 95 ' underscore stands in for a visible blank
-	SRCFILE "texas.bas",1174
+	;[1195]         ELSE
+	SRCFILE "texas.bas",1195
+	B T304
+T305:
+	;[1196]             gs_j = 95 ' underscore stands in for a visible blank
+	SRCFILE "texas.bas",1196
 	MVII #95,R0
 	MVO R0,var_GS_J
-	;[1175]         END IF
-	SRCFILE "texas.bas",1175
-T292:
-	;[1176]         #BACKTAB(60 + 6 + ne_i) = (gs_j - 32) * 8 + #gs_c
-	SRCFILE "texas.bas",1176
+	;[1197]         END IF
+	SRCFILE "texas.bas",1197
+T304:
+	;[1198]         #BACKTAB(60 + 6 + ne_i) = (gs_j - 32) * 8 + #gs_c
+	SRCFILE "texas.bas",1198
 	MVI var_GS_J,R0
 	SUBI #32,R0
 	SLL R0,2
@@ -11670,268 +11782,268 @@ T292:
 	MVII #Q2+66,R3
 	ADD var_NE_I,R3
 	MVO@ R0,R3
-	;[1177]     NEXT ne_i
-	SRCFILE "texas.bas",1177
+	;[1199]     NEXT ne_i
+	SRCFILE "texas.bas",1199
 	MVI var_NE_I,R0
 	INCR R0
 	MVO R0,var_NE_I
 	CMPI #7,R0
-	BLE T289
-	;[1178] 
-	SRCFILE "texas.bas",1178
-	;[1179]     WAIT
-	SRCFILE "texas.bas",1179
+	BLE T301
+	;[1200] 
+	SRCFILE "texas.bas",1200
+	;[1201]     WAIT
+	SRCFILE "texas.bas",1201
 	CALL _wait
-	;[1180]     GOSUB read_input
-	SRCFILE "texas.bas",1180
+	;[1202]     GOSUB read_input
+	SRCFILE "texas.bas",1202
 	CALL label_READ_INPUT
-	;[1181]     IF inp_lock > 0 THEN inp_lock = inp_lock - 1 : GOTO ne_loop
-	SRCFILE "texas.bas",1181
+	;[1203]     IF inp_lock > 0 THEN inp_lock = inp_lock - 1 : GOTO ne_loop
+	SRCFILE "texas.bas",1203
 	MVI var_INP_LOCK,R0
 	CMPI #0,R0
-	BLE T294
+	BLE T306
 	DECR R0
 	MVO R0,var_INP_LOCK
 	B label_NE_LOOP
-T294:
-	;[1182] 
-	SRCFILE "texas.bas",1182
-	;[1183]     IF inp_dir AND DISC_RIGHT THEN
-	SRCFILE "texas.bas",1183
+T306:
+	;[1204] 
+	SRCFILE "texas.bas",1204
+	;[1205]     IF inp_dir AND DISC_RIGHT THEN
+	SRCFILE "texas.bas",1205
 	MVI var_INP_DIR,R0
 	ANDI #2,R0
-	BEQ T295
-	;[1184]         ne_cur = ne_cur + 1
-	SRCFILE "texas.bas",1184
+	BEQ T307
+	;[1206]         ne_cur = ne_cur + 1
+	SRCFILE "texas.bas",1206
 	MVI var_NE_CUR,R0
 	INCR R0
 	MVO R0,var_NE_CUR
-	;[1185]         IF ne_cur > 7 THEN ne_cur = 0
-	SRCFILE "texas.bas",1185
+	;[1207]         IF ne_cur > 7 THEN ne_cur = 0
+	SRCFILE "texas.bas",1207
 	MVI var_NE_CUR,R0
 	CMPI #7,R0
-	BLE T296
+	BLE T308
 	CLRR R0
 	MVO R0,var_NE_CUR
-T296:
-	;[1186]         inp_lock = 8
-	SRCFILE "texas.bas",1186
+T308:
+	;[1208]         inp_lock = 8
+	SRCFILE "texas.bas",1208
 	MVII #8,R0
 	MVO R0,var_INP_LOCK
-	;[1187]         GOSUB sound_cursor
-	SRCFILE "texas.bas",1187
+	;[1209]         GOSUB sound_cursor
+	SRCFILE "texas.bas",1209
 	CALL label_SOUND_CURSOR
-	;[1188]         GOTO ne_loop
-	SRCFILE "texas.bas",1188
+	;[1210]         GOTO ne_loop
+	SRCFILE "texas.bas",1210
 	B label_NE_LOOP
-	;[1189]     END IF
-	SRCFILE "texas.bas",1189
-T295:
-	;[1190]     IF inp_dir AND DISC_LEFT THEN
-	SRCFILE "texas.bas",1190
+	;[1211]     END IF
+	SRCFILE "texas.bas",1211
+T307:
+	;[1212]     IF inp_dir AND DISC_LEFT THEN
+	SRCFILE "texas.bas",1212
 	MVI var_INP_DIR,R0
 	ANDI #8,R0
-	BEQ T297
-	;[1191]         IF ne_cur = 0 THEN ne_cur = 8
-	SRCFILE "texas.bas",1191
+	BEQ T309
+	;[1213]         IF ne_cur = 0 THEN ne_cur = 8
+	SRCFILE "texas.bas",1213
 	MVI var_NE_CUR,R0
 	TSTR R0
-	BNE T298
+	BNE T310
 	MVII #8,R0
 	MVO R0,var_NE_CUR
-T298:
-	;[1192]         ne_cur = ne_cur - 1
-	SRCFILE "texas.bas",1192
+T310:
+	;[1214]         ne_cur = ne_cur - 1
+	SRCFILE "texas.bas",1214
 	MVI var_NE_CUR,R0
 	DECR R0
 	MVO R0,var_NE_CUR
-	;[1193]         inp_lock = 8
-	SRCFILE "texas.bas",1193
+	;[1215]         inp_lock = 8
+	SRCFILE "texas.bas",1215
 	MVII #8,R0
 	MVO R0,var_INP_LOCK
-	;[1194]         GOSUB sound_cursor
-	SRCFILE "texas.bas",1194
+	;[1216]         GOSUB sound_cursor
+	SRCFILE "texas.bas",1216
 	CALL label_SOUND_CURSOR
-	;[1195]         GOTO ne_loop
-	SRCFILE "texas.bas",1195
+	;[1217]         GOTO ne_loop
+	SRCFILE "texas.bas",1217
 	B label_NE_LOOP
-	;[1196]     END IF
-	SRCFILE "texas.bas",1196
-T297:
-	;[1197]     IF inp_dir AND DISC_UP THEN
-	SRCFILE "texas.bas",1197
+	;[1218]     END IF
+	SRCFILE "texas.bas",1218
+T309:
+	;[1219]     IF inp_dir AND DISC_UP THEN
+	SRCFILE "texas.bas",1219
 	MVI var_INP_DIR,R0
 	ANDI #4,R0
-	BEQ T299
-	;[1198]         ne_buf(ne_cur) = ne_buf(ne_cur) + 1
-	SRCFILE "texas.bas",1198
+	BEQ T311
+	;[1220]         ne_buf(ne_cur) = ne_buf(ne_cur) + 1
+	SRCFILE "texas.bas",1220
 	MVII #array_NE_BUF,R3
 	ADD var_NE_CUR,R3
 	MVI@ R3,R0
 	INCR R0
 	MVO@ R0,R3
-	;[1199]         IF ne_buf(ne_cur) > 36 THEN ne_buf(ne_cur) = 0
-	SRCFILE "texas.bas",1199
+	;[1221]         IF ne_buf(ne_cur) > 36 THEN ne_buf(ne_cur) = 0
+	SRCFILE "texas.bas",1221
 	MVI@ R3,R0
 	CMPI #36,R0
-	BLE T300
+	BLE T312
 	CLRR R0
 	MVO@ R0,R3
-T300:
-	;[1200]         inp_lock = 6
-	SRCFILE "texas.bas",1200
+T312:
+	;[1222]         inp_lock = 6
+	SRCFILE "texas.bas",1222
 	MVII #6,R0
 	MVO R0,var_INP_LOCK
-	;[1201]         GOSUB sound_cursor
-	SRCFILE "texas.bas",1201
+	;[1223]         GOSUB sound_cursor
+	SRCFILE "texas.bas",1223
 	CALL label_SOUND_CURSOR
-	;[1202]         GOTO ne_loop
-	SRCFILE "texas.bas",1202
+	;[1224]         GOTO ne_loop
+	SRCFILE "texas.bas",1224
 	B label_NE_LOOP
-	;[1203]     END IF
-	SRCFILE "texas.bas",1203
-T299:
-	;[1204]     IF inp_dir AND DISC_DOWN THEN
-	SRCFILE "texas.bas",1204
+	;[1225]     END IF
+	SRCFILE "texas.bas",1225
+T311:
+	;[1226]     IF inp_dir AND DISC_DOWN THEN
+	SRCFILE "texas.bas",1226
 	MVI var_INP_DIR,R0
 	ANDI #1,R0
-	BEQ T301
-	;[1205]         IF ne_buf(ne_cur) = 0 THEN ne_buf(ne_cur) = 37
-	SRCFILE "texas.bas",1205
+	BEQ T313
+	;[1227]         IF ne_buf(ne_cur) = 0 THEN ne_buf(ne_cur) = 37
+	SRCFILE "texas.bas",1227
 	MVII #array_NE_BUF,R3
 	ADD var_NE_CUR,R3
 	MVI@ R3,R0
 	TSTR R0
-	BNE T302
+	BNE T314
 	MVII #37,R0
 	MVO@ R0,R3
-T302:
-	;[1206]         ne_buf(ne_cur) = ne_buf(ne_cur) - 1
-	SRCFILE "texas.bas",1206
+T314:
+	;[1228]         ne_buf(ne_cur) = ne_buf(ne_cur) - 1
+	SRCFILE "texas.bas",1228
 	MVII #array_NE_BUF,R3
 	ADD var_NE_CUR,R3
 	MVI@ R3,R0
 	DECR R0
 	MVO@ R0,R3
-	;[1207]         inp_lock = 6
-	SRCFILE "texas.bas",1207
+	;[1229]         inp_lock = 6
+	SRCFILE "texas.bas",1229
 	MVII #6,R0
 	MVO R0,var_INP_LOCK
-	;[1208]         GOSUB sound_cursor
-	SRCFILE "texas.bas",1208
+	;[1230]         GOSUB sound_cursor
+	SRCFILE "texas.bas",1230
 	CALL label_SOUND_CURSOR
-	;[1209]         GOTO ne_loop
-	SRCFILE "texas.bas",1209
+	;[1231]         GOTO ne_loop
+	SRCFILE "texas.bas",1231
 	B label_NE_LOOP
-	;[1210]     END IF
-	SRCFILE "texas.bas",1210
-T301:
-	;[1211]     IF inp_btn_hit = 0 THEN GOTO ne_loop
-	SRCFILE "texas.bas",1211
+	;[1232]     END IF
+	SRCFILE "texas.bas",1232
+T313:
+	;[1233]     IF inp_btn_hit = 0 THEN GOTO ne_loop
+	SRCFILE "texas.bas",1233
 	MVI var_INP_BTN_HIT,R0
 	TSTR R0
 	BEQ label_NE_LOOP
-	;[1212]     GOSUB sound_select
-	SRCFILE "texas.bas",1212
+	;[1234]     GOSUB sound_select
+	SRCFILE "texas.bas",1234
 	CALL label_SOUND_SELECT
-	;[1213] 
-	SRCFILE "texas.bas",1213
-	;[1214]     ne_len = 8
-	SRCFILE "texas.bas",1214
+	;[1235] 
+	SRCFILE "texas.bas",1235
+	;[1236]     ne_len = 8
+	SRCFILE "texas.bas",1236
 	MVII #8,R0
 	MVO R0,var_NE_LEN
-	;[1215]     WHILE ne_len > 0 AND ne_buf(ne_len - 1) = 36
-	SRCFILE "texas.bas",1215
-T304:
+	;[1237]     WHILE ne_len > 0 AND ne_buf(ne_len - 1) = 36
+	SRCFILE "texas.bas",1237
+T316:
 	MVI var_NE_LEN,R0
 	CMPI #0,R0
 	MVII #65535,R0
-	BGT T306
+	BGT T318
 	INCR R0
-T306:
+T318:
 	MVII #array_NE_BUF-1,R3
 	ADD var_NE_LEN,R3
 	MVI@ R3,R1
 	CMPI #36,R1
 	MVII #65535,R1
-	BEQ T307
+	BEQ T319
 	INCR R1
-T307:
+T319:
 	ANDR R1,R0
-	BEQ T305
-	;[1216]         ne_len = ne_len - 1
-	SRCFILE "texas.bas",1216
+	BEQ T317
+	;[1238]         ne_len = ne_len - 1
+	SRCFILE "texas.bas",1238
 	MVI var_NE_LEN,R0
 	DECR R0
 	MVO R0,var_NE_LEN
-	;[1217]     WEND
-	SRCFILE "texas.bas",1217
-	B T304
-T305:
-	;[1218]     IF ne_len = 0 THEN GOTO ne_loop
-	SRCFILE "texas.bas",1218
+	;[1239]     WEND
+	SRCFILE "texas.bas",1239
+	B T316
+T317:
+	;[1240]     IF ne_len = 0 THEN GOTO ne_loop
+	SRCFILE "texas.bas",1240
 	MVI var_NE_LEN,R0
 	TSTR R0
 	BEQ label_NE_LOOP
-	;[1219] 
-	SRCFILE "texas.bas",1219
-	;[1220]     FOR ne_i = 0 TO ne_len - 1
-	SRCFILE "texas.bas",1220
+	;[1241] 
+	SRCFILE "texas.bas",1241
+	;[1242]     FOR ne_i = 0 TO ne_len - 1
+	SRCFILE "texas.bas",1242
 	CLRR R0
 	MVO R0,var_NE_I
-T309:
-	;[1221]         ne_j = ne_buf(ne_i)
-	SRCFILE "texas.bas",1221
+T321:
+	;[1243]         ne_j = ne_buf(ne_i)
+	SRCFILE "texas.bas",1243
 	MVII #array_NE_BUF,R3
 	ADD var_NE_I,R3
 	MVI@ R3,R0
 	MVO R0,var_NE_J
-	;[1222]         IF ne_j < 26 THEN
-	SRCFILE "texas.bas",1222
+	;[1244]         IF ne_j < 26 THEN
+	SRCFILE "texas.bas",1244
 	MVI var_NE_J,R0
 	CMPI #26,R0
-	BGE T310
-	;[1223]             gs_j = 65 + ne_j
-	SRCFILE "texas.bas",1223
+	BGE T322
+	;[1245]             gs_j = 65 + ne_j
+	SRCFILE "texas.bas",1245
 	ADDI #65,R0
 	MVO R0,var_GS_J
-	;[1224]         ELSE
-	SRCFILE "texas.bas",1224
-	B T311
-T310:
-	;[1225]             gs_j = 48 + ne_j - 26
-	SRCFILE "texas.bas",1225
+	;[1246]         ELSE
+	SRCFILE "texas.bas",1246
+	B T323
+T322:
+	;[1247]             gs_j = 48 + ne_j - 26
+	SRCFILE "texas.bas",1247
 	MVI var_NE_J,R0
 	ADDI #22,R0
 	MVO R0,var_GS_J
-	;[1226]         END IF
-	SRCFILE "texas.bas",1226
-T311:
-	;[1227]         POKE (SC_NAME + ne_i), gs_j
-	SRCFILE "texas.bas",1227
+	;[1248]         END IF
+	SRCFILE "texas.bas",1248
+T323:
+	;[1249]         POKE (SC_NAME + ne_i), gs_j
+	SRCFILE "texas.bas",1249
 	MVI var_GS_J,R0
 	MVI var_NE_I,R1
 	ADDI #37120,R1
 	MVO@ R0,R1
-	;[1228]     NEXT ne_i
-	SRCFILE "texas.bas",1228
+	;[1250]     NEXT ne_i
+	SRCFILE "texas.bas",1250
 	MVI var_NE_I,R0
 	INCR R0
 	MVO R0,var_NE_I
 	MVI var_NE_LEN,R1
 	DECR R1
 	CMPR R1,R0
-	BLE T309
-	;[1229]     POKE (SC_NAME + ne_len), 0
-	SRCFILE "texas.bas",1229
+	BLE T321
+	;[1251]     POKE (SC_NAME + ne_len), 0
+	SRCFILE "texas.bas",1251
 	CLRR R0
 	MVI var_NE_LEN,R1
 	ADDI #37120,R1
 	MVO@ R0,R1
-	;[1230] 
-	SRCFILE "texas.bas",1230
-	;[1231]     ak_creator_lo = 1 : ak_creator_hi = 0 : ak_app = 1 : ak_key = 0 : ak_mode = 1
-	SRCFILE "texas.bas",1231
+	;[1252] 
+	SRCFILE "texas.bas",1252
+	;[1253]     ak_creator_lo = 1 : ak_creator_hi = 0 : ak_app = 1 : ak_key = 0 : ak_mode = 1
+	SRCFILE "texas.bas",1253
 	MVII #1,R0
 	MVO R0,var_AK_CREATOR_LO
 	CLRR R0
@@ -11942,36 +12054,36 @@ T311:
 	MVO R0,var_AK_KEY
 	MVII #1,R0
 	MVO R0,var_AK_MODE
-	;[1232]     GOSUB appkey_open
-	SRCFILE "texas.bas",1232
+	;[1254]     GOSUB appkey_open
+	SRCFILE "texas.bas",1254
 	CALL label_APPKEY_OPEN
-	;[1233]     IF fn_ok THEN
-	SRCFILE "texas.bas",1233
+	;[1255]     IF fn_ok THEN
+	SRCFILE "texas.bas",1255
 	MVI var_FN_OK,R0
 	TSTR R0
-	BEQ T312
-	;[1234]         #fn_src = SC_NAME : fn_len = ne_len
-	SRCFILE "texas.bas",1234
+	BEQ T324
+	;[1256]         #fn_src = SC_NAME : fn_len = ne_len
+	SRCFILE "texas.bas",1256
 	MVII #37120,R0
 	MVO R0,var_&FN_SRC
 	MVI var_NE_LEN,R0
 	MVO R0,var_FN_LEN
-	;[1235]         GOSUB appkey_write
-	SRCFILE "texas.bas",1235
+	;[1257]         GOSUB appkey_write
+	SRCFILE "texas.bas",1257
 	CALL label_APPKEY_WRITE
-	;[1236]         ' A failed write used to be silent -- looked identical to success
-	SRCFILE "texas.bas",1236
-	;[1237]         ' from here, even though the name would never come back on the
-	SRCFILE "texas.bas",1237
-	;[1238]         ' next boot (e.g. if the backend has no SD/appkey storage mounted).
-	SRCFILE "texas.bas",1238
-	;[1239]         IF fn_ok = 0 THEN
-	SRCFILE "texas.bas",1239
+	;[1258]         ' A failed write used to be silent -- looked identical to success
+	SRCFILE "texas.bas",1258
+	;[1259]         ' from here, even though the name would never come back on the
+	SRCFILE "texas.bas",1259
+	;[1260]         ' next boot (e.g. if the backend has no SD/appkey storage mounted).
+	SRCFILE "texas.bas",1260
+	;[1261]         IF fn_ok = 0 THEN
+	SRCFILE "texas.bas",1261
 	MVI var_FN_OK,R0
 	TSTR R0
-	BNE T313
-	;[1240]             PRINT AT 100 COLOR COL_STATUS, "NAME NOT SAVED FOR "
-	SRCFILE "texas.bas",1240
+	BNE T325
+	;[1262]             PRINT AT 100 COLOR COL_STATUS, "NAME NOT SAVED FOR "
+	SRCFILE "texas.bas",1262
 	MVII #612,R0
 	MVO R0,_screen
 	MVII #7,R0
@@ -12017,8 +12129,8 @@ T311:
 	XORI #400,R0
 	MVO@ R0,R4
 	MVO R4,_screen
-	;[1241]             PRINT AT 120 COLOR COL_STATUS, "NEXT TIME           "
-	SRCFILE "texas.bas",1241
+	;[1263]             PRINT AT 120 COLOR COL_STATUS, "NEXT TIME           "
+	SRCFILE "texas.bas",1263
 	MVII #632,R0
 	MVO R0,_screen
 	MVII #7,R0
@@ -12059,50 +12171,50 @@ T311:
 	MVO@ R0,R4
 	NOP
 	MVO R4,_screen
-	;[1242]             poll_wait = 90
-	SRCFILE "texas.bas",1242
+	;[1264]             poll_wait = 90
+	SRCFILE "texas.bas",1264
 	MVII #90,R0
 	MVO R0,var_POLL_WAIT
-	;[1243]             WHILE poll_wait > 0
-	SRCFILE "texas.bas",1243
-T314:
+	;[1265]             WHILE poll_wait > 0
+	SRCFILE "texas.bas",1265
+T326:
 	MVI var_POLL_WAIT,R0
 	CMPI #0,R0
-	BLE T315
-	;[1244]                 poll_wait = poll_wait - 1
-	SRCFILE "texas.bas",1244
+	BLE T327
+	;[1266]                 poll_wait = poll_wait - 1
+	SRCFILE "texas.bas",1266
 	DECR R0
 	MVO R0,var_POLL_WAIT
-	;[1245]                 WAIT
-	SRCFILE "texas.bas",1245
+	;[1267]                 WAIT
+	SRCFILE "texas.bas",1267
 	CALL _wait
-	;[1246]             WEND
-	SRCFILE "texas.bas",1246
-	B T314
-T315:
-	;[1247]         END IF
-	SRCFILE "texas.bas",1247
-T313:
-	;[1248]         GOSUB appkey_close
-	SRCFILE "texas.bas",1248
+	;[1268]             WEND
+	SRCFILE "texas.bas",1268
+	B T326
+T327:
+	;[1269]         END IF
+	SRCFILE "texas.bas",1269
+T325:
+	;[1270]         GOSUB appkey_close
+	SRCFILE "texas.bas",1270
 	CALL label_APPKEY_CLOSE
-	;[1249]     END IF
-	SRCFILE "texas.bas",1249
-T312:
-	;[1250] END
-	SRCFILE "texas.bas",1250
+	;[1271]     END IF
+	SRCFILE "texas.bas",1271
+T324:
+	;[1272] END
+	SRCFILE "texas.bas",1272
 	RETURN
 	ENDP
-	;[1251] 
-	SRCFILE "texas.bas",1251
-	;[1252] halt:
-	SRCFILE "texas.bas",1252
+	;[1273] 
+	SRCFILE "texas.bas",1273
+	;[1274] halt:
+	SRCFILE "texas.bas",1274
 	; HALT
-label_HALT:	;[1253]     WAIT
-	SRCFILE "texas.bas",1253
+label_HALT:	;[1275]     WAIT
+	SRCFILE "texas.bas",1275
 	CALL _wait
-	;[1254]     GOTO halt
-	SRCFILE "texas.bas",1254
+	;[1276]     GOTO halt
+	SRCFILE "texas.bas",1276
 	B label_HALT
 	;ENDFILE
 	SRCFILE "",0
@@ -15556,6 +15668,7 @@ var_P:	RMB 1	; P
 var_PM_I:	RMB 1	; PM_I
 var_PM_SIZE:	RMB 1	; PM_SIZE
 var_POLL_WAIT:	RMB 1	; POLL_WAIT
+var_PREV_ACTIVE:	RMB 1	; PREV_ACTIVE
 var_PREV_COMMUNITY:	RMB 1	; PREV_COMMUNITY
 var_PREV_PLAYERCOUNT:	RMB 1	; PREV_PLAYERCOUNT
 var_PREV_ROUND:	RMB 1	; PREV_ROUND
@@ -15578,6 +15691,7 @@ var_SUIT:	RMB 1	; SUIT
 var_TBL_COUNT:	RMB 1	; TBL_COUNT
 var_TBL_SEL:	RMB 1	; TBL_SEL
 var_TMP_PC:	RMB 1	; TMP_PC
+var_TURN_CHANGED:	RMB 1	; TURN_CHANGED
 var_WANT_LEAVE:	RMB 1	; WANT_LEAVE
 array_MV_COL:	RMB 5	; MV_COL
 array_NE_BUF:	RMB 8	; NE_BUF
