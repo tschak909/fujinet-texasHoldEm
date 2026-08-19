@@ -16,7 +16,7 @@ LIBDIR     ?= $(HOME)/Workspace/IntyBASIC/intybasic/
 
 PRODUCT = texas
 MAIN    = texas.bas
-SOURCES = $(MAIN) constants.bas fujinet.bas gfx.bas state.bas sound.bas
+SOURCES = $(MAIN) constants.bas input.bas fujinet.bas gfx.bas state.bas sound.bas
 
 .PHONY: all clean run
 

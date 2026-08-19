@@ -32,6 +32,7 @@
     GOTO boot_start
 
     INCLUDE "constants.bas"
+    INCLUDE "input.bas"
     INCLUDE "fujinet.bas"
     INCLUDE "gfx.bas"
     INCLUDE "state.bas"
@@ -123,7 +124,6 @@ street_names:
     DIM poll_wait
     DIM mv_sel, mv_count
     DIM mv_col(5)
-    DIM inp_lock
     DIM mvcode_a, mvcode_b
     DIM has_move
     DIM #tmp_addr
@@ -483,6 +483,7 @@ table_select:
     inp_lock = 0
 tbl_input:
     WAIT
+    GOSUB read_input
     FOR gs_i = 0 TO tbl_count - 1
         #gs_c = COL_NAME
         IF gs_i = tbl_sel THEN #gs_c = COL_HILITE
@@ -491,21 +492,21 @@ tbl_input:
 
     IF inp_lock > 0 THEN inp_lock = inp_lock - 1 : GOTO tbl_input
 
-    IF CONT1.DOWN THEN
+    IF inp_dir AND DISC_DOWN THEN
         tbl_sel = tbl_sel + 1
         IF tbl_sel >= tbl_count THEN tbl_sel = 0
         inp_lock = 8
         GOSUB sound_cursor
         GOTO tbl_input
     END IF
-    IF CONT1.UP THEN
+    IF inp_dir AND DISC_UP THEN
         IF tbl_sel = 0 THEN tbl_sel = tbl_count
         tbl_sel = tbl_sel - 1
         inp_lock = 8
         GOSUB sound_cursor
         GOTO tbl_input
     END IF
-    IF CONT1.BUTTON = 0 THEN GOTO tbl_input
+    IF inp_btn_hit = 0 THEN GOTO tbl_input
     GOSUB sound_select
 
     #tmp_addr = table_addr(tbl_sel)
@@ -541,6 +542,7 @@ table_joined:
 
 game_loop:
     WAIT
+    GOSUB read_input
 
     IF poll_wait > 0 THEN
         poll_wait = poll_wait - 1
@@ -637,8 +639,8 @@ game_loop:
     END IF
 
 input_check:
-    IF CONT1.KEY = 10 THEN GOSUB ingame_menu
-    IF CONT1.KEY = 11 THEN GOSUB show_purses
+    IF inp_key_hit = 10 THEN GOSUB ingame_menu
+    IF inp_key_hit = 11 THEN GOSUB show_purses
     IF want_leave THEN
         want_leave = 0
         GOTO table_select
@@ -908,7 +910,8 @@ show_purses: PROCEDURE
 
 sp_wait:
     WAIT
-    IF CONT1.KEY = 11 THEN GOTO sp_wait
+    GOSUB read_input
+    IF inp_key = 11 THEN GOTO sp_wait ' level, not an edge -- this is hold-to-view
 
     force_redraw = 1 ' restore names (and everything else) on the next poll
 END
@@ -1050,6 +1053,7 @@ mu_loop:
     NEXT gs_i
 
     WAIT
+    GOSUB read_input
 
     mv_framecount = mv_framecount + 1
     IF mv_framecount >= 60 THEN
@@ -1065,22 +1069,25 @@ mu_loop:
 
     IF inp_lock > 0 THEN inp_lock = inp_lock - 1 : GOTO mu_loop
 
-    IF CONT1.RIGHT THEN
+    IF inp_dir AND DISC_RIGHT THEN
         mv_sel = mv_sel + 1
         IF mv_sel >= mv_count THEN mv_sel = 0
         inp_lock = 8
         GOSUB sound_cursor
         GOTO mu_loop
     END IF
-    IF CONT1.LEFT THEN
+    IF inp_dir AND DISC_LEFT THEN
         IF mv_sel = 0 THEN mv_sel = mv_count
         mv_sel = mv_sel - 1
         inp_lock = 8
         GOSUB sound_cursor
         GOTO mu_loop
     END IF
-    IF CONT1.KEY = 10 THEN RETURN ' bail to in-game menu without moving
-    IF CONT1.BUTTON = 0 THEN GOTO mu_loop
+    ' Bail to the in-game menu without moving. The edge isn't consumed by
+    ' returning -- input_check runs next and sees the same inp_key_hit, which
+    ' is what actually opens the menu.
+    IF inp_key_hit = 10 THEN RETURN
+    IF inp_btn_hit = 0 THEN GOTO mu_loop
     GOSUB sound_select
 
 mu_confirm:
@@ -1112,16 +1119,20 @@ im_loop:
     PRINT AT 126 COLOR #gs_c, "QUIT TABLE"
 
     WAIT
+    GOSUB read_input
     IF inp_lock > 0 THEN inp_lock = inp_lock - 1 : GOTO im_loop
 
-    IF CONT1.UP OR CONT1.DOWN THEN
+    IF inp_dir AND (DISC_UP OR DISC_DOWN) THEN
         im_sel = 1 - im_sel
         inp_lock = 10
         GOSUB sound_cursor
         GOTO im_loop
     END IF
-    IF CONT1.KEY = 10 THEN GOTO im_done ' Clear again cancels straight back to RESUME
-    IF CONT1.BUTTON = 0 THEN GOTO im_loop
+    ' Clear again cancels straight back to RESUME. Safe to test on the frame
+    ' the menu opens: inp_key_hit is an edge, so the still-held press that
+    ' got us here reads as "no key" until it's released and pressed again.
+    IF inp_key_hit = 10 THEN GOTO im_done
+    IF inp_btn_hit = 0 THEN GOTO im_loop
     GOSUB sound_select
 
     IF im_sel = 1 THEN
@@ -1166,37 +1177,38 @@ ne_loop:
     NEXT ne_i
 
     WAIT
+    GOSUB read_input
     IF inp_lock > 0 THEN inp_lock = inp_lock - 1 : GOTO ne_loop
 
-    IF CONT1.RIGHT THEN
+    IF inp_dir AND DISC_RIGHT THEN
         ne_cur = ne_cur + 1
         IF ne_cur > 7 THEN ne_cur = 0
         inp_lock = 8
         GOSUB sound_cursor
         GOTO ne_loop
     END IF
-    IF CONT1.LEFT THEN
+    IF inp_dir AND DISC_LEFT THEN
         IF ne_cur = 0 THEN ne_cur = 8
         ne_cur = ne_cur - 1
         inp_lock = 8
         GOSUB sound_cursor
         GOTO ne_loop
     END IF
-    IF CONT1.UP THEN
+    IF inp_dir AND DISC_UP THEN
         ne_buf(ne_cur) = ne_buf(ne_cur) + 1
         IF ne_buf(ne_cur) > 36 THEN ne_buf(ne_cur) = 0
         inp_lock = 6
         GOSUB sound_cursor
         GOTO ne_loop
     END IF
-    IF CONT1.DOWN THEN
+    IF inp_dir AND DISC_DOWN THEN
         IF ne_buf(ne_cur) = 0 THEN ne_buf(ne_cur) = 37
         ne_buf(ne_cur) = ne_buf(ne_cur) - 1
         inp_lock = 6
         GOSUB sound_cursor
         GOTO ne_loop
     END IF
-    IF CONT1.BUTTON = 0 THEN GOTO ne_loop
+    IF inp_btn_hit = 0 THEN GOTO ne_loop
     GOSUB sound_select
 
     ne_len = 8
