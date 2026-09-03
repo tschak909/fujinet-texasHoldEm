@@ -19,6 +19,7 @@ client-side poker rules.
 | CoCo 1/2/3 | ✅ playable | `make coco-dist` | `r2r/coco/texas.dsk` (loader auto-picks TEXAS12/TEXAS3) |
 | Atari 8-bit | ✅ playable | FastBasic, see below | `texas.xex` |
 | MS-DOS | 🔨 builds, untested | `./make-exp msdos` | `r2r/msdos/texas.exe` + `texas.img` |
+| Coleco Adam | 🔨 builds, untested | `./make-exp adam` (needs z88dk) | `r2r/adam/texas.ddp` |
 | Intellivision | ✅ playable | `cd intv && make` | `intv/texas.rom` (jzIntv) + `texas.bin`/`.cfg` (SD via PiRTO II) |
 | C64 | ⬜ not yet converted | — | — |
 
@@ -36,17 +37,24 @@ client-side poker rules.
   transitions (single-buffer platforms).
 * Rebranded logos/help; per-platform layout tuned so nothing overlaps the board.
 
-## C client (Apple II, CoCo, MS-DOS, C64)
+## C client (Apple II, CoCo, MS-DOS, Coleco Adam, C64)
 
 Shared core in `src/` + per-platform layer in `src/<platform>/`. Toolchains:
-cc65 (Apple II/C64), cmoc (CoCo), OpenWatcom v2 (MS-DOS).
+cc65 (Apple II/C64), cmoc (CoCo), OpenWatcom v2 (MS-DOS), z88dk (Adam).
 
 ```bash
 make apple2         # needs cc65, Java + AppleCommander ac/acx CLIs
 make coco-dist      # needs cmoc, lwasm, toolshed decb
 ./make-exp msdos    # needs OpenWatcom v2: export WATCOM=...; INCLUDE=$WATCOM/h;
                     #   PATH=$WATCOM/binl:$PATH  (uses fujinet-lib-experimental)
+./make-exp adam     # needs z88dk WITH Adam EOS support (eos.h/eos.lib - not
+                    #   in upstream z88dk); e.g. `defoogi ./make-exp adam`
+                    #   runs it in the fozztexx/defoogi docker toolchain
 ```
+
+Adam card/frame tiles and the Namco font are generated from the MS-DOS CGA
+master art: `python3 support/tms9918/convert-tiles.py` regenerates
+`src/adam/font.bin` + `src/adam/udg.h` after any `src/msdos/charset.h` change.
 
 ## Atari client (FastBasic)
 

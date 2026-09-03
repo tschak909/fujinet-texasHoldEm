@@ -489,6 +489,45 @@ void drawGameStatus() {
 
 }
 
+#if WIDTH<40
+// 32 columns can't fit five full move names ("Fold  Call 10  Raise 20
+// Raise 30  All-in" is 44 chars) - the status bar wraps and scrolls the
+// screen. Render compact labels instead: spaces and dashes stripped
+// ("All-in" -> "Allin"), and when that still exceeds 5 chars keep the
+// first letter plus the amount ("Raise 200" -> "R200", "Call 10" -> "C10").
+// Worst case is 5 labels of 5 chars with 1-space gaps starting at column
+// 0: ends at column 28, clear of the move timer at the right edge.
+static char moveLabel[6];
+static unsigned char moveLen[5];
+#define MOVE_NAME_LEN(n) moveLen[n]
+
+static void compactMoveName(const char* name) {
+  static unsigned char si, di, lastSpace;
+  lastSpace = 0;
+  di = 0;
+  for (si=0; name[si]; ++si) {
+    if (name[si]==' ')
+      lastSpace = si;
+    else if (name[si]!='-')
+      di++;
+  }
+  if (di>5 && lastSpace) {
+    moveLabel[0] = name[0];
+    di = 1;
+    for (si=lastSpace+1; name[si] && di<5; ++si)
+      moveLabel[di++] = name[si];
+  } else {
+    di = 0;
+    for (si=0; name[si] && di<5; ++si)
+      if (name[si]!=' ' && name[si]!='-')
+        moveLabel[di++] = name[si];
+  }
+  moveLabel[di] = 0;
+}
+#else
+#define MOVE_NAME_LEN(n) ((unsigned char)strlen(state.validMoves[n].name))
+#endif
+
 void requestPlayerMove() {
   requestedMove=NULL;
 
@@ -503,8 +542,15 @@ void requestPlayerMove() {
   x=PLAYER_MOVE_START_X;
   for (i=0;i<state.validMoveCount;i++) {
     moveLoc[i] = x;
+#if WIDTH<40
+    compactMoveName(state.validMoves[i].name);
+    moveLen[i] = (unsigned char)strlen(moveLabel);
+    drawStatusTextAt(x, moveLabel);
+    x += 1 + moveLen[i];
+#else
     drawStatusTextAt(x, state.validMoves[i].name);
     x += 2 + (unsigned char)strlen(state.validMoves[i].name);
+#endif
   }
 
   // Prepare the countdown timer
@@ -514,7 +560,7 @@ void requestPlayerMove() {
   disableDoubleBuffer();
 
   // Zoom in the cursor
-  i=(unsigned char)strlen(state.validMoves[cursorX].name);
+  i=MOVE_NAME_LEN(cursorX);
   h=moveLoc[cursorX];
 
  
@@ -566,8 +612,8 @@ void requestPlayerMove() {
         //drawStatusTextAt(moveLoc[cursorX-inputDirX]-1, " ");
         //drawStatusTextAt(moveLoc[cursorX]-1, "+");
 
-        hideLine(moveLoc[cursorX-inputDirX],HEIGHT-1,(unsigned char)strlen(state.validMoves[cursorX-inputDirX].name));
-        drawLine(moveLoc[cursorX],HEIGHT-1,(unsigned char)strlen(state.validMoves[cursorX].name));
+        hideLine(moveLoc[cursorX-inputDirX],HEIGHT-1,MOVE_NAME_LEN(cursorX-inputDirX));
+        drawLine(moveLoc[cursorX],HEIGHT-1,MOVE_NAME_LEN(cursorX));
 
         soundCursor();
 
@@ -595,7 +641,12 @@ void requestPlayerMove() {
   if (cursorX<255) {
     requestedMove = state.validMoves[cursorX].move;
     clearStatusBar();
+#if WIDTH<40
+    compactMoveName(state.validMoves[cursorX].name);
+    drawStatusTextAt(moveLoc[cursorX], moveLabel);
+#else
     drawStatusTextAt(moveLoc[cursorX], state.validMoves[cursorX].name);
+#endif
     drawBuffer();
 
     soundSelectMove();

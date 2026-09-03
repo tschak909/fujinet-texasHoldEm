@@ -9,11 +9,16 @@
 /* not in the host libc */
 char *itoa(int value, char *str, int base);
 
+#ifdef HOST_ADAM
+#define WIDTH 32
+#define HEIGHT 24
+#define SINGLE_BUFFER_MODE 1
+#elif defined(HOST_COCO3)
 #define WIDTH 40
-#ifdef HOST_COCO3
 #define HEIGHT 24
 #define SINGLE_BUFFER_MODE 1
 #else
+#define WIDTH 40
 #define HEIGHT 25
 #endif
 #define QUERY_SUFFIX ""
