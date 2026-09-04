@@ -21,6 +21,7 @@ client-side poker rules.
 | MS-DOS | 🔨 builds, untested | `./make-exp msdos` | `r2r/msdos/texas.exe` + `texas.img` |
 | Coleco Adam | 🔨 builds, untested | `./make-exp adam` (needs z88dk) | `r2r/adam/texas.ddp` |
 | Intellivision | ✅ playable | `cd intv && make` | `intv/texas.rom` (jzIntv) + `texas.bin`/`.cfg` (SD via PiRTO II) |
+| Bally Astrocade | ✅ playable | `cd astrocade && ./build.sh` | `astrocade/build/texas.bin` (8K FujiNet cart image) |
 | C64 | ⬜ not yet converted | — | — |
 
 ## What changed from 5 Card Stud
@@ -91,6 +92,33 @@ wire offsets shift +11 past `viewing` (`community[11]` at 87), 2 hole cards
 per seat, community board rows 4-5 with the street label above and pot/purse
 below, and the move menu scales name width to the move count (Hold'em
 routinely offers 4 moves).
+
+## Astrocade client (Z80 assembly)
+
+`astrocade/` — standalone Z80 client, converted from the
+[fujinet-5cardstud](https://github.com/dillera/fujinet-5cardstud) `astrocade/`
+client. Talks to FujiNet through the RP2040 cartridge's memory-mapped mailbox
+and parses the `bin=1` state in place out of the reply window; nothing is
+buffered. Needs `zmac` 1.3 (found on `PATH`, or at `~/Workspace/zmac-1.3`);
+the ROM layout checker is vendored, so no firmware checkout is required.
+
+```bash
+cd astrocade
+./build.sh      # build/texas.bin, exactly 8192 bytes, "FUJI" claim stamped
+./run.sh        # build + launch in a FujiNet-patched MAME over BoIP
+                # (FUJINET_TCP=127.0.0.1:9995 against a fujinet-pc)
+make smoke      # headless end-to-end test, snapshots the table
+DEMO=1 ./build.sh   # static mock table: every drawing path, zero network
+```
+
+Controls: stick/keypad arrows move, trigger selects, keypad `1`-`5` choose a
+move, `0` polls now, `CE` leaves the table, `.` shows how to play. Hold'em
+deltas from the 5 Card Stud client: the wire offsets shift +11 past `viewing`
+(`community[11]` at 87), 2 hole cards per seat, a 5-card community board at
+the centre of the table with the street label above it and the pot moved onto
+the money row, and a move menu that squeezes server labels
+(`raise 15` -> `R15`) onto a 40-column status bar — Hold'em routinely offers
+five moves. See `astrocade/README.md` for the full list.
 
 ## Testing against a local server
 
