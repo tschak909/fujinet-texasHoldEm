@@ -71,7 +71,14 @@ void drawStreetLabel() {
   };
   if (state.round > 5 || state.playerCount < 2)
     return;
+#ifdef BUILD_COLECO
+  // The shared spot (WIDTH/2-13 == column 3) sits on the left seat's cards on
+  // a 32-column table, and the pot now lives below the board. Row 8 is the
+  // clear gap between the top seats (cards end row 7) and the board (row 9).
+  drawText(WIDTH/2-4, 8, streetNames[state.round]);
+#else
   drawText(WIDTH/2-13, 12+POT_Y_MODIFIER, streetNames[state.round]);
+#endif
 }
 
 void resetStateIfNewGame() {
@@ -501,6 +508,44 @@ void drawGameStatus() {
 
 }
 
+#ifdef BUILD_COLECO
+/*
+  The status bar is 32 columns, and Hold'em can offer five moves at once
+  (fold, call N, two raises, all-in). Their full server names total ~40
+  characters and wrap off the row. Shorten each for this platform: a verb
+  with an amount becomes its initial plus the amount ("raise 20" -> "R20"),
+  a bare word is capped at five letters with punctuation dropped ("all-in"
+  -> "ALLIN"). The same label feeds the layout, the cursor zoom and the
+  highlight, so they stay aligned. drawText() upper-cases on the way out.
+*/
+static char moveShortBuf[6];
+static const char *moveLabel(unsigned char idx) {
+  const char *n = state.validMoves[idx].name;
+  unsigned char o = 0, p = 0;
+
+  while (n[p] && n[p] != ' ')
+    p++;
+  if (n[p] == ' ') {
+    moveShortBuf[o++] = n[0];
+    while (n[p] == ' ')
+      p++;
+    while (n[p] && o < 5)
+      moveShortBuf[o++] = n[p++];
+  } else {
+    for (p = 0; n[p] && o < 5; p++)
+      if ((n[p] >= '0' && n[p] <= '9') ||
+          (n[p] >= 'A' && n[p] <= 'Z') ||
+          (n[p] >= 'a' && n[p] <= 'z'))
+        moveShortBuf[o++] = n[p];
+  }
+  moveShortBuf[o] = 0;
+  return moveShortBuf;
+}
+#define MOVE_NAME(i) moveLabel(i)
+#else
+#define MOVE_NAME(i) (state.validMoves[i].name)
+#endif
+
 void requestPlayerMove() {
   requestedMove=NULL;
 
@@ -515,8 +560,8 @@ void requestPlayerMove() {
   x=PLAYER_MOVE_START_X;
   for (i=0;i<state.validMoveCount;i++) {
     moveLoc[i] = x;
-    drawStatusTextAt(x, state.validMoves[i].name);
-    x += 2 + (unsigned char)strlen(state.validMoves[i].name);
+    drawStatusTextAt(x, MOVE_NAME(i));
+    x += 2 + (unsigned char)strlen(MOVE_NAME(i));
   }
 
   // Prepare the countdown timer
@@ -527,7 +572,7 @@ void requestPlayerMove() {
   disableDoubleBuffer();
 
   // Zoom in the cursor
-  i=(unsigned char)strlen(state.validMoves[cursorX].name);
+  i=(unsigned char)strlen(MOVE_NAME(cursorX));
   h=moveLoc[cursorX];
 
  
@@ -580,8 +625,8 @@ void requestPlayerMove() {
         //drawStatusTextAt(moveLoc[cursorX-inputDirX]-1, " ");
         //drawStatusTextAt(moveLoc[cursorX]-1, "+");
 
-        hideLine(moveLoc[cursorX-inputDirX],HEIGHT-1,(unsigned char)strlen(state.validMoves[cursorX-inputDirX].name));
-        drawLine(moveLoc[cursorX],HEIGHT-1,(unsigned char)strlen(state.validMoves[cursorX].name));
+        hideLine(moveLoc[cursorX-inputDirX],HEIGHT-1,(unsigned char)strlen(MOVE_NAME(cursorX-inputDirX)));
+        drawLine(moveLoc[cursorX],HEIGHT-1,(unsigned char)strlen(MOVE_NAME(cursorX)));
 
         soundCursor();
 

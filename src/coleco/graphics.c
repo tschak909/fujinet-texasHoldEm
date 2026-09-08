@@ -278,30 +278,26 @@ void drawCard(unsigned char x, unsigned char y, unsigned char partial, const cha
         // If card is overturned, draw the back
         if (s[0]=='?')
         {
-            // A face-down back never changes once it is on the felt. Repainting
-            // it clears a 5x7 hole first (just below) and redraws -- invisible
-            // on a double-buffered machine, but on this single-buffer one every
-            // opponent's cards flash each time anyone moves. So if a back is
-            // already sitting here, leave it be. UDG_BACK_L_TOP at the second
-            // row is the signature the top-of-function fan check uses too.
-            if (cvpeek((x>WIDTH-3)?x-1:x, y+1)==UDG_BACK_L_TOP)
+            // A face-down back never changes once it is on the felt, so if one
+            // is already here, ship nothing. The TMS9918 only accepts a limited
+            // number of VRAM writes per frame before it drops them and tiles
+            // corrupt, so the redraw path has to write as few bytes as it can;
+            // repainting every opponent's back on every poll both flickered and
+            // blew that budget. UDG_BACK_L_TOP at the second row is the back's
+            // signature (the top-of-function fan check keys off it too).
+            //
+            // No 5x7 pre-clear here (5 Card Stud used it to wipe the next slot
+            // in a shrinking row): Hold'em hole cards are a fixed pair, the back
+            // overwrites its own 3x5 in place, and resetScreen() clears the felt
+            // between hands -- so the clear only stomped the neighbouring hole
+            // card, leaving the border-only fragments.
+            if (cvpeek((x>WIDTH-3)?x-1:x, y+1) == UDG_BACK_L_TOP)
                 return;
 
             // Shift right card left one for easy drawing of border
-            // As well as clear existing cards, assuming a fold
-            vdp_color(C_TEXT,C_TABLE,C_BORDER);
-            if (x>WIDTH-3) {
-                for (i=0;i<5;i++) {
-                    gotoxy(x-7,y+i);
-                    cputs("      ");
-                }
+            if (x>WIDTH-3)
                 x--;
-            } else {
-                for (i=0;i<5;i++) {
-                    gotoxy(x+3,y+i);
-                    cputs("       ");
-                }
-            }
+
             gotoxy(x,y++);
             vdp_color(C_ACCENT,C_TABLE,C_BORDER);
             cputc(UDG_CARD_TL);
