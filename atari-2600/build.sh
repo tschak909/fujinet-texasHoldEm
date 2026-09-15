@@ -97,6 +97,7 @@ stampclaim() {
 if [ "${1:-}" = "layout" ]; then
     assemble layout
     bankfits layout $((0x1800))
+    python3 tools/checkbgt.py layout=build/layout.lst
     "$P2BIN" build/layout.p build/layout.bin -r '$1000-$1FFF' -l 0
     rm -f build/layout.p
     stampclaim build/layout.bin
@@ -137,6 +138,15 @@ assemble cdspare
 bankfits cdspare $((0x1800))
 "$P2BIN" build/cdspare.p build/cdspare.bin -r '$1000-$17FF' -l 0
 rm -f build/cdspare.p
+
+# EVERY BANK THAT DRAWS THE TABLE MUST AGREE ABOUT ITS ROWS. Each carries its
+# own CDBGT because a bank switch replaces the whole low half -- and when this
+# port moved the seats and the board, cdnet's copy was missed. cdnet draws the
+# table too (NFRAME keeps the picture up through a poll), so every poll the
+# grey bands jumped a row for the length of the transaction. They come from one
+# include now; this is the check that says so.
+python3 tools/checkbgt.py cdgame=build/cdgame.lst cdcomp=build/cdcomp.lst \
+    cdnet=build/cdnet.lst
 
 cat "${parts[@]}" build/cdspare.bin build/cdtail.bin \
     > build/texas.bin

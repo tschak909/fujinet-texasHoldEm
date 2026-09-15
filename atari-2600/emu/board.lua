@@ -142,6 +142,20 @@ local function check(round)
     if want and n ~= want then
         fail("round %d shows %d cards, want %d", round, n, want)
     end
+    -- Render the bed back out as ASCII, so a glitch INSIDE a slot window --
+    -- which every assertion above would pass -- is visible as a picture.
+    -- The 48 pixels are printed whole, slot boundaries marked, so debris
+    -- between cards has nowhere to hide either.
+    for _, row in ipairs({ RBOARD, RBOARD + 1 }) do
+        for line = 0, 5 do
+            local t = ""
+            for x = 0, PLANES * 8 - 1 do
+                if x % 8 == 0 and x > 0 then t = t .. "|" end
+                t = t .. (px(row, line, x) and "#" or ".")
+            end
+            print(string.format("BED r%d l%d %s", row, line, t))
+        end
+    end
     seen[round] = n
     -- A picture of each street as it lands, so the run leaves something a
     -- human can look at beside the plane bytes a machine checked.

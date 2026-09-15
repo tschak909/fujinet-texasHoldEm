@@ -122,21 +122,10 @@ NLEAVE: lda     #RQLEAVE
 APPVBL: rts
 
 ; ---------------------------------------------------------------------------
-; CDBGT -- the background of each row. A copy of cdgame.asm's, because the
-; only screen this bank ever draws is the table: NFRAME draws for RQSTATE and
-; RQMOVE, which are the two requests the game bank issues, and spins blind for
-; the lobby's RQTABLE and RQLEAVE. Keep the two tables identical.
-CDBGT:  DB      CBLACK                          ; 0   the pot and your purse
-        DB      CBLACK,CBLACK                   ; 1-2   seat 0 -- you
-        DB      CDARK,CDARK                     ; 3-4   seat 1
-        DB      CBLACK,CBLACK                   ; 5-6   seat 2
-        DB      CDARK,CDARK                     ; 7-8   seat 3
-        DB      CBLACK,CBLACK                   ; 9-10  seat 4
-        DB      CDARK,CDARK                     ; 11-12 seat 5
-        DB      CBLACK,CBLACK                   ; 13-14 seat 6
-        DB      CDARK,CDARK                     ; 15-16 seat 7
-        DB      CBLACK,CBLACK,CBLACK,CBLACK     ; 17-20 the bottom bar
-        DB      CGREEN                          ; 21    back to the felt
+; CDBGT -- the table's row backgrounds. Every bank needs its own copy, so it
+; comes from one file rather than from four; see tablebgt.inc for why that is
+; not a tidiness change.
+        INCLUDE "tablebgt.inc"
 
         INCLUDE "cdlib.inc"
         INCLUDE "net.inc"

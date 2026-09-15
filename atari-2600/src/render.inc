@@ -71,7 +71,7 @@ GHEX2:  adc     #'0'
         IF      CDBANK=BANKCMP
 
 ; ---------------------------------------------------------------------------
-; GBOARD0/GBOARD1 -- the community board, and the two numbers beside it.
+; GBOARD -- the community board, and the two numbers beside it.
 ;
 ; This is where 5 Card Stud's row-0 header went. There is no room for a header
 ; row any more -- the board needs two of the twenty-one and the seats have
@@ -84,24 +84,27 @@ GHEX2:  adc     #'0'
 ; is by how much of itself is dealt -- nothing pre-flop, three at the flop,
 ; four at the turn, five at the river -- so a word spelling that out would
 ; cost four of the twelve columns to repeat what is already on screen.
-; IT IS TWO ROUTINES BECAUSE IT IS TWO CHUNKS, and that is a budget rather
-; than a preference. cdcomp's vblank is 2,812 cycles; CDDEC's four digits are
-; up to ~800 of them at 9999, FNSPC's eight columns ~104, and step zero also
-; carries FNCLS's 913 when a new table asked for one. One row plus the clear
-; is comfortable; two rows plus the clear is about 2,900 in the worst case,
-; and a chunk that overruns does not get absorbed -- it lengthens the frame
-; and pushes the next picture down the screen by the difference, which is the
-; jump cdcomp exists to have removed. 5 Card Stud's header was ONE row and
-; fitted; a board's two do not, so they are two steps.
+; THE WHOLE BOARD IN ONE CHUNK, and this is the second attempt.
 ;
-; GBOARD0 -- row RBOARD: the bed blanked, and the pot in columns 8-11.
+; The first split it in two, one text row each, on a cycle budget: cdcomp's
+; vblank is 2,812 cycles and FNCLS is 913 of them, so a step carrying the
+; clear AND two four-digit CDDECs was about 2,900 in the worst case. Splitting
+; the rows fitted the budget and introduced a visible fault, because composing
+; a row writes all SIX planes -- it clears the card bed as a side effect, which
+; is why the rows are composed before the blit and not after it. So the rank
+; row was blanked in one frame and the board not repainted until the next:
+; every poll, for exactly one frame, the board lost its ranks and kept its
+; pips. emu/bedwatch.lua caught it on 41 of 86 bed changes.
 ;
-; THE ROW IS COMPOSED FIRST AND THE BOARD BLITTED OVER IT LATER, in that order
-; and not the other: composing a row writes all six planes, so it clears the
-; card bed as a side effect, and a blit that came first would be wiped. Same
-; rule as GSEAT1 and the same reason -- which is also why the blit is at the
-; end of GBOARD1 and not here.
-GBOARD0: lda    #RBOARD
+; A CHUNK IS THE UNIT OF WHAT THE PLAYER SEES, not just of cycles. GSEAT1
+; composes a seat's two rows and blits its cards in one step for the same
+; reason, and it always did.
+;
+; So the board is whole again and the CLEAR is what moved out: FNCLS gets a
+; step of its own, and only when CDREDRW asked for one -- a new table, not an
+; ordinary poll. Two rows and a blit is about 1,950 in the worst case, which
+; fits; the clear's 913 fits; they never share a frame. See cdcomp.asm.
+GBOARD: lda     #RBOARD
         jsr     FNROWA
         lda     #CDCOLTX        ; columns 0-7 are the bed
         jsr     FNSPC
@@ -113,10 +116,10 @@ GBOARD0: lda    #RBOARD
 ; truncated 2345-out-of-12345 is a lie about an order of magnitude.
         jsr     CDCL4
         lda     #4
-        jmp     GBDEC
+        jsr     GBDEC
 
-; GBOARD1 -- row RBOARD+1: the rest of the bed, your purse, and the cards.
-GBOARD1: lda    #RBOARD+1
+; Row RBOARD+1: the rest of the bed, and your purse.
+        lda     #RBOARD+1
         jsr     FNROWA
         lda     #CDCOLTX
         jsr     FNSPC
@@ -130,7 +133,9 @@ GBOARD1: lda    #RBOARD+1
         lda     #4
         jsr     GBDEC
 
-; The cards last, over the bed the two rows have now cleared between them.
+; The cards last, over the bed the two rows above have just cleared between
+; them -- and in the SAME chunk, so no frame is ever drawn between the clearing
+; and the painting.
         jmp     CDBOARD
 
 ; GBDEC -- print A digits and end the row. Both board rows finish this way and

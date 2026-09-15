@@ -32,7 +32,8 @@ SRC := $(wildcard src/*.asm src/*.inc)
 
 all: build/texas.bin
 
-build/texas.bin: $(SRC) build.sh tools/checkbanks.py tools/mktail.py
+build/texas.bin: $(SRC) build.sh tools/checkbanks.py tools/mktail.py \
+                tools/checkbgt.py
 	ENDPOINT="$(ENDPOINT)" FUJI_FIRMWARE="$(FUJI_FIRMWARE)" ./build.sh
 
 # The screen with no network at all: the kernel, the colours and the geometry.

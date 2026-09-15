@@ -188,18 +188,48 @@ already run on — is what pays for the board:
 | `cdname` | 657 | 717 |
 | `cdcomp` | 244 | 179 |
 
-## The board is two chunks, not one
+## A chunk is the unit of what the player sees, not just of cycles
 
 `cdcomp` composes a chunk per frame, each sized to fit a 2,812-cycle vblank,
 with the picture up throughout. 5 Card Stud's header was one row and shared step
-zero with `FNCLS`. The board is two rows, and two four-digit `CDDEC`s plus
+zero with `FNCLS`; the board is two rows, and two four-digit `CDDEC`s plus
 `FNCLS`'s 913 cycles come to about 2,900 in the worst case — over budget, and a
-chunk that overruns is not absorbed: it lengthens its frame and pushes the next
-picture down the screen by the difference, which is the jump this bank exists to
-have removed.
+chunk that overruns is not absorbed.
 
-So `CSBRD0` is the clear, the upper row and the pot; `CSBRD1` is the lower row,
-your purse and the blit. `ENDRSEA` still enters at `CSSEAT` and skips both.
+**The first fix was to split the board across two frames, and that was wrong.**
+Composing a text row writes all *six* planes, which is why the rows are composed
+before the blit and not after it — so the rank row was cleared in one frame and
+the cards not repainted until the next. Every poll, for exactly one frame, the
+board lost its ranks and kept its pips. `emu/bedwatch.lua` caught it on **41 of
+86 bed changes**; `make board` could not, because it only ever looks at a
+settled board, and every assertion it makes was true.
+
+`GSEAT1` has always composed a seat's two rows *and* blitted its cards in one
+step, for exactly this reason. So the board is whole again and the **clear** is
+what moved out: `CSCLR` runs `FNCLS` only when `CDREDRW` asked for one — a new
+table, not an ordinary poll — and falls straight through to the board in the
+same frame when it did not. Board 1,950 cycles worst case, clear 913, budget
+2,812, and they never share a frame. `ENDRSEA` still enters at `CSSEAT`.
+
+## Every bank that draws the table must agree about its rows
+
+`CDBGT` is the kernel's row-background table and each bank carries its own,
+because a bank switch replaces the whole low half and each bank is a different
+screen — the lobby's list wants no bands where eight two-row seats need them to
+separate at all.
+
+**Three copies is the architecture. Three sources of truth was a bug.** When the
+seats moved to row 0 and the board to 16-17, `cdgame` and `cdcomp` were edited
+and **`cdnet` was not** — and `cdnet` draws the table too, because `NFRAME` keeps
+the picture up through a `/state` rather than blanking the screen for the round
+trip. The symptom is easy to misread: the table looked right, and every poll the
+grey bands jumped by one row for the length of the transaction. A shimmer once
+every ninety frames reads as a display timing fault, not as a stale table.
+
+They come from `src/tablebgt.inc` now, so there is nothing left to keep in step —
+and `tools/checkbgt.py` reads the bytes back out of each bank's own listing and
+fails the build if they ever disagree again. It was tested by reintroducing the
+drift.
 
 ## The banner no longer hides the move menu
 
@@ -237,13 +267,21 @@ picture, and the card art is not on the cell grid at all, so it is compared as
 | | |
 |---|---|
 | `make hosttest` | `FN_BLIT_CARD`'s art bit for bit, in the cartridge's own host harness |
-| build gates | `checkdefs.py`, `checkrom.py`, `checkbanks.py`, `mktail.py` — all fail the build |
+| build gates | `checkdefs.py`, `checkrom.py`, `checkbanks.py`, `checkbgt.py`, `mktail.py` — all fail the build |
 | `make layout` | the kernel, the colours and the 21-row geometry with no network, including all eight seats, which a live table does not always fill |
 | **`make frame`** | **every frame exactly 262 scanlines.** This is how the seam line is checked. 1199 of 1199 |
 | `make drive` | types a name, sits at a live table, plays — and dumps `hand[11]`, `community[11]` and both card beds' plane bytes |
 | **`make board`** | the community board as plane bytes across a whole hand: the seam, the pitch, pixel 7, the street count, and the shrink |
 | `make resettest` | a 6507 restart mid-hand: the sequence carried on from the cartridge rather than restarting in RAM |
 | `make resetleave` | the RESET *switch* at a table: the menu opens, `/leave` then `/tables` go out, the lobby comes back with ink on it |
+
+`emu/bedwatch.lua` is not a pass/fail test and is not in the table above. It
+dumps the board bed on every frame it *changes*, which is how the half-composed
+board was found — a settled-state test cannot see a fault that lasts one frame.
+Expect exactly one "SPLIT" per session, at step 0: that is this harness sampling
+inside `FNCLS` on the frame a table is entered, and `APPVBL` finishes before the
+kernel draws a line, so the raster never shows it. More than one, or any at
+step 1, is the two-chunk bug coming back.
 
 Seat 0 holding `7h9d`, decoded out of the planes rather than looked at:
 

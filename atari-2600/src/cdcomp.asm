@@ -60,16 +60,21 @@ CDHASNET EQU    0               ; and it issues no requests
 ; SNDCNT are dead in the banks that are not theirs.
 CCSTEP  EQU     CDINP
 
-; TWO STEPS FOR THE BOARD, not one, and the split is a measurement rather
-; than tidiness. 5 Card Stud's header was a single row and shared step zero
-; with FNCLS; the board is two rows, and two four-digit CDDECs plus FNCLS's
-; 913 cycles come to about 2,900 in the worst case against a budget of 2,812.
-; A chunk that overruns is not absorbed -- it lengthens its frame and moves
-; the next picture down the screen, which is the one thing this bank exists to
-; prevent. See GBOARD0/GBOARD1 in render.inc.
-CSBRD0  EQU     0               ; the clear, if asked for, then the board's
-                                ;   upper row and the pot
-CSBRD1  EQU     1               ; its lower row, your purse, then the blit
+; THE CLEAR IS A STEP; THE BOARD IS A STEP. Getting that boundary wrong is
+; visible, and it was: an earlier cut split the BOARD across two frames to fit
+; FNCLS's 913 cycles beside it, and composing a text row writes all six planes
+; -- so the rank row was blanked in one frame and the cards not repainted
+; until the next. Every poll, one frame with the board's ranks gone and its
+; pips still there. A chunk is the unit of what the PLAYER sees, not only of
+; cycles; GSEAT1 has always composed a seat's two rows and blitted its cards
+; in one step for exactly this reason.
+;
+; The clear is what moves out instead, and it is free to: CDREDRW is set on a
+; new table, not on an ordinary poll, so most recomposes fall straight through
+; to the board in the same frame. Board 1,950 cycles worst case, clear 913,
+; budget 2,812, and they never share a frame.
+CSCLR   EQU     0               ; FNCLS, and only when CDREDRW asked for it
+CSBRD   EQU     1               ; the whole board: both rows and the blit
 CSSEAT  EQU     2               ; ...and CSSEAT+7 is seat 7
 CSBAR   EQU     10              ; the cues, the banner check, the bottom bar
 CSDONE  EQU     11
@@ -82,8 +87,9 @@ CSROOM  EQU     28
 CENTRY: lda     #2
         sta     VBLANK
 ; Where to start. ENDRSEA is the eight seats and nothing else -- what a SELECT
-; press changes -- so it skips both board steps and stops before the bar.
-        ldx     #CSBRD0
+; press changes -- so it skips the clear and the board, and stops before the
+; bar.
+        ldx     #CSCLR
         lda     CDENT
         cmp     #ENDRSEA
         bne     CE1
@@ -111,23 +117,24 @@ CLOOP:  jsr     DFRAME
 APPVBL: lda     CCSTEP
         bne     CA1
 
-; The board, and the clear if this is a table we have not drawn before. FNCLS
-; blanks every row, so it must not happen on an ordinary poll: the rows it
-; wiped would show blank until their chunk came round.
+; The clear, if this is a table we have not drawn before. FNCLS blanks every
+; row, so it must not happen on an ordinary poll: the rows it wiped would show
+; blank until their chunk came round. When there is nothing to clear this step
+; costs no frame at all -- it falls straight into the board below.
         lda     CDREDRW
-        beq     CAH1
+        beq     CABRD
         lda     #0
         sta     CDREDRW
         jsr     FNCLS
-CAH1:   jsr     GBOARD0
-        inc     CCSTEP
+        inc     CCSTEP          ; the clear gets this frame to itself
         rts
 
-; The board's lower row and the blit, in a frame of their own.
-CA1:    cmp     #CSBRD1
+; The board: both rows and the blit, in one chunk, always.
+CA1:    cmp     #CSBRD
         bne     CA2
-        jsr     GBOARD1
-        inc     CCSTEP
+CABRD:  jsr     GBOARD
+        lda     #CSSEAT
+        sta     CCSTEP
         rts
 
 CA2:    cmp     #CSBAR
@@ -170,19 +177,10 @@ CASEAT: sec
 CAX2:   rts
 
 ; ---------------------------------------------------------------------------
-; CDBGT -- the background of each row. A copy of cdgame.asm's, because the
-; only screen this bank draws is the table. Keep the two identical.
-CDBGT:  DB      CBLACK,CBLACK                   ; 0-1   seat 0 -- you
-        DB      CDARK,CDARK                     ; 2-3   seat 1
-        DB      CBLACK,CBLACK                   ; 4-5   seat 2
-        DB      CDARK,CDARK                     ; 6-7   seat 3
-        DB      CBLACK,CBLACK                   ; 8-9   seat 4
-        DB      CDARK,CDARK                     ; 10-11 seat 5
-        DB      CBLACK,CBLACK                   ; 12-13 seat 6
-        DB      CDARK,CDARK                     ; 14-15 seat 7
-        DB      CBLACK,CBLACK                   ; 16-17 the board, pot, purse
-        DB      CBLACK,CBLACK,CBLACK            ; 18-20 the bottom bar
-        DB      CGREEN                          ; 21    back to the felt
+; CDBGT -- the table's row backgrounds. Every bank needs its own copy, so it
+; comes from one file rather than from four; see tablebgt.inc for why that is
+; not a tidiness change.
+        INCLUDE "tablebgt.inc"
 
         INCLUDE "cdlib.inc"
         INCLUDE "sound.inc"
