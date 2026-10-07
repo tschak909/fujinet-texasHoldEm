@@ -78,6 +78,15 @@ LDFLAGS_EXTRA_COLECO += --generic-console -pragma-redirect:CRT_FONT=_font -m \
 CFLAGS_EXTRA_NES = -DBUILD_NES
 NES_CFG = src/nes/nes.cfg
 
+# Sega Master System cartridge, with fujinet-lib-experimental's sms target (its
+# add-sms branch). src/sms is guarded by BUILD_SMS the way src/coleco is. -m
+# leaves a map next to the image; the client has to end below $7FD8 to stay a
+# 32K image. Build with:
+#   make FUJINET_LIB=$HOME/Workspace/fnlib-sms PLATFORMS=sms sms
+CFLAGS_EXTRA_SMS = -DBUILD_SMS
+LDFLAGS_EXTRA_SMS += -m -pragma-define:CRT_ENABLE_STDIO=0 \
+  -pragma-define:CLIB_FOPEN_MAX=0
+
 LDFLAGS_EXTRA_APPLE2 = -C src/apple2/apple2-hgr.cfg
 
 # CoCo 3 build: same sources as CoCo 1/2, compiled with -DCOCO3 for the
@@ -181,6 +190,33 @@ nes-smoke: $(NES_ROM)
 
 nes-play: $(NES_ROM)
 	cd $(MAME_DIR) && ./mame nes -nes_slot fujinet -cart $(NES_ROM) -window
+
+# Sega Master System: headless smoke test in MAME's sms1 driver, against a live
+# fujinet-pc, the same shape as nes-smoke. The MAME tree needs
+# fujinet-firmware/pico/sms/emu/apply.sh run against it once for -slot fujinet
+# to exist. Snapshots land in SNAP_DIR.
+#
+#   make sms-smoke                           print the screen
+#   make sms-smoke EXPECT="TEXAS HOLD'EM"    and assert on it
+#   make sms-smoke SCRIPT="b2,wait5,shot"    drive the joypad first
+#                                            (b1 b2 pause up down left right, b2+b1, waitN, shot)
+#   make sms-play                            play it in a window, with sound
+SMS_ROM  := $(CURDIR)/r2r/sms/$(PRODUCT).sms
+SNAP_DIR ?= $(CURDIR)/build/sms/snap
+
+.PHONY: sms-smoke sms-play
+
+sms-smoke: $(SMS_ROM)
+	mkdir -p $(SNAP_DIR)
+	cd $(MAME_DIR) && \
+	FCS_TILEMAP=$(CURDIR)/support/sms/tilemap.lua FCS_AT=$(AT) FCS_EXPECT="$(EXPECT)" \
+	FCS_SCRIPT="$(SCRIPT)" FCS_SETTLE=$(SETTLE) \
+	./mame sms1 -slot fujinet -cart $(SMS_ROM) -snapshot_directory $(SNAP_DIR) \
+	    -video none -sound none -nothrottle -seconds_to_run $(SECS) \
+	    -autoboot_script $(CURDIR)/support/sms/smoke.lua
+
+sms-play: $(SMS_ROM)
+	cd $(MAME_DIR) && ./mame sms1 -slot fujinet -cart $(SMS_ROM) -window
 
 # Remove BASIC.SYSTEM (inherited from the ProDOS release disk) so ProDOS boots
 # straight into FCS.SYSTEM (the game loader) instead of dropping to BASIC
