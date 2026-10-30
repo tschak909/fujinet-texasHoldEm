@@ -1,0 +1,4 @@
+# Build products, and the console BIOS images run.sh needs (copyrighted; supply
+# your own, or point BIOSDIR at the firmware tree's).
+build/
+bios/

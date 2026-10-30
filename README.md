@@ -24,6 +24,7 @@ client-side poker rules.
 | ColecoVision | ✅ playable (MAME) | `make FUJINET_LIB=<fujinet-lib-experimental dir> PLATFORMS=coleco coleco` | `r2r/coleco/texas.rom` (32K FujiNet cart) |
 | NES | ✅ playable (MAME) | `make FUJINET_LIB=<fujinet-lib-experimental dir> PLATFORMS=nes nes` | `r2r/nes/texas.nes` (NROM FujiNet cart) |
 | Bally Astrocade | ✅ playable | `cd astrocade && ./build.sh` | `astrocade/build/texas.bin` (8K FujiNet cart image) |
+| Odyssey 2 / Videopac | ✅ playable (MAME) | `cd o2 && make` | `o2/build/texas.bin` (15K APPBANK FujiNet cart image) |
 | Palm OS 3.1+ | 🔨 builds, emulator-tested | `cd palm && make` (palmdev Docker image + fujinet-lib palmos) | `palm/build/Holdem.prc` (one PRC for OS 3.1–4.x; colour on colour Palms) |
 | C64 | ⬜ not yet converted | — | — |
 
@@ -132,6 +133,25 @@ the centre of the table with the street label above it and the pot moved onto
 the money row, and a move menu that squeezes server labels
 (`raise 15` -> `R15`) onto a 40-column status bar — Hold'em routinely offers
 five moves. See `astrocade/README.md` for the full list.
+
+## Odyssey 2 client (8048 assembly)
+
+`o2/` — standalone 8048 client for the Magnavox Odyssey 2 / Philips Videopac,
+converted from the [fujinet-5cardstud](https://github.com/dillera/fujinet-5cardstud)
+`o2/` client: its display engine, build checks and MAME test rig, with a
+Hold'em table on it. A protocol 2 (APPBANK) image for the FujiNet O2 cart
+(needs fujinet-firmware PR #2177). Needs Macroassembler AS (`~/asl`).
+
+```bash
+cd o2
+make            # build/texas.bin
+make run        # build + launch in a FujiNet-patched MAME over BoIP
+make test       # headless scenarios against a private server + fujinet-pc
+```
+
+The whole table is one screen: the opponents two to a row, the board and
+your hand as cards two rows tall, the street, pot and purse on the top line
+and the move menu on the bottom one. See `o2/README.md`.
 
 ## Palm OS client (C, prc-tools)
 

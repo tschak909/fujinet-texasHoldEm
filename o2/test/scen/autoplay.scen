@@ -1,0 +1,7 @@
+# autoplay.scen -- an AUTOPLAY build (it plays the move it picks after a
+# second) joins the AI table with six bots (rows 0-2 full) and plays on;
+# O2SIM_SHOTS takes a snapshot every so often.
+wait 360
+press fire
+wait 9000
+xram 57 4
