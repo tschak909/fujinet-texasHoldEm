@@ -192,6 +192,23 @@ hole cards per seat, the five-slot board in the title row beside the pot, and
 each seat's last move (CALL, RAISE, FOLD...) in the card slots a stud hand
 used. See `channelf/README.md` and `channelf/screenshots/`.
 
+## RCA Studio II client (CDP1802 assembly)
+
+`studio2/` — standalone 1802 client, converted from the
+[fujinet-5cardstud](https://github.com/FujiNetWIFI/fujinet-5cardstud) `studio2/`
+client. The cart draws the screen through its text engine (16 x 10 cells).
+Needs the Macro Assembler AS (`~/asl/asl`) and the firmware tree's
+`pico/studio2/tools`.
+
+```bash
+cd studio2
+make            # build/texas.st2
+```
+
+Hold'em deltas from the 5 Card Stud client: `community[11]` at offset 87, two
+hole cards per seat, the board down cols 12-13 and the pot and clock under it.
+See `studio2/README.md`.
+
 ## Palm OS client (C, prc-tools)
 
 `palm/` — standalone Palm OS client, "FN Texas Hold'em" (creator `ADTH`),

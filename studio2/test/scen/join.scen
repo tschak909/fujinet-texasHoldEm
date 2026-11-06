@@ -1,0 +1,93 @@
+# join an AI room and check/call every turn; text at each, to catch every street.
+wait 600
+press 3
+wait 900
+until V_NMV 1 3000
+wait 40
+text
+snap t00
+press 2
+wait 300
+until V_NMV 1 3000
+wait 40
+text
+snap t01
+press 2
+wait 300
+until V_NMV 1 3000
+wait 40
+text
+snap t02
+press 2
+wait 300
+until V_NMV 1 3000
+wait 40
+text
+snap t03
+press 2
+wait 300
+until V_NMV 1 3000
+wait 40
+text
+snap t04
+press 2
+wait 300
+until V_NMV 1 3000
+wait 40
+text
+snap t05
+press 2
+wait 300
+until V_NMV 1 3000
+wait 40
+text
+snap t06
+press 2
+wait 300
+until V_NMV 1 3000
+wait 40
+text
+snap t07
+press 2
+wait 300
+until V_NMV 1 3000
+wait 40
+text
+snap t08
+press 2
+wait 300
+until V_NMV 1 3000
+wait 40
+text
+snap t09
+press 2
+wait 300
+until V_NMV 1 3000
+wait 40
+text
+snap t10
+press 2
+wait 300
+until V_NMV 1 3000
+wait 40
+text
+snap t11
+press 2
+wait 300
+until V_NMV 1 3000
+wait 40
+text
+snap t12
+press 2
+wait 300
+until V_NMV 1 3000
+wait 40
+text
+snap t13
+press 2
+wait 300
+wait 200
+press 9
+wait 120
+text
+snap chips
